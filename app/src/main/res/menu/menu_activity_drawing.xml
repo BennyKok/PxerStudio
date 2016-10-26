@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/gridonoff"
+        android:icon="@drawable/ic_grid_on_24dp"
+        android:title="@string/grid_on_off"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/resetvp"
+        android:icon="@drawable/ic_center_focus_weak_24dp"
+        android:title="@string/reset_view_port"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/layers"
+        android:icon="@drawable/ic_layers_24dp"
+        android:title="@string/layers"
+        app:showAsAction="always" />
+
+    <item android:title="@string/layer">
+        <menu>
+            <item
+                android:id="@+id/onlyshowselectedlayer"
+                android:title="@string/only_show_selected_layer" />
+
+            <item
+                android:id="@+id/showalllayers"
+                android:title="@string/show_all_layers" />
+
+            <item
+                android:id="@+id/hidealllayers"
+                android:title="@string/hide_all_layers" />
+
+            <item
+                android:id="@+id/mergealllayer"
+                android:title="@string/merge_all_layers" />
+
+        </menu>
+    </item>
+
+    <item android:title="@string/export">
+        <menu>
+            <item
+                android:id="@+id/export"
+                android:title="@string/png" />
+            <item
+                android:id="@+id/exportgif"
+                android:title="@string/gif" />
+            <item
+                android:id="@+id/exportatlas"
+                android:title="@string/sprite_atlas" />
+            <item
+                android:id="@+id/exportfolder"
+                android:title="@string/folder" />
+        </menu>
+    </item>
+
+
+    <item android:title="@string/project">
+        <menu>
+            <item
+                android:id="@+id/projectm"
+                android:title="@string/project_manager" />
+            <item
+                android:id="@+id/save"
+                android:title="@string/save" />
+            <item
+                android:id="@+id/open"
+                android:title="@string/open" />
+            <item
+                android:id="@+id/newp"
+                android:title="@string/new_new" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/about"
+        android:title="@string/about" />
+</menu>

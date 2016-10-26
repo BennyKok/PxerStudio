@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/tvisibility"
+            android:title="@string/toggle_visibility" />
+
+        <item
+            android:id="@+id/deletelayer"
+            android:title="@string/remove_current_layer" />
+
+        <item
+            android:id="@+id/clearlayer"
+            android:title="@string/clear_current_layer" />
+
+        <item
+            android:id="@+id/mergedown"
+            android:title="@string/merge_down" />
+
+</menu>
