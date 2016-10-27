@@ -12,7 +12,7 @@
     <string name="opensource_library">Open Source Library</string>
     <string name="deletelayer">Delete layer</string>
     <string name="deletelayerwarning">Are you sure to delete this layer?</string>
-    <string name="delete">delete</string>
+    <string name="delete">Delete</string>
     <string name="merge">merge</string>
     <string name="mergealllayers">Merge all layers</string>
     <string name="mergealllayerswarning">Are you sure to merge all layers?</string>
@@ -52,6 +52,8 @@
     <string name="open">Open</string>
     <string name="about">About</string>
     <string name="new_new">New</string>
+    <string name="something_went_wrong">Something went wrong!</string>
+    <string name="error_while_loading_project">Error while loading your last opened project</string>
 
 
 </resources>

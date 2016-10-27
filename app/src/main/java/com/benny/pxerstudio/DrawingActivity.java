@@ -447,7 +447,7 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
                 break;
             case R.id.deletelayer:
                 if (pxerView.getPxerLayers().size() <= 1) break;
-                Tool.promt(this).title(R.string.deletelayer).content(R.string.deletelayerwarning).positiveText(R.string.delete).onPositive(new MaterialDialog.SingleButtonCallback() {
+                Tool.prompt(this).title(R.string.deletelayer).content(R.string.deletelayerwarning).positiveText(R.string.delete).onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         if (!isEdited)
@@ -464,7 +464,7 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
                 break;
             case R.id.mergealllayer:
                 if (pxerView.getPxerLayers().size() <= 1) break;
-                Tool.promt(this).title(R.string.mergealllayers).content(R.string.mergealllayerswarning).positiveText(R.string.merge).onPositive(new MaterialDialog.SingleButtonCallback() {
+                Tool.prompt(this).title(R.string.mergealllayers).content(R.string.mergealllayerswarning).positiveText(R.string.merge).onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         if (!isEdited)
@@ -489,7 +489,7 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
                 fa.notifyAdapterItemChanged(pxerView.getCurrentLayer());
                 break;
             case R.id.clearlayer:
-                Tool.promt(this)
+                Tool.prompt(this)
                         .title(R.string.clearcurrentlayer)
                         .content(R.string.clearcurrentlayerwarning)
                         .positiveText(R.string.clear)
@@ -502,7 +502,7 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
                 break;
             case R.id.mergedown:
                 if (pxerView.getCurrentLayer() == pxerView.getPxerLayers().size() - 1) break;
-                Tool.promt(this)
+                Tool.prompt(this)
                         .title(R.string.mergedownlayer)
                         .content(R.string.mergedownlayerwarning)
                         .positiveText(R.string.merge)
@@ -608,15 +608,9 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
     }
 
     @Override
-    protected void onPause() {
+    protected void onStop() {
         saveState();
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        saveState();
-        super.onDestroy();
+        super.onStop();
     }
 
     private void saveState() {

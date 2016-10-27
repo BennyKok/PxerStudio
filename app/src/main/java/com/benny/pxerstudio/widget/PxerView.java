@@ -34,7 +34,6 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -315,8 +314,10 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
             }
             reader.endArray();
             reader.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+
+            Tool.prompt(getContext()).content(R.string.error_while_loading_project).title(R.string.something_went_wrong).negativeText("").positiveColor(Color.GRAY).positiveText(R.string.cancel).show();
             return false;
         }
 

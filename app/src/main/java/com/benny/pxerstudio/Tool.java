@@ -74,14 +74,14 @@ public class Tool {
         }
         return str;
     }
-    public static MaterialDialog.Builder promt(Context c){
+    public static MaterialDialog.Builder prompt(Context c){
         return new MaterialDialog.Builder(c)
                 .negativeText(R.string.cancel)
                 .titleGravity(GravityEnum.CENTER)
                 .typeface(Tool.myType, Tool.myType)
                 .positiveColor(Color.RED);
     }
-    public static MaterialDialog.Builder promtTextInput(Context c,String title){
+    public static MaterialDialog.Builder promptTextInput(Context c, String title){
         return new MaterialDialog.Builder(c)
                 .negativeText(R.string.cancel)
                 .positiveText(R.string.ok)

@@ -3,8 +3,6 @@ package com.benny.pxerstudio;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -12,25 +10,19 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.benny.pxerstudio.pxerexportable.ExportingUtils;
-import com.benny.pxerstudio.widget.FastBitmapView;
-import com.benny.pxerstudio.widget.PxerView;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.mikepenz.fastadapter.items.AbstractItem;
 import com.mikepenz.fastadapter.utils.ViewHolderFactory;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,7 +84,7 @@ public class ProjectManagerActivity extends AppCompatActivity {
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()){
                                     case R.id.rename:
-                                        Tool.promtTextInput(ProjectManagerActivity.this,getString(R.string.rename)).input(null, projects.get(position).getName(), false, new MaterialDialog.InputCallback() {
+                                        Tool.promptTextInput(ProjectManagerActivity.this,getString(R.string.rename)).input(null, projects.get(position).getName(), false, new MaterialDialog.InputCallback() {
                                             @Override
                                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                                 String mInput = input.toString();
@@ -116,7 +108,7 @@ public class ProjectManagerActivity extends AppCompatActivity {
                                         }).show();
                                         break;
                                     case R.id.delete:
-                                        Tool.promt(ProjectManagerActivity.this).title(R.string.deleteproject).content(R.string.deleteprojectwarning).positiveText(R.string.delete).onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        Tool.prompt(ProjectManagerActivity.this).title(R.string.deleteproject).content(R.string.deleteprojectwarning).positiveText(R.string.delete).onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
                                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                                 if (projects.get(position).delete()){
