@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PxerStudio.iml" filepath="$PROJECT_DIR$/PxerStudio.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pxerstudiopremiumkey/pxerstudiopremiumkey.iml" filepath="$PROJECT_DIR$/pxerstudiopremiumkey/pxerstudiopremiumkey.iml" />
     </modules>
   </component>
 </project>

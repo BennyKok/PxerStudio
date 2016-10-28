@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textColor="@android:color/white"
-        android:text="No project found"
+        android:text="@string/no_project_found"
         android:gravity="center"/>
 
     <android.support.v7.widget.RecyclerView

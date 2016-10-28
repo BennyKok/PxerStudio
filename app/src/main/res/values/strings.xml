@@ -53,7 +53,8 @@
     <string name="about">About</string>
     <string name="new_new">New</string>
     <string name="something_went_wrong">Something went wrong!</string>
-    <string name="error_while_loading_project">Error while loading your last opened project</string>
+    <string name="error_while_loading_project">Error while loading your project</string>
+    <string name="no_project_found">No project found</string>
 
 
 </resources>

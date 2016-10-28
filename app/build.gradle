@@ -8,8 +8,8 @@ android {
         applicationId "com.benny.pxerstudio"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
     }
     buildTypes {
         release {
@@ -20,6 +20,7 @@ android {
 }
 
 dependencies {
+    compile 'com.google.firebase:firebase-ads:9.0.0'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.1'
     compile 'com.afollestad.material-dialogs:commons:0.9.0.2'
     compile 'com.afollestad.material-dialogs:core:0.9.0.2'
@@ -37,3 +38,5 @@ dependencies {
     compile 'com.android.support:cardview-v7:24.2.1'
     compile 'com.mikepenz:fastadapter-extensions:1.8.0@aar'
 }
+
+apply plugin: 'com.google.gms.google-services'

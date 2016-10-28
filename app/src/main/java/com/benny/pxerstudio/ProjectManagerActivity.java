@@ -10,11 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.benny.pxerstudio.pxerexportable.ExportingUtils;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
@@ -39,6 +44,18 @@ public class ProjectManagerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         RecyclerView rv = (RecyclerView) findViewById(R.id.rv);
+
+        //Comment this line out if you forked this repo or downloaded the code and the if statement
+        NativeExpressAdView adView = AdHelper.checkAndEnableAd(this);
+        if (adView != null){
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            ((RelativeLayout)findViewById(R.id.content_project_manager)).addView(adView,lp);
+            adView.setId(R.id.ad_view);
+            ((RelativeLayout.LayoutParams)rv.getLayoutParams()).addRule(RelativeLayout.BELOW,R.id.ad_view);
+        }
+
         rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         fa = new FastItemAdapter<>();
         fa.withSelectable(false);
