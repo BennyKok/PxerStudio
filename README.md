@@ -10,11 +10,18 @@ https://play.google.com/store/apps/details?id=com.benny.pxerstudio
 Support this project by buying the PremiumKey
 https://play.google.com/store/apps/details?id=com.benny.pxerstudiopremiumkey
 
-Current Features>
+###Current Features>
+
 Zoom and move but two fingers
+
 Support layers
+
 Support grid
+
 Unlimited undo, redo
+
 Color picker with alpha channel
+
 With fill,rect,pen,eyedropper tool
+
 Create canvas size up to 128 x 128
