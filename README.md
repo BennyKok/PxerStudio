@@ -27,3 +27,6 @@ Color picker with alpha channel
 With fill,rect,pen,eyedropper tool
 
 Create canvas size up to 128 x 128
+
+###Translation>
+If you want to translation for this project go to [here](https://github.com/BennyKok/PxerStudio/blob/master/app/src/main/res/values/strings.xml) grab the raw file copied to your desktop and replace the string between each XML starting tag and closing tag to the language you want to translate and send back to me through email or start a new issue with the file attached and mention the language you are translating.
