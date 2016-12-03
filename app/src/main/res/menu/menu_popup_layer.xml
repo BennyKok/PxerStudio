@@ -5,6 +5,10 @@
             android:title="@string/toggle_visibility" />
 
         <item
+            android:id="@+id/copypastelayer"
+            android:title="@string/copy_and_paste_layer" />
+
+        <item
             android:id="@+id/deletelayer"
             android:title="@string/remove_current_layer" />
 

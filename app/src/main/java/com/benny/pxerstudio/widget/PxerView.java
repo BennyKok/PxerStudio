@@ -182,6 +182,15 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
         init();
     }
 
+    public void copyAndPasteCurrentLayer(){
+        Bitmap bitmap = pxerLayers.get(currentLayer).bitmap.copy(Bitmap.Config.ARGB_8888,true);
+        pxerLayers.add(Math.max(getCurrentLayer(),0),new PxerLayer(bitmap));
+
+        history.add(Math.max(getCurrentLayer(),0),new ArrayList<PxerHistory>());
+        redohistory.add(Math.max(getCurrentLayer(),0),new ArrayList<PxerHistory>());
+        historyIndex.add(Math.max(getCurrentLayer(),0),0);
+    }
+
     public void addLayer(){
         Bitmap bitmap = Bitmap.createBitmap(picWidth, picHeight, Bitmap.Config.ARGB_8888);
         bitmap.eraseColor(Color.TRANSPARENT);

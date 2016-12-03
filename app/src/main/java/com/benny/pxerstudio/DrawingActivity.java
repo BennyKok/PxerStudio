@@ -462,6 +462,13 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
                     }
                 }).show();
                 break;
+            case R.id.copypastelayer:
+                pxerView.copyAndPasteCurrentLayer();
+                fa.add(Math.max(pxerView.getCurrentLayer(), 0), new LayerThumbItem());
+                fa.deselect();
+                fa.select(pxerView.getCurrentLayer());
+                layersRv.invalidate();
+                break;
             case R.id.mergealllayer:
                 if (pxerView.getPxerLayers().size() <= 1) break;
                 Tool.prompt(this).title(R.string.mergealllayers).content(R.string.mergealllayerswarning).positiveText(R.string.merge).onPositive(new MaterialDialog.SingleButtonCallback() {

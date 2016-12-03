@@ -8,9 +8,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -45,14 +48,25 @@ public class ProjectManagerActivity extends AppCompatActivity {
 
         RecyclerView rv = (RecyclerView) findViewById(R.id.rv);
 
-        //Comment this line out if you forked this repo or downloaded the code and the if statement
+        //Comment this line out and the if statement if you forked this repo or downloaded the code
         NativeExpressAdView adView = AdHelper.checkAndEnableAd(this);
         if (adView != null){
+            FrameLayout fl = new FrameLayout(this);
+            ProgressBar progressBar = new ProgressBar(this,null,android.R.attr.progressBarStyle);
+            progressBar.setIndeterminate(true);
+
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
             lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            ((RelativeLayout)findViewById(R.id.content_project_manager)).addView(adView,lp);
-            adView.setId(R.id.ad_view);
+
+            FrameLayout.LayoutParams lp2 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp2.gravity = Gravity.CENTER;
+
+            fl.addView(progressBar,lp2);
+            fl.addView(adView);
+            ((RelativeLayout)findViewById(R.id.content_project_manager)).addView(fl,lp);
+
+            fl.setId(R.id.ad_view);
             ((RelativeLayout.LayoutParams)rv.getLayoutParams()).addRule(RelativeLayout.BELOW,R.id.ad_view);
         }
 

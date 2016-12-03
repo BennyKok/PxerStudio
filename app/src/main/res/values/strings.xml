@@ -3,7 +3,7 @@
     <string name="created_by_bennykok"><![CDATA[Created by <a href="http://bennykok.weebly.com/contact.html">BennyKok</a>]]></string>
     <string name="get_more_apps"><![CDATA[<a href="https://play.google.com/store/apps/dev?id=9219874075463759288&amp;hl=zh_HK">Get more apps</a>]]></string>
     <string name="join_the_community"><![CDATA[<a href="https://plus.google.com/communities/108794551381643757096">Join the community</a>]]></string>
-    <string name="v1_0_0">v1.0.0</string>
+    <string name="v1_0_0">v1.0.2</string>
     <string name="title_activity_project_manager">Project Manager</string>
     <string name="save_project">Save project</string>
     <string name="save">Save</string>
@@ -55,6 +55,7 @@
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="error_while_loading_project">Error while loading your project</string>
     <string name="no_project_found">No project found</string>
+    <string name="copy_and_paste_layer">Copy and paste layer</string>
 
 
 </resources>
