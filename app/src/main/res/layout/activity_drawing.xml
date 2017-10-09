@@ -15,22 +15,21 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            app:titleTextAppearance="@style/TextThemeToolBar"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" >
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextAppearance="@style/TextThemeToolBar">
 
             <TextView
+                android:id="@+id/title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="2"
                 android:textAppearance="@style/TextTheme"
-                android:textColor="?android:textColorPrimary"
-                android:id="@+id/titleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                android:textColor="?android:textColorPrimary" />
 
         </android.support.v7.widget.Toolbar>
 
@@ -39,136 +38,155 @@
     <include layout="@layout/content_main" />
 
     <com.github.clans.fab.FloatingActionButton
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="16dp"
-
-        android:id="@+id/fab_dropper"
+        android:id="@+id/tools_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_colorize_24dp"
-        fab:fab_colorNormal="?colorAccent"
-        fab:fab_colorPressed="?colorAccent"
-
-        fab:fab_colorRipple="#66FFFFFF"
-        fab:fab_label="Dropper"
-        fab:fab_size="mini" />
-
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/fabs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
+
         android:layout_marginRight="16dp"
+        android:onClick="onToggleToolsPanel"
+        android:src="@drawable/ic_mode_edit_24dp"
         app:layout_anchorGravity="bottom|right"
-        fab:menu_animationDelayPerItem="50"
+        fab:fab_colorNormal="?colorAccent"
 
-        fab:menu_backgroundColor="@android:color/transparent"
-        fab:menu_buttonSpacing="0dp"
-        fab:menu_colorNormal="?colorAccent"
+        fab:fab_colorPressed="?colorAccent"
+        fab:fab_colorRipple="#66FFFFFF"
 
-        fab:menu_colorPressed="?colorAccent"
-        fab:menu_colorRipple="#66FFFFFF"
+        fab:fab_size="normal" />
 
-        fab:menu_fab_size="normal"
-        fab:menu_icon="@drawable/ic_mode_edit_24dp"
+    <!--<com.github.clans.fab.FloatingActionButton-->
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:layout_marginLeft="16dp"-->
 
-        fab:menu_labels_colorNormal="?colorAccent"
-        fab:menu_labels_colorPressed="?colorAccent"
-        fab:menu_labels_colorRipple="#66FFFFFF"
-        fab:menu_labels_cornerRadius="3dp"
-        fab:menu_labels_ellipsize="none"
-        fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
-        fab:menu_labels_margin="0dp"
-        fab:menu_labels_maxLines="-1"
-        fab:menu_labels_padding="8dp"
-        fab:menu_labels_paddingBottom="4dp"
-        fab:menu_labels_paddingLeft="8dp"
-        fab:menu_labels_paddingRight="8dp"
+    <!--android:id="@+id/fab_dropper"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@drawable/ic_colorize_24dp"-->
+    <!--fab:fab_colorNormal="?colorAccent"-->
+    <!--fab:fab_colorPressed="?colorAccent"-->
 
-        fab:menu_labels_paddingTop="4dp"
-        fab:menu_labels_position="left"
-        fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
-        fab:menu_labels_showShadow="true"
-        fab:menu_labels_singleLine="false"
-        fab:menu_labels_textColor="#FFFFFF"
-        fab:menu_labels_textSize="14sp"
-        fab:menu_openDirection="up"
-        fab:menu_shadowColor="#66000000"
-        fab:menu_showShadow="true">
+    <!--fab:fab_colorRipple="#66FFFFFF"-->
+    <!--fab:fab_label="Dropper"-->
+    <!--fab:fab_size="mini" />-->
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_rect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_square_24dp"
-            fab:fab_colorNormal="?colorAccent"
-            fab:fab_colorPressed="?colorAccent"
+    <!--<com.github.clans.fab.FloatingActionMenu-->
+    <!--android:id="@+id/fabs"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
 
-            fab:fab_colorRipple="#66FFFFFF"
-            fab:fab_label="Rect"
-            fab:fab_size="mini" />
+    <!--android:layout_gravity="bottom|right"-->
+    <!--android:layout_marginBottom="16dp"-->
+    <!--android:layout_marginLeft="16dp"-->
+    <!--android:layout_marginRight="16dp"-->
+    <!--app:layout_anchorGravity="bottom|right"-->
+    <!--fab:menu_animationDelayPerItem="50"-->
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_line"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_line_24dp"
-            fab:fab_colorNormal="?colorAccent"
-            fab:fab_colorPressed="?colorAccent"
+    <!--fab:menu_backgroundColor="@android:color/transparent"-->
+    <!--fab:menu_buttonSpacing="0dp"-->
+    <!--fab:menu_colorNormal="?colorAccent"-->
 
-            fab:fab_colorRipple="#66FFFFFF"
-            fab:fab_label="Line"
-            fab:fab_size="mini" />
+    <!--fab:menu_colorPressed="?colorAccent"-->
+    <!--fab:menu_colorRipple="#66FFFFFF"-->
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_fill"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_fill_24dp"
-            fab:fab_colorNormal="?colorAccent"
-            fab:fab_colorPressed="?colorAccent"
+    <!--fab:menu_fab_size="normal"-->
+    <!--fab:menu_icon="@drawable/ic_mode_edit_24dp"-->
 
-            fab:fab_colorRipple="#66FFFFFF"
-            fab:fab_label="Fill"
-            fab:fab_size="mini" />
+    <!--fab:menu_labels_colorNormal="?colorAccent"-->
+    <!--fab:menu_labels_colorPressed="?colorAccent"-->
+    <!--fab:menu_labels_colorRipple="#66FFFFFF"-->
+    <!--fab:menu_labels_cornerRadius="3dp"-->
+    <!--fab:menu_labels_ellipsize="none"-->
+    <!--fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"-->
+    <!--fab:menu_labels_margin="0dp"-->
+    <!--fab:menu_labels_maxLines="-1"-->
+    <!--fab:menu_labels_padding="8dp"-->
+    <!--fab:menu_labels_paddingBottom="4dp"-->
+    <!--fab:menu_labels_paddingLeft="8dp"-->
+    <!--fab:menu_labels_paddingRight="8dp"-->
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_eraser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_eraser_24dp"
-            fab:fab_colorNormal="?colorAccent"
-            fab:fab_colorPressed="?colorAccent"
+    <!--fab:menu_labels_paddingTop="4dp"-->
+    <!--fab:menu_labels_position="left"-->
+    <!--fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"-->
+    <!--fab:menu_labels_showShadow="true"-->
+    <!--fab:menu_labels_singleLine="false"-->
+    <!--fab:menu_labels_textColor="#FFFFFF"-->
+    <!--fab:menu_labels_textSize="14sp"-->
+    <!--fab:menu_openDirection="up"-->
+    <!--fab:menu_shadowColor="#66000000"-->
+    <!--fab:menu_showShadow="true">-->
 
-            fab:fab_colorRipple="#66FFFFFF"
-            fab:fab_label="Eraser"
-            fab:fab_size="mini" />
+    <!--<com.github.clans.fab.FloatingActionButton-->
+    <!--android:id="@+id/fab_rect"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@drawable/ic_square_24dp"-->
+    <!--fab:fab_colorNormal="?colorAccent"-->
+    <!--fab:fab_colorPressed="?colorAccent"-->
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_pen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_mode_edit_24dp"
-            fab:fab_colorNormal="?colorAccent"
-            fab:fab_colorPressed="?colorAccent"
+    <!--fab:fab_colorRipple="#66FFFFFF"-->
+    <!--fab:fab_label="Rect"-->
+    <!--fab:fab_size="mini" />-->
 
-            fab:fab_colorRipple="#66FFFFFF"
-            fab:fab_label="Pen"
-            fab:fab_size="mini" />
+    <!--<com.github.clans.fab.FloatingActionButton-->
+    <!--android:id="@+id/fab_line"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@drawable/ic_line_24dp"-->
+    <!--fab:fab_colorNormal="?colorAccent"-->
+    <!--fab:fab_colorPressed="?colorAccent"-->
 
-    </com.github.clans.fab.FloatingActionMenu>
+    <!--fab:fab_colorRipple="#66FFFFFF"-->
+    <!--fab:fab_label="Line"-->
+    <!--fab:fab_size="mini" />-->
+
+    <!--<com.github.clans.fab.FloatingActionButton-->
+    <!--android:id="@+id/fab_fill"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@drawable/ic_fill_24dp"-->
+    <!--fab:fab_colorNormal="?colorAccent"-->
+    <!--fab:fab_colorPressed="?colorAccent"-->
+
+    <!--fab:fab_colorRipple="#66FFFFFF"-->
+    <!--fab:fab_label="Fill"-->
+    <!--fab:fab_size="mini" />-->
+
+    <!--<com.github.clans.fab.FloatingActionButton-->
+    <!--android:id="@+id/fab_eraser"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@drawable/ic_eraser_24dp"-->
+    <!--fab:fab_colorNormal="?colorAccent"-->
+    <!--fab:fab_colorPressed="?colorAccent"-->
+
+    <!--fab:fab_colorRipple="#66FFFFFF"-->
+    <!--fab:fab_label="Eraser"-->
+    <!--fab:fab_size="mini" />-->
+
+    <!--<com.github.clans.fab.FloatingActionButton-->
+    <!--android:id="@+id/fab_pen"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@drawable/ic_mode_edit_24dp"-->
+    <!--fab:fab_colorNormal="?colorAccent"-->
+    <!--fab:fab_colorPressed="?colorAccent"-->
+
+    <!--fab:fab_colorRipple="#66FFFFFF"-->
+    <!--fab:fab_label="Pen"-->
+    <!--fab:fab_size="mini" />-->
+
+    <!--</com.github.clans.fab.FloatingActionMenu>-->
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <com.github.clans.fab.FloatingActionButton
@@ -179,8 +197,8 @@
             fab:fab_colorNormal="?colorAccent"
             fab:fab_colorPressed="?colorAccent"
 
-            fab:fab_showShadow="true"
             fab:fab_colorRipple="#66FFFFFF"
+            fab:fab_showShadow="true"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -191,8 +209,8 @@
             fab:fab_colorNormal="?colorAccent"
             fab:fab_colorPressed="?colorAccent"
 
-            fab:fab_showShadow="true"
             fab:fab_colorRipple="#66FFFFFF"
+            fab:fab_showShadow="true"
             fab:fab_size="mini" />
 
         <com.benny.pxerstudio.widget.BorderFab
@@ -202,8 +220,8 @@
             fab:fab_colorNormal="@android:color/transparent"
             fab:fab_colorPressed="@android:color/transparent"
 
-            fab:fab_showShadow="true"
             fab:fab_colorRipple="@android:color/transparent"
+            fab:fab_showShadow="true"
             fab:fab_size="mini" />
 
     </LinearLayout>

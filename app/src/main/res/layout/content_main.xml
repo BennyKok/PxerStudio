@@ -14,44 +14,61 @@
         android:layout_gravity="center" />
 
     <android.support.v7.widget.CardView
-        android:layout_marginBottom="100dp"
+        android:id="@+id/tools_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
         android:visibility="invisible"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/tools_recycler"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/layer_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginBottom="100dp"
         android:alpha="0"
         android:scaleX="0.85"
         android:scaleY="0.85"
+        android:visibility="invisible"
         app:cardCornerRadius="0dp"
-        android:id="@+id/layerview"
-        app:contentPadding="5dp"
-        android:layout_gravity="end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        app:contentPadding="5dp">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <android.support.v7.widget.CardView
+                android:id="@+id/layers_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="6dp"
                 android:clickable="true"
-                app:cardElevation="5dp"
+                android:focusable="true"
                 app:cardBackgroundColor="?colorAccent"
+                app:cardElevation="5dp"
                 app:contentPaddingBottom="8dp"
-                app:contentPaddingTop="8dp"
-                android:id="@+id/layersBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                app:contentPaddingTop="8dp">
 
                 <ImageView
-                    android:src="@drawable/ic_add_24dp"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_add_24dp" />
 
-                </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/layersRv"
+                android:id="@+id/layers_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

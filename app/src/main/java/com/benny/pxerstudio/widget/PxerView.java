@@ -21,7 +21,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
@@ -86,6 +85,8 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
     private ArrayList<ArrayList<PxerHistory>> redohistory = new ArrayList<>();
     private ArrayList<Integer> historyIndex = new ArrayList<>();
     private ArrayList<Pxer> currentHistory = new ArrayList<>();
+    //Callback
+    private OnDropperCallBack dropperCallBack;
 
     public PxerView(Context context) {
         super(context);
@@ -103,6 +104,10 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
         ArrayList<Pxer> clone = new ArrayList<Pxer>(list.size());
         for (Pxer item : list) clone.add(item.clone());
         return clone;
+    }
+
+    public void setDropperCallBack(OnDropperCallBack dropperCallBack) {
+        this.dropperCallBack = dropperCallBack;
     }
 
     public ArrayList<PxerLayer> getPxerLayers() {
@@ -445,7 +450,6 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
                         .show();
             return false;
         } else {
-            ((DrawingActivity) getContext()).isEdited = false;
             ((DrawingActivity) getContext()).setEdited(false);
             Gson gson = new Gson();
             ArrayList<PxableLayer> out = new ArrayList<>();
@@ -464,7 +468,7 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
                     }
                 }
             }
-            DrawingActivity.currentProjectPath = Environment.getExternalStorageDirectory().getPath().concat("/PxerStudio/Project/").concat(projectName + ".pxer");
+            DrawingActivity.Companion.setCurrentProjectPath(Environment.getExternalStorageDirectory().getPath().concat("/PxerStudio/Project/").concat(projectName + ".pxer"));
             if (getContext() instanceof DrawingActivity)
                 ((DrawingActivity) getContext()).setTitle(projectName, false);
             Tool.saveProject(projectName + PXER_EXTENTION_NAME, gson.toJson(out));
@@ -595,7 +599,7 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
             prePressedTime = System.currentTimeMillis();
         }
 
-        if (!((DrawingActivity) getContext()).isEdited)
+        if (!((DrawingActivity) getContext()).isEdited())
             ((DrawingActivity) getContext()).setEdited(true);
         if (getMode() == Mode.ShapeTool && downX != -1 && event.getAction() != MotionEvent.ACTION_UP && event.getAction() != MotionEvent.ACTION_DOWN) {
             if (!getShapeTool().hasEnded())
@@ -624,14 +628,15 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
                         int pixel = pxerLayers.get(i).bitmap.getPixel(x, y);
                         if (pixel != Color.TRANSPARENT) {
                             setSelectedColor(pxerLayers.get(i).bitmap.getPixel(x, y));
-                            if (DrawingActivity.fabColor != null) {
-                                DrawingActivity.fabColor.setColor(selectedColor);
-                                DrawingActivity.cp.setColor(selectedColor);
+                            if (dropperCallBack != null){
+                                dropperCallBack.onColorDropped(selectedColor);
                             }
                             break;
                         }
                         if (i == pxerLayers.size() - 1) {
-                            DrawingActivity.fabColor.setColor(Color.TRANSPARENT);
+                            if (dropperCallBack != null){
+                                dropperCallBack.onColorDropped(Color.TRANSPARENT);
+                            }
                         }
                     }
                 }
@@ -849,6 +854,10 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
 
     public enum Mode {
         Normal, Eraser, Fill, Dropper, ShapeTool
+    }
+
+    public interface OnDropperCallBack {
+        void onColorDropped(int newColor);
     }
 
     public static class PxerLayer {
