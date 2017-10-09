@@ -14,7 +14,7 @@ https://play.google.com/store/apps/details?id=com.benny.pxerstudiopremiumkey
 
 ### Current Features>
 
-Zoom and move but two fingers
+Zoom and move with two fingers
 
 Support layers
 
