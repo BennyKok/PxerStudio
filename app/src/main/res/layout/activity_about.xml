@@ -5,7 +5,7 @@
     android:id="@+id/activity_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.benny.pxerstudio.SplashActivity"
+    tools:context="com.benny.pxerstudio.activity.SplashActivity"
     android:background="@color/colorPrimary">
 
     <ImageView
@@ -47,7 +47,7 @@
         android:textSize="14sp"
         android:fontFamily="sans-serif-light"
         android:textColor="?android:textColorPrimaryInverse"
-        android:text="@string/v1_0_0"
+        android:text="@string/version_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"

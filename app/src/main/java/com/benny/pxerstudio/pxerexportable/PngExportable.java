@@ -5,22 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.view.LayoutInflater;
-import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.GravityEnum;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.benny.pxerstudio.R;
-import com.benny.pxerstudio.Tool;
+import com.benny.pxerstudio.util.Tool;
 import com.benny.pxerstudio.widget.PxerView;
 
 import java.io.File;

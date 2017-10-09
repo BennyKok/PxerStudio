@@ -231,14 +231,14 @@ public class SatValView extends View {
 
 
     public interface OnColorChangeListener {
-        void onClolorChanged(int newColor);
+        void onColorChanged(int newColor);
     }
 
     private void onColorRetrieved(int alpha,float hue, float sat, float val) {
         int color = ColorUtils.setAlphaComponent(Color.HSVToColor(new float[]{hue, sat, val}),alpha);
 
         if (listener != null) {
-            listener.onClolorChanged(color);
+            listener.onColorChanged(color);
         }
     }
 

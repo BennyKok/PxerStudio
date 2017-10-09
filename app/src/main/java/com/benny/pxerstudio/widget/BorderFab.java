@@ -7,11 +7,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.graphics.Region;
 import android.util.AttributeSet;
 
 import com.benny.pxerstudio.R;
-import com.benny.pxerstudio.Tool;
+import com.benny.pxerstudio.util.Tool;
 import com.github.clans.fab.FloatingActionButton;
 
 /**

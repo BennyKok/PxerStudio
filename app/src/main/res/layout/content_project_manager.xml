@@ -5,24 +5,25 @@
     android:id="@+id/content_project_manager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:animateLayoutChanges="true"
     android:background="#424242"
-    tools:context="com.benny.pxerstudio.ProjectManagerActivity"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.benny.pxerstudio.activity.ProjectManagerActivity"
     tools:showIn="@layout/activity_project_manager">
 
     <TextView
-        android:fontFamily="sans-serif-light"
         android:id="@+id/noProjectFound"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textColor="@android:color/white"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
         android:text="@string/no_project_found"
-        android:gravity="center"/>
+        android:textColor="@android:color/white" />
 
     <android.support.v7.widget.RecyclerView
-        android:clipToPadding="false"
         android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:clipToPadding="false" />
 
 </RelativeLayout>

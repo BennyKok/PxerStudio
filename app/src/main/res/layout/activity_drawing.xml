@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.benny.pxerstudio.DrawingActivity">
+    tools:context="com.benny.pxerstudio.activity.DrawingActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -37,6 +37,22 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main" />
+
+    <com.github.clans.fab.FloatingActionButton
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+
+        android:id="@+id/fab_dropper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_colorize_24dp"
+        fab:fab_colorNormal="?colorAccent"
+        fab:fab_colorPressed="?colorAccent"
+
+        fab:fab_colorRipple="#66FFFFFF"
+        fab:fab_label="Dropper"
+        fab:fab_size="mini" />
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fabs"
@@ -106,18 +122,6 @@
 
             fab:fab_colorRipple="#66FFFFFF"
             fab:fab_label="Line"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_dropper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_colorize_24dp"
-            fab:fab_colorNormal="?colorAccent"
-            fab:fab_colorPressed="?colorAccent"
-
-            fab:fab_colorRipple="#66FFFFFF"
-            fab:fab_label="Dropper"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton

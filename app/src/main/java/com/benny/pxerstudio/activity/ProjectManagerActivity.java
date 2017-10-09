@@ -1,4 +1,4 @@
-package com.benny.pxerstudio;
+package com.benny.pxerstudio.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,21 +13,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.benny.pxerstudio.util.AdHelper;
+import com.benny.pxerstudio.R;
+import com.benny.pxerstudio.util.Tool;
 import com.benny.pxerstudio.pxerexportable.ExportingUtils;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
-import com.mikepenz.fastadapter.adapters.FastItemAdapter;
+import com.mikepenz.fastadapter.adapters.ItemAdapter;
 import com.mikepenz.fastadapter.items.AbstractItem;
-import com.mikepenz.fastadapter.utils.ViewHolderFactory;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -37,7 +37,8 @@ import java.util.List;
 public class ProjectManagerActivity extends AppCompatActivity {
 
     ArrayList<File> projects = new ArrayList<>();
-    FastItemAdapter<Item> fa = null;
+    FastAdapter<Item> fa;
+    ItemAdapter<Item> ia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +52,19 @@ public class ProjectManagerActivity extends AppCompatActivity {
         //Comment this line out and the if statement if you forked this repo or downloaded the code
         NativeExpressAdView adView = AdHelper.checkAndEnableAd(this);
         if (adView != null){
-            FrameLayout fl = new FrameLayout(this);
-            ProgressBar progressBar = new ProgressBar(this,null,android.R.attr.progressBarStyle);
-            progressBar.setIndeterminate(true);
+            final FrameLayout fl = new FrameLayout(this);
+            fl.setVisibility(View.GONE);
+
+            adView.setAdListener(new AdListener(){
+                @Override
+                public void onAdLoaded() {
+                    fl.setVisibility(View.VISIBLE);
+                    super.onAdLoaded();
+                }
+            });
+
+            //ProgressBar progressBar = new ProgressBar(this,null,android.R.attr.progressBarStyle);
+            //progressBar.setIndeterminate(true);
 
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
@@ -62,7 +73,7 @@ public class ProjectManagerActivity extends AppCompatActivity {
             FrameLayout.LayoutParams lp2 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp2.gravity = Gravity.CENTER;
 
-            fl.addView(progressBar,lp2);
+            //fl.addView(progressBar,lp2);
             fl.addView(adView);
             ((RelativeLayout)findViewById(R.id.content_project_manager)).addView(fl,lp);
 
@@ -71,9 +82,11 @@ public class ProjectManagerActivity extends AppCompatActivity {
         }
 
         rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        fa = new FastItemAdapter<>();
+        fa = new FastAdapter<>();
+        ia = new ItemAdapter<>();
+
         fa.withSelectable(false);
-        rv.setAdapter(fa);
+        rv.setAdapter(ia.wrap(fa));
 
         projects.clear();
 
@@ -90,7 +103,7 @@ public class ProjectManagerActivity extends AppCompatActivity {
                 for (int i = 0; i < projects.size(); i++) {
                     String mName = projects.get(i).getName().substring(0, projects.get(i).getName().lastIndexOf('.'));
                     String mPath = projects.get(i).getPath();
-                    fa.add(new Item(mName, mPath));
+                    ia.add(new Item(mName, mPath));
                 }
 
                 fa.withOnClickListener(new FastAdapter.OnClickListener<Item>() {
@@ -127,7 +140,7 @@ public class ProjectManagerActivity extends AppCompatActivity {
 
                                                 if (fromFile.renameTo(newFile)) {
                                                     projects.set(position,newFile);
-                                                    fa.set(position, new Item(newFile.getName(),newFile.getPath()));
+                                                    ia.set(position, new Item(newFile.getName(),newFile.getPath()));
                                                     fa.notifyAdapterItemChanged(position);
 
                                                     Intent newIntent = new Intent();
@@ -143,7 +156,7 @@ public class ProjectManagerActivity extends AppCompatActivity {
                                             @Override
                                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                                 if (projects.get(position).delete()){
-                                                    fa.remove(position);
+                                                    ia.remove(position);
                                                     projects.remove(position);
 
                                                     if (projects.size() < 1)
@@ -200,17 +213,9 @@ public class ProjectManagerActivity extends AppCompatActivity {
             return R.layout.item_projectitem;
         }
 
-        private final ViewHolderFactory<? extends ViewHolder> FACTORY = new ItemFactory();
-
-        protected class ItemFactory implements ViewHolderFactory<ViewHolder> {
-            public ViewHolder create(View v) {
-                return new ViewHolder(v);
-            }
-        }
-
         @Override
-        public ViewHolderFactory<? extends ViewHolder> getFactory() {
-            return FACTORY;
+        public ViewHolder getViewHolder(View v) {
+            return new ViewHolder(v);
         }
 
         @Override

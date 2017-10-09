@@ -1,8 +1,10 @@
-package com.benny.pxerstudio;
+package com.benny.pxerstudio.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -29,6 +31,8 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FileChooserDialog;
+import com.benny.pxerstudio.R;
+import com.benny.pxerstudio.colorpicker.ColorPicker;
 import com.benny.pxerstudio.colorpicker.SatValView;
 import com.benny.pxerstudio.pxerexportable.AtlasExportable;
 import com.benny.pxerstudio.pxerexportable.FolderExportable;
@@ -37,17 +41,18 @@ import com.benny.pxerstudio.pxerexportable.PngExportable;
 import com.benny.pxerstudio.shape.EraserShape;
 import com.benny.pxerstudio.shape.LineShape;
 import com.benny.pxerstudio.shape.RectShape;
-import com.benny.pxerstudio.colorpicker.ColorPicker;
+import com.benny.pxerstudio.util.Tool;
 import com.benny.pxerstudio.widget.BorderFab;
 import com.benny.pxerstudio.widget.FastBitmapView;
 import com.benny.pxerstudio.widget.PxerView;
 import com.github.clans.fab.FloatingActionMenu;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
-import com.mikepenz.fastadapter.adapters.FastItemAdapter;
+import com.mikepenz.fastadapter.adapters.ItemAdapter;
 import com.mikepenz.fastadapter.items.AbstractItem;
 import com.mikepenz.fastadapter_extensions.drag.ItemTouchCallback;
 import com.mikepenz.fastadapter_extensions.drag.SimpleDragCallback;
+import com.mikepenz.fastadapter_extensions.utilities.DragDropUtil;
 
 import java.io.File;
 import java.util.Collections;
@@ -55,34 +60,33 @@ import java.util.List;
 
 public class DrawingActivity extends AppCompatActivity implements FileChooserDialog.FileCallback, ItemTouchCallback {
 
+    public static final String UNTITLED = "Untitled";
+    public static final RectShape rectShapeFactory = new RectShape();
+    public static final LineShape lineShapeFactory = new LineShape();
+    public static final EraserShape eraserShapeFactory = new EraserShape();
+    public static String currentProjectPath;
+    public static BorderFab fabColor;
+    public static ColorPicker cp;
+    public boolean isEdited = false;
+    public FastAdapter<LayerThumbItem> fa;
+    public ItemAdapter<LayerThumbItem> ia;
     private PxerView pxerView;
     private RecyclerView layersRv;
     private View layerView;
     private TextView titleTextVIew;
     private Toolbar toolbar;
-
-    public boolean isEdited = false;
-
-    public static String currentProjectPath;
-    public static BorderFab fabColor;
-    public static ColorPicker cp;
-
-    public static final RectShape rectShapeFactory = new RectShape();
-    public static final LineShape lineShapeFactory = new LineShape();
-    public static final EraserShape eraserShapeFactory = new EraserShape();
-
-    public FastItemAdapter<LayerThumbItem> fa;
-
     private boolean onlyShowSelected;
 
-    public void setTitle(String subtitle,boolean edited) {
-        titleTextVIew.setText(Html.fromHtml("PxerStudio<br><small><small>" + subtitle + (edited? "*" : "") + "</small></small>"));
+    public void setTitle(String subtitle, boolean edited) {
+        if (subtitle == null)
+            subtitle = UNTITLED;
+        titleTextVIew.setText(Html.fromHtml("PxerStudio<br><small><small>" + subtitle + (edited ? "*" : "") + "</small></small>"));
         isEdited = edited;
     }
 
-    public void setEdited(boolean edited){
+    public void setEdited(boolean edited) {
         isEdited = edited;
-        titleTextVIew.setText(Html.fromHtml("PxerStudio<br><small><small>" + pxerView.getProjectName() + (edited? "*" : "") + "</small></small>"));
+        titleTextVIew.setText(Html.fromHtml("PxerStudio<br><small><small>" + pxerView.getProjectName() + (edited ? "*" : "") + "</small></small>"));
     }
 
     @Override
@@ -95,22 +99,27 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
         pxerView = (PxerView) findViewById(R.id.pxerView);
         layerView = findViewById(R.id.layerview);
 
-        setTitle("Untitled",false);
+        setTitle(UNTITLED, false);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        titleTextVIew.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
+        titleTextVIew.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+
+        SharedPreferences pxerPref = getSharedPreferences("pxerPref", MODE_PRIVATE);
+        pxerView.setSelectedColor(pxerPref.getInt("lastUsedColor", Color.YELLOW));
+
         setUpLayersView();
         setupControl();
-        currentProjectPath = getSharedPreferences("pxerPref", MODE_PRIVATE).getString("lastOpenedProject", null);
+
+        currentProjectPath = pxerPref.getString("lastOpenedProject", null);
         if (currentProjectPath != null) {
             File file = new File(currentProjectPath);
             if (file.exists()) {
                 pxerView.loadProject(file);
-                setTitle(Tool.stripExtension(file.getName()),false);
+                setTitle(Tool.stripExtension(file.getName()), false);
             }
         }
         if (fa.getItemCount() == 0) {
-            fa.add(new LayerThumbItem());
+            ia.add(new LayerThumbItem());
             fa.select(0);
         }
         System.gc();
@@ -144,7 +153,6 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
         findViewById(R.id.fab_dropper).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fabMenu.close(true);
                 fabMenu.getMenuIconView().setImageResource(R.drawable.ic_colorize_24dp);
                 pxerView.setMode(PxerView.Mode.Dropper);
             }
@@ -181,7 +189,7 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
         fabColor.setColorPressed(pxerView.getSelectedColor());
         cp = new ColorPicker(this, pxerView.getSelectedColor(), new SatValView.OnColorChangeListener() {
             @Override
-            public void onClolorChanged(int newColor) {
+            public void onColorChanged(int newColor) {
                 pxerView.setSelectedColor(newColor);
                 fabColor.setColor(newColor);
             }
@@ -214,16 +222,18 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
             @Override
             public void onClick(View v) {
                 pxerView.addLayer();
-                fa.add(Math.max(pxerView.getCurrentLayer(), 0), new LayerThumbItem());
+                ia.add(Math.max(pxerView.getCurrentLayer(), 0), new LayerThumbItem());
                 fa.deselect();
                 fa.select(pxerView.getCurrentLayer());
                 layersRv.invalidate();
             }
         });
 
-        fa = new FastItemAdapter<>();
+        fa = new FastAdapter<>();
+        ia = new ItemAdapter<>();
+
         layersRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        layersRv.setAdapter(fa);
+        layersRv.setAdapter(ia.wrap(fa));
 
         layersRv.setItemAnimator(new DefaultItemAnimator());
 
@@ -235,10 +245,18 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
         fa.withMultiSelect(false);
         fa.withAllowDeselection(false);
 
+        fa.withOnLongClickListener(new FastAdapter.OnLongClickListener<LayerThumbItem>() {
+            @Override
+            public boolean onLongClick(View v, IAdapter<LayerThumbItem> adapter, LayerThumbItem item, int position) {
+                fa.deselect();
+                fa.select(position);
+                return false;
+            }
+        });
         fa.withOnClickListener(new FastAdapter.OnClickListener<LayerThumbItem>() {
             @Override
             public boolean onClick(View v, IAdapter<LayerThumbItem> adapter, LayerThumbItem item, final int position) {
-                if (onlyShowSelected){
+                if (onlyShowSelected) {
                     PxerView.PxerLayer layer = pxerView.getPxerLayers().get(pxerView.getCurrentLayer());
                     layer.visible = false;
                     pxerView.invalidate();
@@ -246,7 +264,7 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
                     fa.notifyAdapterItemChanged(pxerView.getCurrentLayer());
                 }
                 pxerView.setCurrentLayer(position);
-                if (onlyShowSelected){
+                if (onlyShowSelected) {
                     PxerView.PxerLayer layer = pxerView.getPxerLayers().get(pxerView.getCurrentLayer());
                     layer.visible = true;
                     pxerView.invalidate();
@@ -278,88 +296,38 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
 
         pxerView.moveLayer(oldPosition, newPosition);
 
-        Collections.swap(fa.getAdapterItems(), oldPosition, newPosition);
-        fa.notifyAdapterDataSetChanged();
-        fa.deselect();
-        fa.select(newPosition);
-        pxerView.setCurrentLayer(newPosition);
+        if (oldPosition < newPosition) {
+            for (int i = oldPosition + 1; i <= newPosition; i++) {
+                Collections.swap(ia.getAdapterItems(), i, i - 1);
+                fa.notifyAdapterItemMoved(i, i - 1);
+            }
+        } else {
+            for (int i = oldPosition - 1; i >= newPosition; i--) {
+                Collections.swap(ia.getAdapterItems(), i, i + 1);
+                fa.notifyAdapterItemMoved(i, i + 1);
+            }
+        }
+
         return true;
     }
 
+    @Override
+    public void itemTouchDropped(int oldPosition, int newPosition) {
+        pxerView.setCurrentLayer(newPosition);
+    }
+
     public void onLayerUpdate() {
-        fa.clear();
+        ia.clear();
         for (int i = 0; i < pxerView.getPxerLayers().size(); i++) {
-            fa.add(new LayerThumbItem());
+            ia.add(new LayerThumbItem());
         }
         fa.select(0);
-        fa.getAdapterItem(0).pressed();
+        ia.getAdapterItem(0).pressed();
     }
 
     public void onLayerRefresh() {
         if (layersRv != null)
             layersRv.invalidate();
-    }
-
-    public class LayerThumbItem extends AbstractItem<LayerThumbItem, LayerThumbItem.ViewHolder> {
-
-        public int pressedTime = 0;
-
-        public void pressed() {
-            pressedTime++;
-            pressedTime = Math.min(2,pressedTime);
-        }
-
-        public boolean isPressSecondTime() {
-            if (pressedTime == 2) {
-                return true;
-            } else return false;
-        }
-
-        @Override
-        public int getType() {
-            return R.id.layerthumbitem;
-        }
-
-        @Override
-        public int getLayoutRes() {
-            return R.layout.item_layerthumbitem;
-        }
-
-        @Override
-        public void bindView(ViewHolder viewHolder, List payloads) {
-            super.bindView(viewHolder, payloads);
-            viewHolder.iv.setSelected(isSelected());
-
-            PxerView.PxerLayer layer = pxerView.getPxerLayers().get(viewHolder.getLayoutPosition());
-            viewHolder.iv.setVisible(layer.visible);
-            viewHolder.iv.setBitmap(layer.bitmap);
-        }
-
-        @Override
-        public boolean isSelectable() {
-            return true;
-        }
-
-        @Override
-        public LayerThumbItem withSetSelected(boolean selected) {
-            if (!selected)
-                pressedTime = 0;
-            return super.withSetSelected(selected);
-        }
-
-        @Override
-        public ViewHolder getViewHolder(View v) {
-            return new ViewHolder(v);
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-            FastBitmapView iv;
-
-            ViewHolder(View view) {
-                super(view);
-                iv = (FastBitmapView) view;
-            }
-        }
     }
 
     @Override
@@ -382,23 +350,23 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
                 fa.notifyAdapterDataSetChanged();
                 break;
             case R.id.export:
-                new PngExportable().runExport(this,pxerView);
+                new PngExportable().runExport(this, pxerView);
                 break;
             case R.id.exportgif:
-                new GifExportable().runExport(this,pxerView);
+                new GifExportable().runExport(this, pxerView);
                 break;
             case R.id.exportfolder:
-                new FolderExportable().runExport(this,pxerView);
+                new FolderExportable().runExport(this, pxerView);
                 break;
             case R.id.exportatlas:
-                new AtlasExportable().runExport(this,pxerView);
+                new AtlasExportable().runExport(this, pxerView);
                 break;
             case R.id.save:
                 pxerView.save(true);
                 break;
             case R.id.projectm:
                 pxerView.save(false);
-                startActivityForResult(new Intent(this,ProjectManagerActivity.class),01223);
+                startActivityForResult(new Intent(this, ProjectManagerActivity.class), 01223);
                 break;
             case R.id.open:
                 new FileChooserDialog.Builder(this)
@@ -453,7 +421,7 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
                         if (!isEdited)
                             setEdited(true);
 
-                        fa.remove(pxerView.getCurrentLayer());
+                        ia.remove(pxerView.getCurrentLayer());
                         pxerView.removeCurrentLayer();
 
                         fa.deselect();
@@ -464,7 +432,7 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
                 break;
             case R.id.copypastelayer:
                 pxerView.copyAndPasteCurrentLayer();
-                fa.add(Math.max(pxerView.getCurrentLayer(), 0), new LayerThumbItem());
+                ia.add(Math.max(pxerView.getCurrentLayer(), 0), new LayerThumbItem());
                 fa.deselect();
                 fa.select(pxerView.getCurrentLayer());
                 layersRv.invalidate();
@@ -478,15 +446,15 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
                             setEdited(true);
 
                         pxerView.mergeAllLayers();
-                        fa.clear();
-                        fa.add(new LayerThumbItem());
+                        ia.clear();
+                        ia.add(new LayerThumbItem());
                         fa.deselect();
                         fa.select(0);
                     }
                 }).show();
                 break;
             case R.id.about:
-                startActivity(new Intent(DrawingActivity.this,AboutActivity.class));
+                startActivity(new Intent(DrawingActivity.this, AboutActivity.class));
                 break;
             case R.id.tvisibility:
                 if (onlyShowSelected) break;
@@ -517,7 +485,7 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 pxerView.mergeDownLayer();
-                                fa.remove(pxerView.getCurrentLayer() + 1);
+                                ia.remove(pxerView.getCurrentLayer() + 1);
                                 fa.select(pxerView.getCurrentLayer());
                             }
                         }).show();
@@ -528,16 +496,16 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == 01223 && data != null){
+        if (resultCode == RESULT_OK && requestCode == 01223 && data != null) {
             String path = data.getStringExtra("selectedProjectPath");
-            if (path != null && !path.isEmpty()){
+            if (path != null && !path.isEmpty()) {
                 currentProjectPath = path;
                 File file = new File(path);
                 if (file.exists()) {
                     pxerView.loadProject(file);
-                    setTitle(Tool.stripExtension(file.getName()),false);
+                    setTitle(Tool.stripExtension(file.getName()), false);
                 }
-            }else if (data.getBooleanExtra("fileNameChanged",false)){
+            } else if (data.getBooleanExtra("fileNameChanged", false)) {
                 currentProjectPath = "";
                 pxerView.setProjectName("");
                 recreate();
@@ -599,7 +567,7 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         if (editText.getText().toString().isEmpty()) return;
-                        setTitle(editText.getText().toString(),true);
+                        setTitle(editText.getText().toString(), true);
                         pxerView.createBlankProject(editText.getText().toString(), seekBar.getProgress() + 1, seekBar2.getProgress() + 1);
                     }
                 })
@@ -610,8 +578,13 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
     @Override
     public void onFileSelection(@NonNull FileChooserDialog dialog, @NonNull File file) {
         pxerView.loadProject(file);
-        setTitle(Tool.stripExtension(file.getName()),false);
+        setTitle(Tool.stripExtension(file.getName()), false);
         currentProjectPath = file.getPath();
+    }
+
+    @Override
+    public void onFileChooserDismissed(@NonNull FileChooserDialog dialog) {
+
     }
 
     @Override
@@ -621,7 +594,11 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
     }
 
     private void saveState() {
-        getSharedPreferences("pxerPref", MODE_PRIVATE).edit().putString("lastOpenedProject", currentProjectPath).apply();
+        SharedPreferences pxerPref = getSharedPreferences("pxerPref", MODE_PRIVATE);
+        pxerPref.edit()
+                .putString("lastOpenedProject", currentProjectPath)
+                .putInt("lastUsedColor", pxerView.getSelectedColor())
+                .apply();
         if (pxerView.getProjectName() != null && !pxerView.getProjectName().isEmpty())
             pxerView.save(false);
     }
@@ -630,5 +607,67 @@ public class DrawingActivity extends AppCompatActivity implements FileChooserDia
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         cp.onConfigChanges();
+    }
+
+    public class LayerThumbItem extends AbstractItem<LayerThumbItem, LayerThumbItem.ViewHolder> {
+
+        public int pressedTime = 0;
+
+        public void pressed() {
+            pressedTime++;
+            pressedTime = Math.min(2, pressedTime);
+        }
+
+        public boolean isPressSecondTime() {
+            if (pressedTime == 2) {
+                return true;
+            } else return false;
+        }
+
+        @Override
+        public int getType() {
+            return R.id.layerthumbitem;
+        }
+
+        @Override
+        public int getLayoutRes() {
+            return R.layout.item_layerthumbitem;
+        }
+
+        @Override
+        public void bindView(ViewHolder viewHolder, List payloads) {
+            super.bindView(viewHolder, payloads);
+            viewHolder.iv.setSelected(isSelected());
+
+            PxerView.PxerLayer layer = pxerView.getPxerLayers().get(viewHolder.getLayoutPosition());
+            viewHolder.iv.setVisible(layer.visible);
+            viewHolder.iv.setBitmap(layer.bitmap);
+        }
+
+        @Override
+        public boolean isSelectable() {
+            return true;
+        }
+
+        @Override
+        public LayerThumbItem withSetSelected(boolean selected) {
+            if (!selected)
+                pressedTime = 0;
+            return super.withSetSelected(selected);
+        }
+
+        @Override
+        public ViewHolder getViewHolder(View v) {
+            return new ViewHolder(v);
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            FastBitmapView iv;
+
+            ViewHolder(View view) {
+                super(view);
+                iv = (FastBitmapView) view;
+            }
+        }
     }
 }

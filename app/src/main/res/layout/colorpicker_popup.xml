@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -15,13 +14,15 @@
         android:layout_width="200dp" />
 
     <com.benny.pxerstudio.colorpicker.AlphaSeekBar
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toLeftOf="@+id/satValView"
         android:id="@+id/alphaSeekBar"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/hueSeekBar"
         android:layout_width="200dp"
-        app:layout_constraintRight_toRightOf="@+id/satValView" />
+        android:layout_height="30dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/satValView"
+        app:layout_constraintRight_toRightOf="@+id/satValView"
+        app:layout_constraintTop_toBottomOf="@+id/hueSeekBar" />
 
     <com.benny.pxerstudio.colorpicker.SatValView
         android:layout_width="200dp"

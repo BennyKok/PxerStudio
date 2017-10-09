@@ -1,4 +1,4 @@
-package com.benny.pxerstudio;
+package com.benny.pxerstudio.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
+
+import com.benny.pxerstudio.R;
 
 import de.psdev.licensesdialog.LicensesDialog;
 import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
@@ -95,7 +97,6 @@ public class AboutActivity extends AppCompatActivity {
                             v.animate().scaleX(1f).scaleY(1f).rotation(0);
                         }
                     });
-
             }
         });
     }

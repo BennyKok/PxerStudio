@@ -21,13 +21,14 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.benny.pxerstudio.DrawingActivity;
+import com.benny.pxerstudio.activity.DrawingActivity;
 import com.benny.pxerstudio.R;
-import com.benny.pxerstudio.Tool;
+import com.benny.pxerstudio.util.Tool;
 import com.benny.pxerstudio.shape.BaseShape;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -46,108 +47,31 @@ import java.util.Queue;
  * Created by BennyKok on 10/3/2016.
  */
 public class PxerView extends View implements ScaleGestureDetector.OnScaleGestureListener, GestureDetector.OnGestureListener {
-    public ArrayList<PxerLayer> getPxerLayers() {
-        return pxerLayers;
-    }
 
+    public static final String PXER_EXTENTION_NAME = ".pxer";
+    private final static Long pressDelay = 60L;
     private ArrayList<PxerLayer> pxerLayers = new ArrayList<>();
 
     //Drawing property
     private Paint pxerPaint;
-
-    public int getSelectedColor() {
-        return selectedColor;
-    }
-
-    public void setSelectedColor(int selectedColor) {
-        this.selectedColor = selectedColor;
-    }
-
     private int selectedColor = Color.YELLOW;
-
-    public Mode getMode() {
-        return mode;
-    }
-
-    public void setMode(Mode mode) {
-        this.mode = mode;
-    }
-
     private Mode mode = Mode.Normal;
-
-    public BaseShape getShapeTool() {
-        return shapeTool;
-    }
-
-    public void setShapeTool(BaseShape shapeTool) {
-        this.shapeTool = shapeTool;
-    }
-
     private BaseShape shapeTool;
-
-    public void setCurrentLayer(int currentLayer) {
-        this.currentLayer = currentLayer;
-        invalidate();
-    }
-
-    public int getCurrentLayer() {
-        return currentLayer;
-    }
-
     private int currentLayer = 0;
-
-    public boolean isShowGrid() {
-        return showGrid;
-    }
-
-    public void setShowGrid(boolean showGrid) {
-        this.showGrid = showGrid;
-        invalidate();
-    }
-
     private boolean showGrid;
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
     //Picture property
     private String projectName;
     private Paint borderPaint;
     private Rect[][] rects;
     private int picWidth;
-
-    public int getPicHeight() {
-        return picHeight;
-    }
-
-    public int getPicWidth() {
-        return picWidth;
-    }
-
     private int picHeight;
     private float pxerSize;
     private RectF picBoundary;
     private Rect picRect = new Rect();
     private Path grid = new Path();
     private Bitmap bgbitmap;
-
-    public Canvas getPreviewCanvas() {
-        return previewCanvas;
-    }
-
     private Canvas previewCanvas = new Canvas();
-
-    public Bitmap getPreview() {
-        return preview;
-    }
-
     private Bitmap preview;
-
     //Control property
     private Point[] points;
     private int downY, downX;
@@ -156,18 +80,11 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
     private ScaleGestureDetector mScaleDetector;
     private GestureDetector mGestureDetector;
     private float mScaleFactor = 1.f;
-    private final static Long pressDelay = 60L;
     private Long prePressedTime = -1L;
-
     //History property
     private ArrayList<ArrayList<PxerHistory>> history = new ArrayList<>();
     private ArrayList<ArrayList<PxerHistory>> redohistory = new ArrayList<>();
     private ArrayList<Integer> historyIndex = new ArrayList<>();
-
-    public ArrayList<Pxer> getCurrentHistory() {
-        return currentHistory;
-    }
-
     private ArrayList<Pxer> currentHistory = new ArrayList<>();
 
     public PxerView(Context context) {
@@ -182,37 +99,117 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
         init();
     }
 
-    public void copyAndPasteCurrentLayer(){
-        Bitmap bitmap = pxerLayers.get(currentLayer).bitmap.copy(Bitmap.Config.ARGB_8888,true);
-        pxerLayers.add(Math.max(getCurrentLayer(),0),new PxerLayer(bitmap));
-
-        history.add(Math.max(getCurrentLayer(),0),new ArrayList<PxerHistory>());
-        redohistory.add(Math.max(getCurrentLayer(),0),new ArrayList<PxerHistory>());
-        historyIndex.add(Math.max(getCurrentLayer(),0),0);
+    public static ArrayList<Pxer> cloneList(List<Pxer> list) {
+        ArrayList<Pxer> clone = new ArrayList<Pxer>(list.size());
+        for (Pxer item : list) clone.add(item.clone());
+        return clone;
     }
 
-    public void addLayer(){
+    public ArrayList<PxerLayer> getPxerLayers() {
+        return pxerLayers;
+    }
+
+    public int getSelectedColor() {
+        return selectedColor;
+    }
+
+    public void setSelectedColor(int selectedColor) {
+        this.selectedColor = selectedColor;
+    }
+
+    public Mode getMode() {
+        return mode;
+    }
+
+    public void setMode(Mode mode) {
+        this.mode = mode;
+    }
+
+    public BaseShape getShapeTool() {
+        return shapeTool;
+    }
+
+    public void setShapeTool(BaseShape shapeTool) {
+        this.shapeTool = shapeTool;
+    }
+
+    public int getCurrentLayer() {
+        return currentLayer;
+    }
+
+    public void setCurrentLayer(int currentLayer) {
+        this.currentLayer = currentLayer;
+        invalidate();
+    }
+
+    public boolean isShowGrid() {
+        return showGrid;
+    }
+
+    public void setShowGrid(boolean showGrid) {
+        this.showGrid = showGrid;
+        invalidate();
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public int getPicHeight() {
+        return picHeight;
+    }
+
+    public int getPicWidth() {
+        return picWidth;
+    }
+
+    public Canvas getPreviewCanvas() {
+        return previewCanvas;
+    }
+
+    public Bitmap getPreview() {
+        return preview;
+    }
+
+    public ArrayList<Pxer> getCurrentHistory() {
+        return currentHistory;
+    }
+
+    public void copyAndPasteCurrentLayer() {
+        Bitmap bitmap = pxerLayers.get(currentLayer).bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        pxerLayers.add(Math.max(getCurrentLayer(), 0), new PxerLayer(bitmap));
+
+        history.add(Math.max(getCurrentLayer(), 0), new ArrayList<PxerHistory>());
+        redohistory.add(Math.max(getCurrentLayer(), 0), new ArrayList<PxerHistory>());
+        historyIndex.add(Math.max(getCurrentLayer(), 0), 0);
+    }
+
+    public void addLayer() {
         Bitmap bitmap = Bitmap.createBitmap(picWidth, picHeight, Bitmap.Config.ARGB_8888);
         bitmap.eraseColor(Color.TRANSPARENT);
-        pxerLayers.add(Math.max(getCurrentLayer(),0),new PxerLayer(bitmap));
+        pxerLayers.add(Math.max(getCurrentLayer(), 0), new PxerLayer(bitmap));
 
-        history.add(Math.max(getCurrentLayer(),0),new ArrayList<PxerHistory>());
-        redohistory.add(Math.max(getCurrentLayer(),0),new ArrayList<PxerHistory>());
-        historyIndex.add(Math.max(getCurrentLayer(),0),0);
+        history.add(Math.max(getCurrentLayer(), 0), new ArrayList<PxerHistory>());
+        redohistory.add(Math.max(getCurrentLayer(), 0), new ArrayList<PxerHistory>());
+        historyIndex.add(Math.max(getCurrentLayer(), 0), 0);
     }
 
-    public void removeCurrentLayer(){
+    public void removeCurrentLayer() {
         getPxerLayers().remove(getCurrentLayer());
 
         history.remove(getCurrentLayer());
         redohistory.remove(getCurrentLayer());
         historyIndex.remove(getCurrentLayer());
 
-        setCurrentLayer(Math.max(0,getCurrentLayer() - 1));
+        setCurrentLayer(Math.max(0, getCurrentLayer() - 1));
         invalidate();
     }
 
-    public void moveLayer(int from,int to){
+    public void moveLayer(int from, int to) {
         Collections.swap(getPxerLayers(), from, to);
 
         Collections.swap(history, from, to);
@@ -221,42 +218,42 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
         invalidate();
     }
 
-    public void clearCurrentLayer(){
+    public void clearCurrentLayer() {
         getPxerLayers().get(currentLayer).bitmap.eraseColor(Color.TRANSPARENT);
     }
 
-    public void mergeDownLayer(){
+    public void mergeDownLayer() {
         getPreview().eraseColor(Color.TRANSPARENT);
         getPreviewCanvas().setBitmap(getPreview());
 
-        getPreviewCanvas().drawBitmap(pxerLayers.get(getCurrentLayer()+1).bitmap,0,0,null);
-        getPreviewCanvas().drawBitmap(pxerLayers.get(getCurrentLayer()).bitmap,0,0,null);
+        getPreviewCanvas().drawBitmap(pxerLayers.get(getCurrentLayer() + 1).bitmap, 0, 0, null);
+        getPreviewCanvas().drawBitmap(pxerLayers.get(getCurrentLayer()).bitmap, 0, 0, null);
 
-        pxerLayers.remove(getCurrentLayer()+1);
-        history.remove(getCurrentLayer()+1);
-        redohistory.remove(getCurrentLayer()+1);
-        historyIndex.remove(getCurrentLayer()+1);
+        pxerLayers.remove(getCurrentLayer() + 1);
+        history.remove(getCurrentLayer() + 1);
+        redohistory.remove(getCurrentLayer() + 1);
+        historyIndex.remove(getCurrentLayer() + 1);
 
-        pxerLayers.set(getCurrentLayer(),new PxerLayer(Bitmap.createBitmap(getPreview())));
-        history.set(getCurrentLayer(),new ArrayList<PxerHistory>());
-        redohistory.set(getCurrentLayer(),new ArrayList<PxerHistory>());
-        historyIndex.set(getCurrentLayer(),0);
+        pxerLayers.set(getCurrentLayer(), new PxerLayer(Bitmap.createBitmap(getPreview())));
+        history.set(getCurrentLayer(), new ArrayList<PxerHistory>());
+        redohistory.set(getCurrentLayer(), new ArrayList<PxerHistory>());
+        historyIndex.set(getCurrentLayer(), 0);
 
         invalidate();
     }
 
-    public void visibilityAllLayer(boolean visible){
+    public void visibilityAllLayer(boolean visible) {
         for (int i = 0; i < pxerLayers.size(); i++) {
             pxerLayers.get(i).visible = visible;
         }
         invalidate();
     }
 
-    public void mergeAllLayers(){
+    public void mergeAllLayers() {
         getPreview().eraseColor(Color.TRANSPARENT);
         getPreviewCanvas().setBitmap(getPreview());
         for (int i = 0; i < pxerLayers.size(); i++) {
-            getPreviewCanvas().drawBitmap(pxerLayers.get(pxerLayers.size()-i-1).bitmap,0,0,null);
+            getPreviewCanvas().drawBitmap(pxerLayers.get(pxerLayers.size() - i - 1).bitmap, 0, 0, null);
         }
         pxerLayers.clear();
         history.clear();
@@ -378,7 +375,10 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
     }
 
     public void undo() {
-        if (historyIndex.get(currentLayer) <= 0) return;
+        if (historyIndex.get(currentLayer) <= 0) {
+            Tool.toast(getContext(), "No more undo");
+            return;
+        }
 
         historyIndex.set(currentLayer, historyIndex.get(currentLayer) - 1);
         for (int i = 0; i < history.get(currentLayer).get(historyIndex.get(currentLayer)).pxers.size(); i++) {
@@ -396,7 +396,11 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
     }
 
     public void redo() {
-        if (redohistory.get(currentLayer).size() <= 0) return;
+        if (redohistory.get(currentLayer).size() <= 0) {
+            Tool.toast(getContext(), "No more redo");
+            return;
+        }
+
         for (int i = 0; i < redohistory.get(currentLayer).get(redohistory.get(currentLayer).size() - 1).pxers.size(); i++) {
             Pxer pxer = redohistory.get(currentLayer).get(redohistory.get(currentLayer).size() - 1).pxers.get(i);
             currentHistory.add(new Pxer(pxer.x, pxer.y, pxerLayers.get(currentLayer).bitmap.getPixel(pxer.x, pxer.y)));
@@ -416,33 +420,33 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
     public boolean save(boolean force) {
         if (projectName == null || projectName.isEmpty()) {
             if (force)
-            new MaterialDialog.Builder(getContext())
-                    .titleGravity(GravityEnum.CENTER)
-                    .typeface(Tool.myType, Tool.myType)
-                    .inputRange(0, 20)
-                    .title(R.string.save_project)
-                    .input(getContext().getString(R.string.name), null, false, new MaterialDialog.InputCallback() {
-                        @Override
-                        public void onInput(MaterialDialog dialog, CharSequence input) {
+                new MaterialDialog.Builder(getContext())
+                        .titleGravity(GravityEnum.CENTER)
+                        .typeface(Tool.myType, Tool.myType)
+                        .inputRange(0, 20)
+                        .title(R.string.save_project)
+                        .input(getContext().getString(R.string.name), null, false, new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
 
-                        }
-                    })
-                    .inputType(InputType.TYPE_CLASS_TEXT)
-                    .positiveText(R.string.save)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            projectName = dialog.getInputEditText().getText().toString();
-                            if (getContext() instanceof DrawingActivity)
-                                ((DrawingActivity)getContext()).setTitle(projectName,false);
-                            save(true);
-                        }
-                    })
-                    .show();
+                            }
+                        })
+                        .inputType(InputType.TYPE_CLASS_TEXT)
+                        .positiveText(R.string.save)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                projectName = dialog.getInputEditText().getText().toString();
+                                if (getContext() instanceof DrawingActivity)
+                                    ((DrawingActivity) getContext()).setTitle(projectName, false);
+                                save(true);
+                            }
+                        })
+                        .show();
             return false;
         } else {
-            ((DrawingActivity)getContext()).isEdited = false;
-            ((DrawingActivity)getContext()).setEdited(false);
+            ((DrawingActivity) getContext()).isEdited = false;
+            ((DrawingActivity) getContext()).setEdited(false);
             Gson gson = new Gson();
             ArrayList<PxableLayer> out = new ArrayList<>();
             for (int i = 0; i < pxerLayers.size(); i++) {
@@ -462,13 +466,13 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
             }
             DrawingActivity.currentProjectPath = Environment.getExternalStorageDirectory().getPath().concat("/PxerStudio/Project/").concat(projectName + ".pxer");
             if (getContext() instanceof DrawingActivity)
-                ((DrawingActivity)getContext()).setTitle(projectName,false);
-            Tool.saveProject(projectName + ".pxer", gson.toJson(out));
+                ((DrawingActivity) getContext()).setTitle(projectName, false);
+            Tool.saveProject(projectName + PXER_EXTENTION_NAME, gson.toJson(out));
             return true;
         }
     }
 
-    public void resetViewPort(){
+    public void resetViewPort() {
         scaleAtFirst();
     }
 
@@ -513,33 +517,27 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
         resetViewPort();
 
         //Avoid unknown flicking issue if the user scale the canvas immediately
-        long downTime = SystemClock.uptimeMillis(),eventTime = downTime + 100;
-        float x = 0.0f,y = 0.0f;
+        long downTime = SystemClock.uptimeMillis(), eventTime = downTime + 100;
+        float x = 0.0f, y = 0.0f;
         int metaState = 0;
-        MotionEvent motionEvent = MotionEvent.obtain(downTime, eventTime, MotionEvent.ACTION_UP, x, y,metaState);
+        MotionEvent motionEvent = MotionEvent.obtain(downTime, eventTime, MotionEvent.ACTION_UP, x, y, metaState);
         mGestureDetector.onTouchEvent(motionEvent);
     }
 
-    public void reCalBackground(){
-        preview = Bitmap.createBitmap(picWidth,picHeight,Bitmap.Config.ARGB_8888);
+    public void reCalBackground() {
+        preview = Bitmap.createBitmap(picWidth, picHeight, Bitmap.Config.ARGB_8888);
 
-        bgbitmap = Bitmap.createBitmap(picWidth*2,picHeight*2,Bitmap.Config.ARGB_8888);
-        bgbitmap.eraseColor(ColorUtils.setAlphaComponent(Color.WHITE,200));
+        bgbitmap = Bitmap.createBitmap(picWidth * 2, picHeight * 2, Bitmap.Config.ARGB_8888);
+        bgbitmap.eraseColor(ColorUtils.setAlphaComponent(Color.WHITE, 200));
 
         for (int i = 0; i < picWidth; i++) {
-            for (int j = 0; j < picHeight*2; j++) {
-                if (j%2 != 0)
-                    bgbitmap.setPixel(i*2+1,j,Color.argb(200,220,220,220));
+            for (int j = 0; j < picHeight * 2; j++) {
+                if (j % 2 != 0)
+                    bgbitmap.setPixel(i * 2 + 1, j, Color.argb(200, 220, 220, 220));
                 else
-                    bgbitmap.setPixel(i*2,j,Color.argb(200,220,220,220));
+                    bgbitmap.setPixel(i * 2, j, Color.argb(200, 220, 220, 220));
             }
         }
-    }
-
-    public static ArrayList<Pxer> cloneList(List<Pxer> list) {
-        ArrayList<Pxer> clone = new ArrayList<Pxer>(list.size());
-        for (Pxer item : list) clone.add(item.clone());
-        return clone;
     }
 
     @Override
@@ -548,7 +546,7 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
             mGestureDetector.onTouchEvent(event);
         mScaleDetector.onTouchEvent(event);
 
-        if (event.getAction() == MotionEvent.ACTION_UP){
+        if (event.getAction() == MotionEvent.ACTION_UP) {
             downInPic = false;
 
             if (getMode() == Mode.ShapeTool)
@@ -583,11 +581,12 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
         //We got x and y
 
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            if (prePressedTime != -1L && System.currentTimeMillis() - prePressedTime <= pressDelay) return true;
+            if (prePressedTime != -1L && System.currentTimeMillis() - prePressedTime <= pressDelay)
+                return true;
             if (prePressedTime == -1L) return true;
         }
 
-        if (!isValid(x,y))return true;
+        if (!isValid(x, y)) return true;
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             downY = y;
@@ -596,34 +595,34 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
             prePressedTime = System.currentTimeMillis();
         }
 
-        if (!((DrawingActivity)getContext()).isEdited)
-        ((DrawingActivity)getContext()).setEdited(true);
-        if (getMode() == Mode.ShapeTool && downX != -1 && event.getAction() != MotionEvent.ACTION_UP && event.getAction() != MotionEvent.ACTION_DOWN){
+        if (!((DrawingActivity) getContext()).isEdited)
+            ((DrawingActivity) getContext()).setEdited(true);
+        if (getMode() == Mode.ShapeTool && downX != -1 && event.getAction() != MotionEvent.ACTION_UP && event.getAction() != MotionEvent.ACTION_DOWN) {
             if (!getShapeTool().hasEnded())
-                getShapeTool().onDraw(this,downX,downY,x,y);
+                getShapeTool().onDraw(this, downX, downY, x, y);
             return true;
         }
 
         Pxer pxer;
         Bitmap bitmapToDraw = pxerLayers.get(currentLayer).bitmap;
-        if (event.getAction() != MotionEvent.ACTION_UP && event.getAction() != MotionEvent.ACTION_DOWN){
+        if (event.getAction() != MotionEvent.ACTION_UP) {
             pxer = new Pxer(x, y, bitmapToDraw.getPixel(x, y));
             if (!currentHistory.contains(pxer))
                 currentHistory.add(pxer);
         }
         switch (getMode()) {
             case Normal:
-                if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN)
+                if (event.getAction() == MotionEvent.ACTION_UP)
                     break;
-                bitmapToDraw.setPixel(x, y,ColorUtils.compositeColors(selectedColor, bitmapToDraw.getPixel(x,y)));
+                bitmapToDraw.setPixel(x, y, ColorUtils.compositeColors(selectedColor, bitmapToDraw.getPixel(x, y)));
                 break;
             case Dropper:
-                if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN)
+                if (event.getAction() == MotionEvent.ACTION_UP)
                     break;
                 if (x == downX && downY == y) {
                     for (int i = 0; i < pxerLayers.size(); i++) {
                         int pixel = pxerLayers.get(i).bitmap.getPixel(x, y);
-                        if (pixel != Color.TRANSPARENT){
+                        if (pixel != Color.TRANSPARENT) {
                             setSelectedColor(pxerLayers.get(i).bitmap.getPixel(x, y));
                             if (DrawingActivity.fabColor != null) {
                                 DrawingActivity.fabColor.setColor(selectedColor);
@@ -631,7 +630,7 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
                             }
                             break;
                         }
-                        if (i == pxerLayers.size()-1){
+                        if (i == pxerLayers.size() - 1) {
                             DrawingActivity.fabColor.setColor(Color.TRANSPARENT);
                         }
                     }
@@ -650,13 +649,13 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
                         Point p = toExplore.remove();
                         //Color it
                         currentHistory.add(new Pxer(p.x, p.y, targetColor));
-                        bitmapToDraw.setPixel(p.x, p.y,ColorUtils.compositeColors(selectedColor, bitmapToDraw.getPixel(p.x,p.y)));
+                        bitmapToDraw.setPixel(p.x, p.y, ColorUtils.compositeColors(selectedColor, bitmapToDraw.getPixel(p.x, p.y)));
                         //
                         Point cp;
                         if (isValid(p.x, p.y - 1)) {
                             cp = points[p.x * picHeight + p.y - 1];
                             if (!explored.contains(cp)) {
-                                if (bitmapToDraw.getPixel(cp.x,cp.y) == targetColor)
+                                if (bitmapToDraw.getPixel(cp.x, cp.y) == targetColor)
                                     toExplore.add(cp);
                                 explored.add(cp);
                             }
@@ -665,7 +664,7 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
                         if (isValid(p.x, p.y + 1)) {
                             cp = points[p.x * picHeight + p.y + 1];
                             if (!explored.contains(cp)) {
-                                if (bitmapToDraw.getPixel(cp.x,cp.y) == targetColor)
+                                if (bitmapToDraw.getPixel(cp.x, cp.y) == targetColor)
                                     toExplore.add(cp);
                                 explored.add(cp);
                             }
@@ -674,7 +673,7 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
                         if (isValid(p.x - 1, p.y)) {
                             cp = points[(p.x - 1) * picHeight + p.y];
                             if (!explored.contains(cp)) {
-                                if (bitmapToDraw.getPixel(cp.x,cp.y) == targetColor)
+                                if (bitmapToDraw.getPixel(cp.x, cp.y) == targetColor)
                                     toExplore.add(cp);
                                 explored.add(cp);
                             }
@@ -683,7 +682,7 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
                         if (isValid(p.x + 1, p.y)) {
                             cp = points[(p.x + 1) * picHeight + p.y];
                             if (!explored.contains(cp)) {
-                                if (bitmapToDraw.getPixel(cp.x,cp.y) == targetColor)
+                                if (bitmapToDraw.getPixel(cp.x, cp.y) == targetColor)
                                     toExplore.add(cp);
                                 explored.add(cp);
                             }
@@ -697,7 +696,7 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
         return true;
     }
 
-    public void finishAddHistory(){
+    public void finishAddHistory() {
         if (!(currentHistory.size() <= 0)) {
             redohistory.get(currentLayer).clear();
             historyIndex.set(currentLayer, historyIndex.get(currentLayer) + 1);
@@ -715,13 +714,13 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
         canvas.drawColor(Color.DKGRAY);
         canvas.save();
         canvas.concat(drawMatrix);
-        canvas.drawBitmap(bgbitmap, null, picBoundary,pxerPaint);
-        for (int i = pxerLayers.size()-1; i > -1; i--) {
+        canvas.drawBitmap(bgbitmap, null, picBoundary, pxerPaint);
+        for (int i = pxerLayers.size() - 1; i > -1; i--) {
             if (pxerLayers.get(i).visible)
                 canvas.drawBitmap(pxerLayers.get(i).bitmap, null, picBoundary, pxerPaint);
         }
         if (showGrid)
-            canvas.drawPath(grid,borderPaint);
+            canvas.drawPath(grid, borderPaint);
         canvas.restore();
     }
 
@@ -805,7 +804,7 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
         return true;
     }
 
-    private void scaleAtFirst(){
+    private void scaleAtFirst() {
         //int width = Math.max(getWidth(),getHeight()),height = Math.min(getWidth(),getHeight());
         mScaleFactor = 1.f;
         drawMatrix.reset();
@@ -814,13 +813,13 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
 
         mScaleFactor = scale;
         Matrix transformationMatrix = new Matrix();
-        transformationMatrix.postTranslate((getWidth()-picBoundary.width())/2,(getHeight()-picBoundary.height())/3);
+        transformationMatrix.postTranslate((getWidth() - picBoundary.width()) / 2, (getHeight() - picBoundary.height()) / 3);
 
-        float focusX = getWidth()/2;
-        float focusY = getHeight()/2;
+        float focusX = getWidth() / 2;
+        float focusY = getHeight() / 2;
 
         transformationMatrix.postTranslate(-focusX, -focusY);
-        transformationMatrix.postScale(scale,scale);
+        transformationMatrix.postScale(scale, scale);
 
         transformationMatrix.postTranslate(focusX, focusY);
         drawMatrix.postConcat(transformationMatrix);
@@ -828,13 +827,13 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
         invalidate();
     }
 
-    public void onLayerUpdate(){
-        ((DrawingActivity)getContext()).onLayerUpdate();
+    public void onLayerUpdate() {
+        ((DrawingActivity) getContext()).onLayerUpdate();
     }
 
     @Override
     public void invalidate() {
-        ((DrawingActivity)getContext()).onLayerRefresh();
+        ((DrawingActivity) getContext()).onLayerRefresh();
         super.invalidate();
     }
 
@@ -846,6 +845,10 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
     @Override
     public void onScaleEnd(ScaleGestureDetector scaleGestureDetector) {
 
+    }
+
+    public enum Mode {
+        Normal, Eraser, Fill, Dropper, ShapeTool
     }
 
     public static class PxerLayer {
@@ -872,6 +875,12 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
     public static class Pxer {
         public int x, y, color;
 
+        public Pxer(int x, int y, int c) {
+            this.x = x;
+            this.y = y;
+            this.color = c;
+        }
+
         @Override
         protected Pxer clone() {
             return new Pxer(x, y, color);
@@ -880,12 +889,6 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
         @Override
         public boolean equals(Object obj) {
             return ((Pxer) obj).x == this.x && ((Pxer) obj).y == this.y;
-        }
-
-        public Pxer(int x, int y, int c) {
-            this.x = x;
-            this.y = y;
-            this.color = c;
         }
     }
 
@@ -896,9 +899,5 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
             this.pxers = pxers;
         }
 
-    }
-
-    public enum Mode {
-        Normal, Eraser, Fill,Dropper,ShapeTool
     }
 }

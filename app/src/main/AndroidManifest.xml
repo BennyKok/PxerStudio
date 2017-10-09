@@ -15,12 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".DrawingActivity"
+            android:name=".activity.DrawingActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".activity.SplashActivity"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,9 +28,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AboutActivity" android:label="About" />
+        <activity android:name=".activity.AboutActivity" android:label="About" />
         <activity
-            android:name=".ProjectManagerActivity"
+            android:name=".activity.ProjectManagerActivity"
             android:label="@string/title_activity_project_manager" />
     </application>
 

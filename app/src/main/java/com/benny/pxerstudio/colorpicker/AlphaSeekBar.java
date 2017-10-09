@@ -9,11 +9,8 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.v4.graphics.ColorUtils;
 import android.util.AttributeSet;
 import android.widget.SeekBar;
-
-import com.benny.pxerstudio.Tool;
 
 /**
  * Created by BennyKok on 10/15/2016.

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -21,7 +20,7 @@ import com.benny.pxerstudio.R;
  */
 
 public class FastBitmapView extends View {
-    private Paint bgpaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint bgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private PorterDuffColorFilter overlay;
 
@@ -59,10 +58,10 @@ public class FastBitmapView extends View {
 
     private Bitmap bitmap;
 
-    private Path vibisibilityBg = new Path();
+    private Path visibilityBg = new Path();
 
     private float strokeWidth = 8f;
-    private float radius = 4f;
+    private float radius = 0f;
 
 
     public FastBitmapView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -79,9 +78,9 @@ public class FastBitmapView extends View {
 
     public void init(){
         accentColor = getContext().getResources().getColor(R.color.colorAccent);
-        bgpaint.setStyle(Paint.Style.STROKE);
-        bgpaint.setStrokeWidth(5);
-        bgpaint.setColor(Color.GRAY);
+        bgPaint.setStyle(Paint.Style.STROKE);
+        bgPaint.setStrokeWidth(5);
+        bgPaint.setColor(Color.GRAY);
 
         overlay = new PorterDuffColorFilter(ColorUtils.setAlphaComponent(Color.DKGRAY,100), PorterDuff.Mode.SRC_OVER);
 
@@ -103,7 +102,7 @@ public class FastBitmapView extends View {
             canvas.drawBitmap(bitmap,null,boundary2,paint);
 
         //if(!visible)
-            //canvas.drawPath(vibisibilityBg,bgpaint);
+            //canvas.drawPath(visibilityBg,bgPaint);
 
         paint.setColorFilter(null);
         paint.setStyle(Paint.Style.STROKE);
@@ -131,16 +130,16 @@ public class FastBitmapView extends View {
             boundary2.set(0,Math.abs(getHeight()-h)/2,getHeight(),getHeight()-Math.abs(getHeight()-h)/2);
         boundary2.inset(strokeWidth,strokeWidth);
 
-        vibisibilityBg.reset();
-        vibisibilityBg.moveTo(strokeWidth,strokeWidth);
-        vibisibilityBg.lineTo(getWidth()-strokeWidth,getHeight()-strokeWidth);
+        visibilityBg.reset();
+        visibilityBg.moveTo(strokeWidth,strokeWidth);
+        visibilityBg.lineTo(getWidth()-strokeWidth,getHeight()-strokeWidth);
 
-        vibisibilityBg.moveTo(getWidth()-strokeWidth,strokeWidth);
-        vibisibilityBg.lineTo(strokeWidth,getHeight()-strokeWidth);
+        visibilityBg.moveTo(getWidth()-strokeWidth,strokeWidth);
+        visibilityBg.lineTo(strokeWidth,getHeight()-strokeWidth);
 
 //        for (int i = 0; i < 6; i++) {
-//            vibisibilityBg.moveTo(strokeWidth,i*getWidth()/6+strokeWidth);
-//            vibisibilityBg.lineTo(getWidth()-strokeWidth,(i+1)*getWidth()/6-strokeWidth);
+//            visibilityBg.moveTo(strokeWidth,i*getWidth()/6+strokeWidth);
+//            visibilityBg.lineTo(getWidth()-strokeWidth,(i+1)*getWidth()/6-strokeWidth);
 //        }
     }
 }
