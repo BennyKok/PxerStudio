@@ -3,6 +3,7 @@ package com.benny.pxerstudio.colorpicker;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,10 @@ public class ColorPicker {
         satValView.setListener(listener);
         satValView.setColor(startColor);
         popupWindow = new PopupWindow(contentView);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#424242")));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            popupWindow.setElevation(Tool.convertDpToPixel(8,c));
+        }
         popupWindow.setHeight((int) Tool.convertDpToPixel(292, c));
         popupWindow.setWidth((int) Tool.convertDpToPixel(216, c));
     }

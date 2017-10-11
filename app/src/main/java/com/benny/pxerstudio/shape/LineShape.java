@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.graphics.ColorUtils;
 
-import com.benny.pxerstudio.util.Tool;
 import com.benny.pxerstudio.widget.PxerView;
 
 import java.util.ArrayList;
@@ -67,12 +66,15 @@ public class LineShape extends BaseShape {
 //            startY--;
 
         pxerView.getPreviewCanvas().drawLine(startX, startY, endX, endY, p);
-        pxerView.getPreview().setPixel(startX,startY,pxerView.getSelectedColor());
-        pxerView.getPreview().setPixel(endX,endY,pxerView.getSelectedColor());
+        //pxerView.getPreview().setPixel(startX,startY,pxerView.getSelectedColor());
+        //pxerView.getPreview().setPixel(endX,endY,pxerView.getSelectedColor());
 
         for (int i = 0; i < pxerView.getPicWidth(); i++) {
             for (int y = 0; y < pxerView.getPicHeight(); y++) {
                 int c = pxerView.getPreview().getPixel(i, y);
+                if ((i == startX && y == startY) || (i == endX && y == endY))
+                    c = Color.YELLOW;
+
                 if (c == Color.YELLOW) {
                     previousPxer.add(new PxerView.Pxer(i, y, layerToDraw.getPixel(i, y)));
                     layerToDraw.setPixel(i, y, ColorUtils.compositeColors(pxerView.getSelectedColor(), layerToDraw.getPixel(i, y)));
@@ -93,6 +95,8 @@ public class LineShape extends BaseShape {
         if (previousPxer.isEmpty()) return;
         pxerView.getCurrentHistory().addAll(previousPxer);
         previousPxer.clear();
+
+        pxerView.setUnrecordedChanges(true);
         pxerView.finishAddHistory();
     }
 

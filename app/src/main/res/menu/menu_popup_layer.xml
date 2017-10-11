@@ -6,7 +6,7 @@
 
         <item
             android:id="@+id/copypastelayer"
-            android:title="@string/copy_and_paste_layer" />
+            android:title="@string/duplicate_layer" />
 
         <item
             android:id="@+id/deletelayer"

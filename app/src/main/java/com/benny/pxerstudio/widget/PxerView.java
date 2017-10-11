@@ -47,7 +47,7 @@ import java.util.Queue;
  */
 public class PxerView extends View implements ScaleGestureDetector.OnScaleGestureListener, GestureDetector.OnGestureListener {
 
-    public static final String PXER_EXTENTION_NAME = ".pxer";
+    public static final String PXER_EXTENSION_NAME = ".pxer";
     private final static Long pressDelay = 60L;
     private ArrayList<PxerLayer> pxerLayers = new ArrayList<>();
 
@@ -58,8 +58,9 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
     private BaseShape shapeTool;
     private int currentLayer = 0;
     private boolean showGrid;
+    private boolean isUnrecordedChanges;
     //Picture property
-    private String projectName;
+    private String projectName = DrawingActivity.Companion.getUNTITLED();
     private Paint borderPaint;
     private Rect[][] rects;
     private int picWidth;
@@ -471,7 +472,7 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
             DrawingActivity.Companion.setCurrentProjectPath(Environment.getExternalStorageDirectory().getPath().concat("/PxerStudio/Project/").concat(projectName + ".pxer"));
             if (getContext() instanceof DrawingActivity)
                 ((DrawingActivity) getContext()).setTitle(projectName, false);
-            Tool.saveProject(projectName + PXER_EXTENTION_NAME, gson.toJson(out));
+            Tool.saveProject(projectName + PXER_EXTENSION_NAME, gson.toJson(out));
             return true;
         }
     }
@@ -548,6 +549,7 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN)
             mGestureDetector.onTouchEvent(event);
+
         mScaleDetector.onTouchEvent(event);
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -556,13 +558,15 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
             if (getMode() == Mode.ShapeTool)
                 getShapeTool().onDrawEnd(this);
 
-            if (getMode() != Mode.Fill && getMode() != Mode.Dropper && getMode() != Mode.ShapeTool)
+            if (getMode() != Mode.Fill && getMode() != Mode.Dropper && getMode() != Mode.ShapeTool) {
                 finishAddHistory();
+            }
         }
 
         if (event.getPointerCount() > 1) {
             prePressedTime = -1L;
             mGestureDetector.onTouchEvent(event);
+
             return true;
         }
         //Get the position
@@ -599,8 +603,6 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
             prePressedTime = System.currentTimeMillis();
         }
 
-        if (!((DrawingActivity) getContext()).isEdited())
-            ((DrawingActivity) getContext()).setEdited(true);
         if (getMode() == Mode.ShapeTool && downX != -1 && event.getAction() != MotionEvent.ACTION_UP && event.getAction() != MotionEvent.ACTION_DOWN) {
             if (!getShapeTool().hasEnded())
                 getShapeTool().onDraw(this, downX, downY, x, y);
@@ -614,11 +616,14 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
             if (!currentHistory.contains(pxer))
                 currentHistory.add(pxer);
         }
+
         switch (getMode()) {
             case Normal:
-                if (event.getAction() == MotionEvent.ACTION_UP)
+                if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_UP)
                     break;
+
                 bitmapToDraw.setPixel(x, y, ColorUtils.compositeColors(selectedColor, bitmapToDraw.getPixel(x, y)));
+                setUnrecordedChanges(true);
                 break;
             case Dropper:
                 if (event.getAction() == MotionEvent.ACTION_UP)
@@ -628,13 +633,13 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
                         int pixel = pxerLayers.get(i).bitmap.getPixel(x, y);
                         if (pixel != Color.TRANSPARENT) {
                             setSelectedColor(pxerLayers.get(i).bitmap.getPixel(x, y));
-                            if (dropperCallBack != null){
+                            if (dropperCallBack != null) {
                                 dropperCallBack.onColorDropped(selectedColor);
                             }
                             break;
                         }
                         if (i == pxerLayers.size() - 1) {
-                            if (dropperCallBack != null){
+                            if (dropperCallBack != null) {
                                 dropperCallBack.onColorDropped(Color.TRANSPARENT);
                             }
                         }
@@ -693,6 +698,7 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
                             }
                         }
                     }
+                    setUnrecordedChanges(true);
                     finishAddHistory();
                 }
                 break;
@@ -702,7 +708,8 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
     }
 
     public void finishAddHistory() {
-        if (!(currentHistory.size() <= 0)) {
+        if (!(currentHistory.size() <= 0) && isUnrecordedChanges) {
+            isUnrecordedChanges = false;
             redohistory.get(currentLayer).clear();
             historyIndex.set(currentLayer, historyIndex.get(currentLayer) + 1);
             history.get(currentLayer).add(new PxerHistory(cloneList(currentHistory)));
@@ -850,6 +857,13 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
     @Override
     public void onScaleEnd(ScaleGestureDetector scaleGestureDetector) {
 
+    }
+
+    public void setUnrecordedChanges(boolean unrecordedChanges) {
+        isUnrecordedChanges = unrecordedChanges;
+
+        if (!((DrawingActivity) getContext()).isEdited())
+            ((DrawingActivity) getContext()).setEdited(isUnrecordedChanges);
     }
 
     public enum Mode {

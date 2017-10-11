@@ -23,6 +23,7 @@
             app:titleTextAppearance="@style/TextThemeToolBar">
 
             <TextView
+                android:onClick="onProjectTitleClicked"
                 android:id="@+id/title_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,10 +43,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
 
-        android:layout_marginRight="16dp"
         android:onClick="onToggleToolsPanel"
         android:src="@drawable/ic_mode_edit_24dp"
         app:layout_anchorGravity="bottom|right"
@@ -56,137 +57,14 @@
 
         fab:fab_size="normal" />
 
-    <!--<com.github.clans.fab.FloatingActionButton-->
-    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-    <!--android:layout_marginTop="8dp"-->
-    <!--android:layout_marginLeft="16dp"-->
-
-    <!--android:id="@+id/fab_dropper"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/ic_colorize_24dp"-->
-    <!--fab:fab_colorNormal="?colorAccent"-->
-    <!--fab:fab_colorPressed="?colorAccent"-->
-
-    <!--fab:fab_colorRipple="#66FFFFFF"-->
-    <!--fab:fab_label="Dropper"-->
-    <!--fab:fab_size="mini" />-->
-
-    <!--<com.github.clans.fab.FloatingActionMenu-->
-    <!--android:id="@+id/fabs"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-
-    <!--android:layout_gravity="bottom|right"-->
-    <!--android:layout_marginBottom="16dp"-->
-    <!--android:layout_marginLeft="16dp"-->
-    <!--android:layout_marginRight="16dp"-->
-    <!--app:layout_anchorGravity="bottom|right"-->
-    <!--fab:menu_animationDelayPerItem="50"-->
-
-    <!--fab:menu_backgroundColor="@android:color/transparent"-->
-    <!--fab:menu_buttonSpacing="0dp"-->
-    <!--fab:menu_colorNormal="?colorAccent"-->
-
-    <!--fab:menu_colorPressed="?colorAccent"-->
-    <!--fab:menu_colorRipple="#66FFFFFF"-->
-
-    <!--fab:menu_fab_size="normal"-->
-    <!--fab:menu_icon="@drawable/ic_mode_edit_24dp"-->
-
-    <!--fab:menu_labels_colorNormal="?colorAccent"-->
-    <!--fab:menu_labels_colorPressed="?colorAccent"-->
-    <!--fab:menu_labels_colorRipple="#66FFFFFF"-->
-    <!--fab:menu_labels_cornerRadius="3dp"-->
-    <!--fab:menu_labels_ellipsize="none"-->
-    <!--fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"-->
-    <!--fab:menu_labels_margin="0dp"-->
-    <!--fab:menu_labels_maxLines="-1"-->
-    <!--fab:menu_labels_padding="8dp"-->
-    <!--fab:menu_labels_paddingBottom="4dp"-->
-    <!--fab:menu_labels_paddingLeft="8dp"-->
-    <!--fab:menu_labels_paddingRight="8dp"-->
-
-    <!--fab:menu_labels_paddingTop="4dp"-->
-    <!--fab:menu_labels_position="left"-->
-    <!--fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"-->
-    <!--fab:menu_labels_showShadow="true"-->
-    <!--fab:menu_labels_singleLine="false"-->
-    <!--fab:menu_labels_textColor="#FFFFFF"-->
-    <!--fab:menu_labels_textSize="14sp"-->
-    <!--fab:menu_openDirection="up"-->
-    <!--fab:menu_shadowColor="#66000000"-->
-    <!--fab:menu_showShadow="true">-->
-
-    <!--<com.github.clans.fab.FloatingActionButton-->
-    <!--android:id="@+id/fab_rect"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/ic_square_24dp"-->
-    <!--fab:fab_colorNormal="?colorAccent"-->
-    <!--fab:fab_colorPressed="?colorAccent"-->
-
-    <!--fab:fab_colorRipple="#66FFFFFF"-->
-    <!--fab:fab_label="Rect"-->
-    <!--fab:fab_size="mini" />-->
-
-    <!--<com.github.clans.fab.FloatingActionButton-->
-    <!--android:id="@+id/fab_line"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/ic_line_24dp"-->
-    <!--fab:fab_colorNormal="?colorAccent"-->
-    <!--fab:fab_colorPressed="?colorAccent"-->
-
-    <!--fab:fab_colorRipple="#66FFFFFF"-->
-    <!--fab:fab_label="Line"-->
-    <!--fab:fab_size="mini" />-->
-
-    <!--<com.github.clans.fab.FloatingActionButton-->
-    <!--android:id="@+id/fab_fill"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/ic_fill_24dp"-->
-    <!--fab:fab_colorNormal="?colorAccent"-->
-    <!--fab:fab_colorPressed="?colorAccent"-->
-
-    <!--fab:fab_colorRipple="#66FFFFFF"-->
-    <!--fab:fab_label="Fill"-->
-    <!--fab:fab_size="mini" />-->
-
-    <!--<com.github.clans.fab.FloatingActionButton-->
-    <!--android:id="@+id/fab_eraser"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/ic_eraser_24dp"-->
-    <!--fab:fab_colorNormal="?colorAccent"-->
-    <!--fab:fab_colorPressed="?colorAccent"-->
-
-    <!--fab:fab_colorRipple="#66FFFFFF"-->
-    <!--fab:fab_label="Eraser"-->
-    <!--fab:fab_size="mini" />-->
-
-    <!--<com.github.clans.fab.FloatingActionButton-->
-    <!--android:id="@+id/fab_pen"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/ic_mode_edit_24dp"-->
-    <!--fab:fab_colorNormal="?colorAccent"-->
-    <!--fab:fab_colorPressed="?colorAccent"-->
-
-    <!--fab:fab_colorRipple="#66FFFFFF"-->
-    <!--fab:fab_label="Pen"-->
-    <!--fab:fab_size="mini" />-->
-
-    <!--</com.github.clans.fab.FloatingActionMenu>-->
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
         android:orientation="horizontal">
 
         <com.github.clans.fab.FloatingActionButton
@@ -221,6 +99,18 @@
             fab:fab_colorPressed="@android:color/transparent"
 
             fab:fab_colorRipple="@android:color/transparent"
+            fab:fab_showShadow="true"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_dropper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_colorize_24dp"
+            fab:fab_colorNormal="?colorAccent"
+            fab:fab_colorPressed="?colorAccent"
+
+            fab:fab_colorRipple="#66FFFFFF"
             fab:fab_showShadow="true"
             fab:fab_size="mini" />
 

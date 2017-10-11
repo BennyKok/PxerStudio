@@ -32,8 +32,8 @@
     <string name="unabletodeleteproject">Unable to delete project!</string>
     <string name="ok">ok</string>
     <string name="merge_down">Merge down</string>
-    <string name="clear_current_layer">Clear current layer</string>
-    <string name="remove_current_layer">Remove current layer</string>
+    <string name="clear_current_layer">Clear</string>
+    <string name="remove_current_layer">Remove</string>
     <string name="toggle_visibility">Toggle visibility</string>
     <string name="show_all_layers">Show all layers</string>
     <string name="hide_all_layers">Hide all layers</string>
@@ -56,7 +56,7 @@
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="error_while_loading_project">Error while loading your project</string>
     <string name="no_project_found">No project found</string>
-    <string name="copy_and_paste_layer">Copy and paste layer</string>
+    <string name="duplicate_layer">Duplicate</string>
 
 
 </resources>

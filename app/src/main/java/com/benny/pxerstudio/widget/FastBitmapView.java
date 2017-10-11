@@ -14,6 +14,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.benny.pxerstudio.R;
+import com.benny.pxerstudio.util.Tool;
 
 /**
  * Created by BennyKok on 10/10/2016.
@@ -60,7 +61,7 @@ public class FastBitmapView extends View {
 
     private Path visibilityBg = new Path();
 
-    private float strokeWidth = 8f;
+    private float strokeWidth = 2.5f;
     private float radius = 0f;
 
 
@@ -79,10 +80,12 @@ public class FastBitmapView extends View {
     public void init(){
         accentColor = getContext().getResources().getColor(R.color.colorAccent);
         bgPaint.setStyle(Paint.Style.STROKE);
-        bgPaint.setStrokeWidth(5);
+        bgPaint.setStrokeWidth(Tool.convertDpToPixel(2,getContext()));
         bgPaint.setColor(Color.GRAY);
 
         overlay = new PorterDuffColorFilter(ColorUtils.setAlphaComponent(Color.DKGRAY,100), PorterDuff.Mode.SRC_OVER);
+
+        strokeWidth = Tool.convertDpToPixel(strokeWidth,getContext());
 
         setWillNotDraw(false);
     }
@@ -110,7 +113,7 @@ public class FastBitmapView extends View {
         if (selected)
             paint.setColor(accentColor);
         else
-            paint.setColor(Color.GRAY);
+            paint.setColor(Color.parseColor("#c6c6c6"));
         canvas.drawRoundRect(boundary,radius,radius,paint);
 
         super.onDraw(canvas);

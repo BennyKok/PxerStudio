@@ -19,13 +19,17 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:visibility="invisible"
+        app:cardBackgroundColor="#424242"
+        app:cardElevation="8dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/tools_recycler"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="bottom" />
+            android:layout_gravity="bottom"
+            android:clipToPadding="false"
+            android:paddingBottom="90dp" />
 
     </android.support.v7.widget.CardView>
 
@@ -34,12 +38,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="90dp"
         android:alpha="0"
         android:scaleX="0.85"
         android:scaleY="0.85"
         android:visibility="invisible"
+        app:cardBackgroundColor="#424242"
         app:cardCornerRadius="0dp"
+        app:cardElevation="10dp"
         app:contentPadding="5dp">
 
         <LinearLayout
@@ -54,8 +60,8 @@
                 android:layout_margin="6dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardBackgroundColor="?colorAccent"
-                app:cardElevation="5dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardElevation="0dp"
                 app:contentPaddingBottom="8dp"
                 app:contentPaddingTop="8dp">
 
