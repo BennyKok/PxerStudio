@@ -79,6 +79,8 @@ class DrawingActivity : AppCompatActivity(), FileChooserDialog.FileCallback, Ite
         isEdited = edited
     }
 
+    private lateinit var previousMode: PxerView.Mode
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drawing)
@@ -114,6 +116,8 @@ class DrawingActivity : AppCompatActivity(), FileChooserDialog.FileCallback, Ite
     override fun onColorDropped(newColor: Int) {
         fab_color.setColor(newColor)
         cp.setColor(newColor)
+
+        fab_dropper.callOnClick()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -209,7 +213,28 @@ class DrawingActivity : AppCompatActivity(), FileChooserDialog.FileCallback, Ite
         fab_undo.setOnClickListener { pxerView.undo() }
         fab_redo.setOnClickListener { pxerView.redo() }
         fab_dropper.setOnClickListener {
-            pxerView.mode = PxerView.Mode.Dropper
+            if (pxerView.mode == PxerView.Mode.Dropper){
+                fab_undo.show(true)
+                fab_redo.show(true)
+
+                tools_fab.show(true)
+
+                pxerView.mode = previousMode
+
+                fab_dropper.setImageResource(R.drawable.ic_colorize_24dp)
+            }else{
+                fab_undo.hide(true)
+                fab_redo.hide(true)
+
+                tools_fab.hide(true)
+                if (tools_view.visibility == View.VISIBLE)
+                    tools_fab.callOnClick()
+
+                previousMode = pxerView.mode
+                pxerView.mode = PxerView.Mode.Dropper
+
+                fab_dropper.setImageResource(R.drawable.ic_close_24dp)
+            }
         }
     }
 

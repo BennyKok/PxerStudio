@@ -626,7 +626,7 @@ public class PxerView extends View implements ScaleGestureDetector.OnScaleGestur
                 setUnrecordedChanges(true);
                 break;
             case Dropper:
-                if (event.getAction() == MotionEvent.ACTION_UP)
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
                     break;
                 if (x == downX && downY == y) {
                     for (int i = 0; i < pxerLayers.size(); i++) {
