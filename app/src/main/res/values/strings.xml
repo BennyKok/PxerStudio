@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">PxerStudio</string>
-    <string name="created_by_bennykok"><![CDATA[Created by <a href="http://bennykok.weebly.com/contact.html">BennyKok</a>]]></string>
+    <string name="created_by_bennykok"><![CDATA[Created by <a href="https://bennykok.com/">BennyKok</a>]]></string>
     <string name="get_more_apps"><![CDATA[<a href="https://play.google.com/store/apps/dev?id=9219874075463759288&amp;hl=zh_HK">Get more apps</a>]]></string>
     <string name="join_the_community"><![CDATA[<a href="https://plus.google.com/communities/108794551381643757096">Join the community</a>]]></string>
     <string name="version_code">v1.0.5</string>

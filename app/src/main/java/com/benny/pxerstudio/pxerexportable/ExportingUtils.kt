@@ -2,6 +2,7 @@ package com.benny.pxerstudio.pxerexportable
 
 import android.content.Context
 import android.media.MediaScannerConnection
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
