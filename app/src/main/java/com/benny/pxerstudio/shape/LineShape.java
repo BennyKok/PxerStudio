@@ -3,7 +3,7 @@ package com.benny.pxerstudio.shape;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.v4.graphics.ColorUtils;
+import androidx.core.graphics.ColorUtils;
 
 import com.benny.pxerstudio.widget.PxerView;
 
@@ -39,7 +39,7 @@ public class LineShape extends BaseShape {
         Bitmap layerToDraw = pxerView.getPxerLayers().get(pxerView.getCurrentLayer()).bitmap;
         for (int i = 0; i < previousPxer.size(); i++) {
             PxerView.Pxer pxer = previousPxer.get(i);
-            layerToDraw.setPixel(pxer.x, pxer.y, pxer.color);
+            layerToDraw.setPixel(pxer.getX(), pxer.getY(), pxer.getColor());
         }
         previousPxer.clear();
 

@@ -2,7 +2,6 @@ package com.benny.pxerstudio.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,9 +9,8 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.v4.graphics.ColorUtils;
+
+import androidx.core.graphics.ColorUtils;
 import android.util.AttributeSet;
 import android.view.View;
 

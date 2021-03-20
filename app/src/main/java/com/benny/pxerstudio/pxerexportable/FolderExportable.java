@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class FolderExportable extends Exportable{
     @Override
     public void runExport(final Context context,final PxerView pxerView) {
-        ExportingUtils.getInstance().showExportingDialog(context, pxerView, new ExportingUtils.OnExportConfirmedListenser() {
+        ExportingUtils.INSTANCE.showExportingDialog(context, pxerView, new ExportingUtils.OnExportConfirmedListenser() {
             @Override
             public void OnExportConfirmed(String fileName, int width, int height) {
                 Paint paint = new Paint();
@@ -35,12 +35,12 @@ public class FolderExportable extends Exportable{
                     final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                     canvas.setBitmap(bitmap);
                     canvas.drawBitmap(pxerView.getPxerLayers().get(i).bitmap, null, new Rect(0, 0, width, height), paint);
-                    final File file = new File(ExportingUtils.getInstance().checkAndCreateProjectDirs(fileName),fileName + "_Frame_" + String.valueOf(i+1) + ".png");
+                    final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(fileName,context),fileName + "_Frame_" + String.valueOf(i+1) + ".png");
                     pngs.add(file);
                     bitmaps.add(bitmap);
                 }
 
-                ExportingUtils.getInstance().showProgressDialog(context);
+                ExportingUtils.INSTANCE.showProgressDialog(context);
                 new AsyncTask<Void, Integer, Void>() {
                     @Override
                     protected Void doInBackground(Void... params) {
@@ -61,17 +61,17 @@ public class FolderExportable extends Exportable{
 
                     @Override
                     protected void onProgressUpdate(Integer... values) {
-                        if (ExportingUtils.getInstance().currentProgressDialog != null) {
-                            ExportingUtils.getInstance().currentProgressDialog.setTitle("Working on frame " + String.valueOf(values[0]+1));
+                        if (ExportingUtils.INSTANCE.currentProgressDialog != null) {
+                            ExportingUtils.INSTANCE.currentProgressDialog.setTitle("Working on frame " + String.valueOf(values[0]+1));
                         }
                         super.onProgressUpdate(values);
                     }
 
                     @Override
                     protected void onPostExecute(Void aVoid) {
-                        ExportingUtils.getInstance().dismissAllDialogs();
-                        ExportingUtils.getInstance().toastAndFinishExport(context,null);
-                        ExportingUtils.getInstance().scanAlotsOfFile(context,pngs);
+                        ExportingUtils.INSTANCE.dismissAllDialogs();
+                        ExportingUtils.INSTANCE.toastAndFinishExport(context,null);
+                        ExportingUtils.INSTANCE.scanAlotsOfFile(context,pngs);
                         Tool.freeMemory();
                         super.onPostExecute(aVoid);
                     }

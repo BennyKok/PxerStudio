@@ -21,7 +21,7 @@ import java.io.OutputStream;
 public class PngExportable extends Exportable{
     @Override
     public void runExport(final Context context, final PxerView pxerView) {
-        ExportingUtils.getInstance().showExportingDialog(context, pxerView, new ExportingUtils.OnExportConfirmedListenser() {
+        ExportingUtils.INSTANCE.showExportingDialog(context, pxerView, new ExportingUtils.OnExportConfirmedListenser() {
             @Override
             public void OnExportConfirmed(String fileName, int width, int height) {
                 Paint paint = new Paint();
@@ -29,12 +29,12 @@ public class PngExportable extends Exportable{
                 Canvas canvas = new Canvas(bitmap);
                 for (int i = 0; i < pxerView.getPxerLayers().size(); i++) {
                     if (pxerView.getPxerLayers().get(i).visible)
-                        canvas.drawBitmap(pxerView.getPxerLayers().get(i).bitmap, null, new Rect(0, 0, width, height), paint);
+                        canvas.drawBitmap(pxerView.getPxerLayers().get(i).bitmap, null, new Rect(0, 0, width, height), null);
                 }
 
-                final File file = new File(ExportingUtils.getInstance().checkAndCreateProjectDirs(),fileName + ".png");
+                final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context),fileName + ".png");
 
-                ExportingUtils.getInstance().showProgressDialog(context);
+                ExportingUtils.INSTANCE.showProgressDialog(context);
 
                 new AsyncTask<Void, Void, Void>() {
                     @Override
@@ -53,8 +53,8 @@ public class PngExportable extends Exportable{
 
                     @Override
                     protected void onPostExecute(Void aVoid) {
-                        ExportingUtils.getInstance().dismissAllDialogs();
-                        ExportingUtils.getInstance().toastAndFinishExport(context,file.toString());
+                        ExportingUtils.INSTANCE.dismissAllDialogs();
+                        ExportingUtils.INSTANCE.toastAndFinishExport(context,file.toString());
                         Tool.freeMemory();
                         super.onPostExecute(aVoid);
                     }

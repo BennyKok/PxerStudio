@@ -10,13 +10,12 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.SeekBar;
 
 /**
  * Created by BennyKok on 10/15/2016.
  */
 
-public class AlphaSeekBar extends SeekBar {
+public class AlphaSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
 
     private Bitmap hueBitmap;
 

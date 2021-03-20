@@ -21,7 +21,7 @@ import java.io.OutputStream;
 public class AtlasExportable extends Exportable {
     @Override
     public void runExport(final Context context, final PxerView pxerView) {
-        ExportingUtils.getInstance().showExportingDialog(context,2048, pxerView, new ExportingUtils.OnExportConfirmedListenser() {
+        ExportingUtils.INSTANCE.showExportingDialog(context,2048, pxerView, new ExportingUtils.OnExportConfirmedListenser() {
             @Override
             public void OnExportConfirmed(String fileName, int width, int height) {
                 Paint paint = new Paint();
@@ -43,9 +43,9 @@ public class AtlasExportable extends Exportable {
                     }
                 }
 
-                final File file = new File(ExportingUtils.getInstance().checkAndCreateProjectDirs(), fileName + "_Atlas" + ".png");
+                final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context), fileName + "_Atlas" + ".png");
 
-                ExportingUtils.getInstance().showProgressDialog(context);
+                ExportingUtils.INSTANCE.showProgressDialog(context);
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... params) {
@@ -63,8 +63,8 @@ public class AtlasExportable extends Exportable {
 
                     @Override
                     protected void onPostExecute(Void aVoid) {
-                        ExportingUtils.getInstance().dismissAllDialogs();
-                        ExportingUtils.getInstance().toastAndFinishExport(context, file.toString());
+                        ExportingUtils.INSTANCE.dismissAllDialogs();
+                        ExportingUtils.INSTANCE.toastAndFinishExport(context, file.toString());
                         Tool.freeMemory();
                         super.onPostExecute(aVoid);
                     }

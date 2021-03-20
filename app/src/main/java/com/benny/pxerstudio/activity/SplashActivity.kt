@@ -4,14 +4,13 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Handler
-import android.support.v4.app.ActivityCompat
-import android.support.v7.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.appcompat.app.AppCompatActivity
 
 import com.benny.pxerstudio.R
-import com.benny.pxerstudio.util.AdHelper
 import com.benny.pxerstudio.util.Tool
 
 class SplashActivity : AppCompatActivity() {
@@ -22,10 +21,10 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(com.benny.pxerstudio.R.layout.activity_splash)
 
-        (findViewById(R.id.iv) as View).animate().alpha(1f).scaleY(1.1f).scaleX(1.1f).setDuration(2000L).interpolator = AccelerateDecelerateInterpolator()
-        (findViewById(R.id.tv) as View).animate().alpha(1f).scaleY(1.1f).scaleX(1.1f).setDuration(2000L).interpolator = AccelerateDecelerateInterpolator()
+        (findViewById<View>(R.id.iv)).animate().alpha(1f).scaleY(1.1f).scaleX(1.1f).setDuration(2000L).interpolator = AccelerateDecelerateInterpolator()
+        (findViewById<View>(R.id.tv)).animate().alpha(1f).scaleY(1.1f).scaleX(1.1f).setDuration(2000L).interpolator = AccelerateDecelerateInterpolator()
 
-        AdHelper.checkAndInitAd(this)
+//        AdHelper.checkAndInitAd(this)
 
         handler = Handler()
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)

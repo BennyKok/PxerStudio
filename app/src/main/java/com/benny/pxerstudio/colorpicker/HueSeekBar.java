@@ -15,7 +15,7 @@ import android.widget.SeekBar;
  * Created by BennyKok on 10/15/2016.
  */
 
-public class HueSeekBar extends SeekBar {
+public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
 
     private Bitmap hueBitmap;
 

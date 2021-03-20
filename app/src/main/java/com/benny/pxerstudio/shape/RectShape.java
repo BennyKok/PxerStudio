@@ -1,7 +1,7 @@
 package com.benny.pxerstudio.shape;
 
 import android.graphics.Bitmap;
-import android.support.v4.graphics.ColorUtils;
+import androidx.core.graphics.ColorUtils;
 
 import com.benny.pxerstudio.widget.PxerView;
 
@@ -22,7 +22,7 @@ public class RectShape extends BaseShape{
 
         for (int i = 0; i < previousPxer.size(); i++) {
             PxerView.Pxer pxer = previousPxer.get(i);
-            layerToDraw.setPixel(pxer.x,pxer.y,pxer.color);
+            layerToDraw.setPixel(pxer.getX(),pxer.getY(),pxer.getColor());
         }
 
         previousPxer.clear();

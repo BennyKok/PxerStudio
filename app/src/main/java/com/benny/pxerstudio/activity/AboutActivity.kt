@@ -1,10 +1,11 @@
 package com.benny.pxerstudio.activity
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
 import com.benny.pxerstudio.R
 
@@ -20,19 +21,19 @@ class AboutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
 
-        val tv = findViewById(R.id.tv) as TextView
+        val tv = findViewById<TextView>(R.id.tv)
         tv.text = Html.fromHtml(getString(R.string.created_by_bennykok))
         tv.movementMethod = LinkMovementMethod.getInstance()
 
-        val tv1 = findViewById(R.id.tv1) as TextView
+        val tv1 = findViewById<TextView>(R.id.tv1)
         tv1.text = Html.fromHtml(getString(R.string.get_more_apps))
         tv1.movementMethod = LinkMovementMethod.getInstance()
 
-        val tv3 = findViewById(R.id.tv3) as TextView
+        val tv3 = findViewById<TextView>(R.id.tv3)
         tv3.text = Html.fromHtml(getString(R.string.join_the_community))
         tv3.movementMethod = LinkMovementMethod.getInstance()
 
-        val tv2 = findViewById(R.id.libinfo) as TextView
+        val tv2 = findViewById<TextView>(R.id.libinfo)
         val sb = StringBuilder()
 
         with(sb) {
@@ -81,7 +82,7 @@ class AboutActivity : AppCompatActivity() {
 
         tv2.setOnClickListener { dialog.show() }
 
-        findViewById(R.id.iv).setOnClickListener { v ->
+        findViewById<ImageView>(R.id.iv).setOnClickListener { v ->
             if (v.animation == null || v.animation != null && v.animation.hasEnded())
                 v.animate().scaleX(1.1f).scaleY(1.1f).rotationBy(-20f).withEndAction { v.animate().scaleX(1f).scaleY(1f).rotation(0f) }
         }
