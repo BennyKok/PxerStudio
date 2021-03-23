@@ -3,15 +3,14 @@ package com.benny.pxerstudio.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.benny.pxerstudio.R
+import com.benny.pxerstudio.databinding.ActivityProjectManagerBinding
+import com.benny.pxerstudio.databinding.ItemProjectBinding
 import com.benny.pxerstudio.pxerexportable.ExportingUtils
 import com.benny.pxerstudio.util.Tool
 import com.mikepenz.fastadapter.FastAdapter
@@ -27,14 +26,13 @@ class ProjectManagerActivity : AppCompatActivity() {
     private var projects = ArrayList<File>()
     private lateinit var fa: FastAdapter<Item>
     private lateinit var ia: ItemAdapter<Item>
+    private lateinit var binding: ActivityProjectManagerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_project_manager)
-        val toolbar = findViewById<Toolbar>(R.id.projectManager_toolbar)
-        setSupportActionBar(toolbar)
-
-        val contentRv = findViewById<RecyclerView>(R.id.cM_recyclerView)
+        binding = ActivityProjectManagerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.projectManagerToolbar)
 
         //Comment this line out and the if statement if you forked this repo or downloaded the code
 /*
@@ -78,12 +76,13 @@ class ProjectManagerActivity : AppCompatActivity() {
         }
 */
 
-        contentRv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.projectManagerCM.cMRecyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         ia = ItemAdapter()
         fa = FastAdapter.with(ia)
 
         fa.getSelectExtension().isSelectable = false
-        contentRv.adapter = fa
+        binding.projectManagerCM.cMRecyclerView.adapter = fa
 
         projects.clear()
 
@@ -95,7 +94,7 @@ class ProjectManagerActivity : AppCompatActivity() {
                 projects.add(temp[i])
             }
             if (projects.size >= 1) {
-                findViewById<TextView>(R.id.cM_noProjectFound).visibility = View.GONE
+                binding.projectManagerCM.cMNoProjectFound.visibility = View.GONE
 
                 for (i in projects.indices) {
                     val mName = projects[i].name.substring(0, projects[i].name.lastIndexOf('.'))
@@ -151,7 +150,7 @@ class ProjectManagerActivity : AppCompatActivity() {
                                         projects.removeAt(position)
 
                                         if (projects.size < 1)
-                                            findViewById<TextView>(R.id.cM_noProjectFound).visibility =
+                                            binding.projectManagerCM.cMNoProjectFound.visibility =
                                                 View.VISIBLE
 
                                         val newIntent = Intent()
@@ -185,8 +184,7 @@ class ProjectManagerActivity : AppCompatActivity() {
         }
     }
 
-    class Item(var title: String, var path: String) :
-        AbstractItem<Item.ViewHolder>() {
+    class Item(var title: String, var path: String) : AbstractItem<Item.ViewHolder>() {
 
         override val type: Int
             get() = 0
@@ -199,14 +197,11 @@ class ProjectManagerActivity : AppCompatActivity() {
         }
 
         class ViewHolder internal constructor(view: View) : FastAdapter.ViewHolder<Item>(view) {
-            private var projectTitle: TextView =
-                view.findViewById(R.id.item_project_title) as TextView
-            private var projectPath: TextView =
-                view.findViewById(R.id.item_project_path) as TextView
+            private var itemProjectBinding = ItemProjectBinding.bind(view)
 
             override fun bindView(item: Item, payloads: List<Any>) {
-                projectTitle.text = item.title
-                projectPath.text = item.path
+                itemProjectBinding.itemProjectTitle.text = item.title
+                itemProjectBinding.itemProjectPath.text = item.path
             }
 
             override fun unbindView(item: Item) {

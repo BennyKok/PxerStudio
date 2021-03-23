@@ -12,14 +12,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.SeekBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
-import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +26,7 @@ import com.afollestad.materialdialogs.files.fileChooser
 import com.benny.pxerstudio.R
 import com.benny.pxerstudio.colorpicker.ColorPicker
 import com.benny.pxerstudio.databinding.ActivityDrawingBinding
+import com.benny.pxerstudio.databinding.DialogActivityDrawingNewprojectBinding
 import com.benny.pxerstudio.pxerexportable.AtlasExportable
 import com.benny.pxerstudio.pxerexportable.FolderExportable
 import com.benny.pxerstudio.pxerexportable.GifExportable
@@ -173,7 +170,8 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
     private fun setupControl() {
         binding!!.drawingToolsCardView.post {
-            binding!!.drawingToolsCardView.translationX = (binding!!.drawingToolsCardView.width).toFloat()
+            binding!!.drawingToolsCardView.translationX =
+                (binding!!.drawingToolsCardView.width).toFloat()
         }
 
         toolsItemAdapter = ItemAdapter()
@@ -264,9 +262,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     }
 
     private fun setUpLayersView() {
-        val layersBtn = findViewById<CardView>(R.id.drawing_layer_add_cardView)
-
-        layersBtn.setOnClickListener {
+        binding!!.drawingLayerAddCardView.setOnClickListener {
             binding!!.drawingPxerView.addLayer()
             layerItemAdapter.add(max(binding!!.drawingPxerView.currentLayer, 0), LayerThumbItem())
             layerAdapter.getSelectExtension().deselect()
@@ -309,7 +305,8 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                     _item.pressedTime = 0
 
             if (onlyShowSelected) {
-                val layer = binding!!.drawingPxerView.pxerLayers[binding!!.drawingPxerView.currentLayer]
+                val layer =
+                    binding!!.drawingPxerView.pxerLayers[binding!!.drawingPxerView.currentLayer]
                 layer!!.visible = false
                 binding!!.drawingPxerView.invalidate()
 
@@ -317,7 +314,8 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             }
             binding!!.drawingPxerView.currentLayer = position
             if (onlyShowSelected) {
-                val layer = binding!!.drawingPxerView.pxerLayers[binding!!.drawingPxerView.currentLayer]
+                val layer =
+                    binding!!.drawingPxerView.pxerLayers[binding!!.drawingPxerView.currentLayer]
                 layer!!.visible = true
                 binding!!.drawingPxerView.invalidate()
 
@@ -390,7 +388,8 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 onlyShowSelected = true
                 binding!!.drawingPxerView.visibilityAllLayer(false)
 
-                val layer2 = binding!!.drawingPxerView.pxerLayers[binding!!.drawingPxerView.currentLayer]
+                val layer2 =
+                    binding!!.drawingPxerView.pxerLayers[binding!!.drawingPxerView.currentLayer]
                 layer2!!.visible = true
                 binding!!.drawingPxerView.invalidate()
 
@@ -437,7 +436,8 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 binding!!.drawingPxerView.showGrid = !binding!!.drawingPxerView.showGrid
             }
             R.id.layers -> {
-                binding!!.drawingLayerCardView.pivotX = (binding!!.drawingLayerCardView.width / 2).toFloat()
+                binding!!.drawingLayerCardView.pivotX =
+                    (binding!!.drawingLayerCardView.width / 2).toFloat()
                 binding!!.drawingLayerCardView.pivotY = 0f
                 if (binding!!.drawingLayerCardView.visibility == View.VISIBLE) {
                     binding!!.drawingLayerCardView
@@ -480,14 +480,19 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                         binding!!.drawingPxerView.removeCurrentLayer()
 
                         layerAdapter.getSelectExtension().deselect()
-                        layerAdapter.getSelectExtension().select(binding!!.drawingPxerView.currentLayer)
-                        layerItemAdapter.getAdapterItem(binding!!.drawingPxerView.currentLayer).pressed()
+                        layerAdapter.getSelectExtension()
+                            .select(binding!!.drawingPxerView.currentLayer)
+                        layerItemAdapter.getAdapterItem(binding!!.drawingPxerView.currentLayer)
+                            .pressed()
                         layerAdapter.notifyAdapterDataSetChanged()
                     }.show()
             }
             R.id.copypastelayer -> {
                 binding!!.drawingPxerView.copyAndPasteCurrentLayer()
-                layerItemAdapter.add(max(binding!!.drawingPxerView.currentLayer, 0), LayerThumbItem())
+                layerItemAdapter.add(
+                    max(binding!!.drawingPxerView.currentLayer, 0),
+                    LayerThumbItem()
+                )
                 layerAdapter.getSelectExtension().deselect()
                 layerAdapter.getSelectExtension().select(binding!!.drawingPxerView.currentLayer)
                 layerItemAdapter.getAdapterItem(binding!!.drawingPxerView.currentLayer).pressed()
@@ -512,7 +517,8 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             R.id.about -> startActivity(Intent(this@DrawingActivity, AboutActivity::class.java))
             R.id.tvisibility -> run {
                 if (onlyShowSelected) return@run
-                val layer = binding!!.drawingPxerView.pxerLayers[binding!!.drawingPxerView.currentLayer]
+                val layer =
+                    binding!!.drawingPxerView.pxerLayers[binding!!.drawingPxerView.currentLayer]
                 layer!!.visible = !layer.visible
                 binding!!.drawingPxerView.invalidate()
                 layerAdapter.notifyAdapterItemChanged(binding!!.drawingPxerView.currentLayer)
@@ -531,8 +537,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                     .positiveButton {
                         binding!!.drawingPxerView.mergeDownLayer()
                         layerItemAdapter.remove(binding!!.drawingPxerView.currentLayer + 1)
-                        layerAdapter.getSelectExtension().select(binding!!.drawingPxerView.currentLayer)
-                        layerItemAdapter.getAdapterItem(binding!!.drawingPxerView.currentLayer).pressed()
+                        layerAdapter.getSelectExtension()
+                            .select(binding!!.drawingPxerView.currentLayer)
+                        layerItemAdapter.getAdapterItem(binding!!.drawingPxerView.currentLayer)
+                            .pressed()
                     }.show()
             }
         }
@@ -564,15 +572,15 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     }
 
     private fun createNewProject() {
-        val l = layoutInflater.inflate(
-            R.layout.dialog_activity_drawing_newproject,
-            null
-        ) as ConstraintLayout
-        val projectNameEdit = l.findViewById(R.id.dialog_drawing_np_name_edit) as EditText
-        val widthSeekBar = l.findViewById(R.id.dialog_drawing_np_width_seekBar) as SeekBar
-        val widthText = l.findViewById(R.id.dialog_drawing_np_width) as TextView
-        val heightSeekBar = l.findViewById(R.id.dialog_drawing_np_height_seekBar) as SeekBar
-        val heightText = l.findViewById(R.id.dialog_drawing_np_height) as TextView
+        val newprojectBinding = DialogActivityDrawingNewprojectBinding.inflate(layoutInflater)
+        val layoutRoot = newprojectBinding.root
+
+        val projectNameEdit = newprojectBinding.dialogDrawingNpNameEdit
+        val widthSeekBar = newprojectBinding.dialogDrawingNpWidthSeekBar
+        val widthText = newprojectBinding.dialogDrawingNpWidth
+        val heightSeekBar = newprojectBinding.dialogDrawingNpHeightSeekBar
+        val heightText = newprojectBinding.dialogDrawingNpHeight
+
         widthSeekBar.max = 127
         widthSeekBar.progress = 39
         widthText.text = "Width : " + 40
@@ -600,7 +608,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
         MaterialDialog(this)
 //            .typeface(Tool.myType, Tool.myType)
-            .customView(view = l)
+            .customView(view = layoutRoot)
             .title(R.string.newproject)
             .positiveButton(R.string.create)
             .negativeButton(R.string.cancel)

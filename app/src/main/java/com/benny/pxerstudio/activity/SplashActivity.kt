@@ -5,25 +5,35 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
-import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.benny.pxerstudio.R
+import com.benny.pxerstudio.databinding.ActivitySplashBinding
 import com.benny.pxerstudio.util.Tool
 
 class SplashActivity : AppCompatActivity() {
 
     private var handler: Handler? = null
+    lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        (findViewById<View>(R.id.splash_imageView)).animate().alpha(1f).scaleY(1.1f).scaleX(1.1f)
-            .setDuration(2000L).interpolator = AccelerateDecelerateInterpolator()
-        (findViewById<View>(R.id.splash_textView)).animate().alpha(1f).scaleY(1.1f).scaleX(1.1f)
-            .setDuration(2000L).interpolator = AccelerateDecelerateInterpolator()
+        binding.splashImageView.animate()
+            .alpha(1f)
+            .scaleY(1.1f)
+            .scaleX(1.1f)
+            .setDuration(2000L)
+            .interpolator = AccelerateDecelerateInterpolator()
+
+        binding.splashTextView.animate()
+            .alpha(1f)
+            .scaleY(1.1f)
+            .scaleX(1.1f)
+            .setDuration(2000L)
+            .interpolator = AccelerateDecelerateInterpolator()
 
 //        AdHelper.checkAndInitAd(this)
 

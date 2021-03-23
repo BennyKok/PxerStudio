@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
-import com.benny.pxerstudio.R;
+import com.benny.pxerstudio.databinding.ColorpickerPopupBinding;
 import com.benny.pxerstudio.util.Tool;
 
 /**
@@ -18,19 +18,21 @@ import com.benny.pxerstudio.util.Tool;
 
 public class ColorPicker {
     private final PopupWindow popupWindow;
-    private final SatValView satValView;
+    private final ColorpickerPopupBinding binding;
 
     public ColorPicker(Context c, int startColor, SatValView.OnColorChangeListener listener) {
-        View contentView = LayoutInflater.from(c).inflate(R.layout.colorpicker_popup, null);
+        binding = ColorpickerPopupBinding.inflate(LayoutInflater.from(c));
+        View contentView = binding.getRoot();
         contentView.setLayoutParams(
                 new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT));
-        satValView = (SatValView) contentView.findViewById(R.id.colorpicker_satValView);
-        satValView.withHueBar((HueSeekBar) contentView.findViewById(R.id.colorpicker_hueSeekBar));
-        satValView.withAlphaBar((AlphaSeekBar) contentView.findViewById(R.id.colorpicker_alphaSeekBar));
-        satValView.setListener(listener);
-        satValView.setColor(startColor);
+
+        binding.colorpickerSatValView.withHueBar(binding.colorpickerHueSeekBar);
+        binding.colorpickerSatValView.withAlphaBar(binding.colorpickerAlphaSeekBar);
+        binding.colorpickerSatValView.setListener(listener);
+        binding.colorpickerSatValView.setColor(startColor);
+
         popupWindow = new PopupWindow(contentView);
         popupWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#424242")));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -49,7 +51,7 @@ public class ColorPicker {
     }
 
     public void setColor(int color) {
-        satValView.setColor(color);
+        binding.colorpickerSatValView.setColor(color);
     }
 
     public void onConfigChanges() {

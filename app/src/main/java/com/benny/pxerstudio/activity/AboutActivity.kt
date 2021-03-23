@@ -3,12 +3,9 @@ package com.benny.pxerstudio.activity
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-
 import com.benny.pxerstudio.R
-
+import com.benny.pxerstudio.databinding.ActivityAboutBinding
 import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20
 import de.psdev.licensesdialog.licenses.MITLicense
@@ -16,26 +13,23 @@ import de.psdev.licensesdialog.model.Notice
 import de.psdev.licensesdialog.model.Notices
 
 class AboutActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityAboutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about)
+        binding = ActivityAboutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val aboutCreator = findViewById<TextView>(R.id.about_creator)
-        aboutCreator.text = Html.fromHtml(getString(R.string.created_by_bennykok))
-        aboutCreator.movementMethod = LinkMovementMethod.getInstance()
+        binding.aboutCreator.text = Html.fromHtml(getString(R.string.created_by_bennykok))
+        binding.aboutCreator.movementMethod = LinkMovementMethod.getInstance()
 
-        val aboutMoreApps = findViewById<TextView>(R.id.about_moreApps)
-        aboutMoreApps.text = Html.fromHtml(getString(R.string.get_more_apps))
-        aboutMoreApps.movementMethod = LinkMovementMethod.getInstance()
+        binding.aboutMoreApps.text = Html.fromHtml(getString(R.string.get_more_apps))
+        binding.aboutMoreApps.movementMethod = LinkMovementMethod.getInstance()
 
-        val aboutGplus = findViewById<TextView>(R.id.about_gplus)
-        aboutGplus.text = Html.fromHtml(getString(R.string.join_the_community))
-        aboutGplus.movementMethod = LinkMovementMethod.getInstance()
+        binding.aboutGplus.text = Html.fromHtml(getString(R.string.join_the_community))
+        binding.aboutGplus.movementMethod = LinkMovementMethod.getInstance()
 
-        val libraryInfo = findViewById<TextView>(R.id.about_libinfo)
         val sb = StringBuilder()
-
         with(sb) {
             append(getString(R.string.brough_to_you_by))
             append("<br>")
@@ -66,8 +60,8 @@ class AboutActivity : AppCompatActivity() {
             append("<br>")
         }
 
-        libraryInfo.movementMethod = LinkMovementMethod.getInstance()
-        libraryInfo.text = Html.fromHtml("$sb")
+        binding.aboutLibinfo.movementMethod = LinkMovementMethod.getInstance()
+        binding.aboutLibinfo.text = Html.fromHtml("$sb")
 
         val notices = Notices()
         notices.addNotice(
@@ -109,9 +103,9 @@ class AboutActivity : AppCompatActivity() {
         builder.setTitle(getString(R.string.opensource_library))
         val dialog = builder.build()
 
-        libraryInfo.setOnClickListener { dialog.show() }
+        binding.aboutLibinfo.setOnClickListener { dialog.show() }
 
-        findViewById<ImageView>(R.id.about_app_icon).setOnClickListener { v ->
+        binding.aboutAppIcon.setOnClickListener { v ->
             if (v.animation == null || v.animation != null && v.animation.hasEnded())
                 v.animate()
                     .scaleX(1.1f)
