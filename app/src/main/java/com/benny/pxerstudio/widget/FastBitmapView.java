@@ -90,7 +90,7 @@ public class FastBitmapView extends View {
 
         strokeWidth = Tool.convertDpToPixel(strokeWidth, getContext());
 
-        invisibleBitmap = Tool.drawableToBitmap(getResources().getDrawable(R.drawable.ic_visibility_off_24dp));
+        invisibleBitmap = Tool.drawableToBitmap(getResources().getDrawable(R.drawable.ic_visibility_off));
 
         setWillNotDraw(false);
     }

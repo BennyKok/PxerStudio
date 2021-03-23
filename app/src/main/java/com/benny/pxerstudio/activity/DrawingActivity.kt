@@ -188,33 +188,33 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         toolsAdapter.onClickListener = { view, adapter, item, position ->
             binding!!.toolsFab.setImageResource(item.icon)
             when (item.icon) {
-                R.drawable.ic_square_24dp -> {
+                R.drawable.ic_check_box_outline_blank -> {
                     binding!!.pxerView.mode = PxerView.Mode.ShapeTool
                     binding!!.pxerView.shapeTool = rectShapeFactory
                 }
-                R.drawable.ic_line_24dp -> {
+                R.drawable.ic_remove -> {
                     binding!!.pxerView.mode = PxerView.Mode.ShapeTool
                     binding!!.pxerView.shapeTool = lineShapeFactory
                 }
-                R.drawable.ic_fill_24dp -> {
+                R.drawable.ic_format_color_fill -> {
                     binding!!.pxerView.mode = PxerView.Mode.Fill
                 }
-                R.drawable.ic_eraser_24dp -> {
+                R.drawable.ic_eraser -> {
                     binding!!.pxerView.mode = PxerView.Mode.ShapeTool
                     binding!!.pxerView.shapeTool = eraserShapeFactory
                 }
-                R.drawable.ic_mode_edit_24dp -> {
+                R.drawable.ic_edit -> {
                     binding!!.pxerView.mode = PxerView.Mode.Normal
                 }
             }
             false
         }
         with(toolsItemAdapter) {
-            add(ToolItem(R.drawable.ic_square_24dp))
-            add(ToolItem(R.drawable.ic_line_24dp))
-            add(ToolItem(R.drawable.ic_fill_24dp))
-            add(ToolItem(R.drawable.ic_eraser_24dp))
-            add(ToolItem(R.drawable.ic_mode_edit_24dp))
+            add(ToolItem(R.drawable.ic_check_box_outline_blank))
+            add(ToolItem(R.drawable.ic_remove))
+            add(ToolItem(R.drawable.ic_format_color_fill))
+            add(ToolItem(R.drawable.ic_eraser))
+            add(ToolItem(R.drawable.ic_edit))
         }
         toolsItemAdapter.adapterItems.reverse()
         toolsAdapter.getSelectExtension().select(0)
@@ -241,7 +241,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
                 binding!!.pxerView.mode = previousMode
 
-                binding!!.fabDropper.setImageResource(R.drawable.ic_colorize_24dp)
+                binding!!.fabDropper.setImageResource(R.drawable.ic_colorize)
             } else {
                 binding!!.fabUndo.hide(true)
                 binding!!.fabRedo.hide(true)
@@ -253,7 +253,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 previousMode = binding!!.pxerView.mode
                 binding!!.pxerView.mode = PxerView.Mode.Dropper
 
-                binding!!.fabDropper.setImageResource(R.drawable.ic_close_24dp)
+                binding!!.fabDropper.setImageResource(R.drawable.ic_close)
             }
         }
     }
@@ -426,9 +426,9 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             }
             R.id.gridonoff -> {
                 if (binding!!.pxerView.showGrid)
-                    item.setIcon(R.drawable.ic_grid_on_24dp)
+                    item.setIcon(R.drawable.ic_grid_on)
                 else
-                    item.setIcon(R.drawable.ic_grid_off_24dp)
+                    item.setIcon(R.drawable.ic_grid_off)
                 binding!!.pxerView.showGrid = !binding!!.pxerView.showGrid
             }
             R.id.layers -> {

@@ -105,7 +105,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_add_24dp" />
+                        android:src="@drawable/ic_add" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -129,7 +129,7 @@
         android:layout_marginRight="6dp"
         android:layout_marginBottom="6dp"
         android:onClick="onToggleToolsPanel"
-        android:src="@drawable/ic_mode_edit_24dp"
+        android:src="@drawable/ic_edit"
         app:layout_anchorGravity="bottom|right"
         fab:fab_colorNormal="?colorAccent"
         fab:fab_colorPressed="?colorAccent"
@@ -149,7 +149,7 @@
             android:id="@+id/fab_undo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_undo_24dp"
+            android:src="@drawable/ic_undo"
             fab:fab_colorNormal="?colorAccent"
             fab:fab_colorPressed="?colorAccent"
             fab:fab_colorRipple="#66FFFFFF"
@@ -160,7 +160,7 @@
             android:id="@+id/fab_redo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_redo_24dp"
+            android:src="@drawable/ic_redo"
             fab:fab_colorNormal="?colorAccent"
             fab:fab_colorPressed="?colorAccent"
             fab:fab_colorRipple="#66FFFFFF"
@@ -181,7 +181,7 @@
             android:id="@+id/fab_dropper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_colorize_24dp"
+            android:src="@drawable/ic_colorize"
             fab:fab_colorNormal="?colorAccent"
             fab:fab_colorPressed="?colorAccent"
             fab:fab_colorRipple="#66FFFFFF"

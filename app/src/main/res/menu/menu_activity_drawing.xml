@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/gridonoff"
-        android:icon="@drawable/ic_grid_on_24dp"
+        android:icon="@drawable/ic_grid_on"
         android:title="@string/grid_on_off"
         app:showAsAction="always" />
     <item
         android:id="@+id/resetvp"
-        android:icon="@drawable/ic_center_focus_weak_24dp"
+        android:icon="@drawable/ic_center_focus_weak"
         android:title="@string/reset_view_port"
         app:showAsAction="always" />
     <item
         android:id="@+id/layers"
-        android:icon="@drawable/ic_layers_24dp"
+        android:icon="@drawable/ic_layers"
         android:title="@string/layers"
         app:showAsAction="always" />
 
