@@ -66,7 +66,7 @@ class AboutActivity : AppCompatActivity() {
         }
 
         tv2.movementMethod = LinkMovementMethod.getInstance()
-        tv2.text = Html.fromHtml(sb.toString())
+        tv2.text = Html.fromHtml("$sb")
 
         val notices = Notices()
         notices.addNotice(

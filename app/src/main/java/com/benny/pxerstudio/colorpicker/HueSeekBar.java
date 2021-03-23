@@ -10,11 +10,13 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
+import androidx.appcompat.widget.AppCompatSeekBar;
+
 /**
  * Created by BennyKok on 10/15/2016.
  */
 
-public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
+public class HueSeekBar extends AppCompatSeekBar {
 
     private final Paint thumbPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Bitmap hueBitmap;

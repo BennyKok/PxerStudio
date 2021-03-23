@@ -41,11 +41,6 @@ public class BorderFab extends FloatingActionButton {
         init();
     }
 
-    public BorderFab(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
-    }
-
     public void setColor(int color) {
         this.color = color;
         invalidate();

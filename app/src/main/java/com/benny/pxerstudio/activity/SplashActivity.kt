@@ -18,7 +18,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.benny.pxerstudio.R.layout.activity_splash)
+        setContentView(R.layout.activity_splash)
 
         (findViewById<View>(R.id.iv)).animate().alpha(1f).scaleY(1.1f).scaleX(1.1f)
             .setDuration(2000L).interpolator = AccelerateDecelerateInterpolator()

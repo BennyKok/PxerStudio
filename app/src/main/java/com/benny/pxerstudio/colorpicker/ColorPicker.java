@@ -19,7 +19,6 @@ import com.benny.pxerstudio.util.Tool;
 public class ColorPicker {
     private final PopupWindow popupWindow;
     private final SatValView satValView;
-    private SatValView.OnColorChangeListener listener;
 
     public ColorPicker(Context c, int startColor, SatValView.OnColorChangeListener listener) {
         View contentView = LayoutInflater.from(c).inflate(R.layout.colorpicker_popup, null);
@@ -42,10 +41,11 @@ public class ColorPicker {
     }
 
     public void show(View anchor) {
-        if (!popupWindow.isShowing())
-            popupWindow.showAsDropDown(anchor, -popupWindow.getWidth() / 2 + anchor.getWidth() / 2, 0);
-        else
+        if (popupWindow.isShowing()) {
             popupWindow.dismiss();
+        } else {
+            popupWindow.showAsDropDown(anchor, -popupWindow.getWidth() / 2 + anchor.getWidth() / 2, 0);
+        }
     }
 
     public void setColor(int color) {

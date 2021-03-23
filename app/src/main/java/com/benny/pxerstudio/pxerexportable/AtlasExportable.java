@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 
-import com.benny.pxerstudio.pxerexportable.ExportingUtils.OnExportConfirmedListenser;
+import com.benny.pxerstudio.pxerexportable.ExportingUtils.OnExportConfirmedListener;
 import com.benny.pxerstudio.util.Tool;
 import com.benny.pxerstudio.widget.PxerView;
 
@@ -22,9 +22,9 @@ import java.io.OutputStream;
 public class AtlasExportable extends Exportable {
     @Override
     public void runExport(final Context context, final PxerView pxerView) {
-        ExportingUtils.INSTANCE.showExportingDialog(context, 2048, pxerView, new OnExportConfirmedListenser() {
+        ExportingUtils.INSTANCE.showExportingDialog(context, 2048, pxerView, new OnExportConfirmedListener() {
             @Override
-            public void OnExportConfirmed(String fileName, int width, int height) {
+            public void onExportConfirmed(String fileName, int width, int height) {
                 Paint paint = new Paint();
                 Canvas canvas = new Canvas();
 

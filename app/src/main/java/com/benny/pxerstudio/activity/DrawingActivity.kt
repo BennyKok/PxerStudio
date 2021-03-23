@@ -29,7 +29,6 @@ import com.afollestad.materialdialogs.files.FileFilter
 import com.afollestad.materialdialogs.files.fileChooser
 import com.benny.pxerstudio.R
 import com.benny.pxerstudio.colorpicker.ColorPicker
-import com.benny.pxerstudio.colorpicker.SatValView
 import com.benny.pxerstudio.databinding.ActivityDrawingBinding
 import com.benny.pxerstudio.pxerexportable.AtlasExportable
 import com.benny.pxerstudio.pxerexportable.FolderExportable
@@ -49,11 +48,13 @@ import com.mikepenz.fastadapter.items.AbstractItem
 import com.mikepenz.fastadapter.select.getSelectExtension
 import java.io.File
 import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 
 class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropperCallBack {
 
     companion object {
-        val UNTITLED = "Untitled"
+        const val UNTITLED = "Untitled"
         val rectShapeFactory = RectShape()
         val lineShapeFactory = LineShape()
         val eraserShapeFactory = EraserShape()
@@ -142,10 +143,14 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         super.onPostCreate(savedInstanceState)
     }
 
+    // Needed for onClick in layout
+    @Suppress("UNUSED_PARAMETER")
     fun onProjectTitleClicked(view: View) {
         openProjectManager()
     }
 
+    // Needed for onClick in layout
+    @Suppress("UNUSED_PARAMETER")
     fun onToggleToolsPanel(view: View) {
         if (binding!!.toolsView.visibility == View.INVISIBLE) {
             binding!!.toolsView.visibility = View.VISIBLE
@@ -185,7 +190,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         selectExtension.multiSelect = false
         selectExtension.allowDeselection = true
 
-        toolsAdapter.onClickListener = { view, adapter, item, position ->
+        toolsAdapter.onClickListener = { _, _, item, _ ->
             binding!!.toolsFab.setImageResource(item.icon)
             when (item.icon) {
                 R.drawable.ic_check_box_outline_blank -> {
@@ -224,12 +229,12 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         binding!!.fabColor.colorPressed = binding!!.pxerView.selectedColor
         cp = ColorPicker(
             this,
-            binding!!.pxerView.selectedColor,
-            SatValView.OnColorChangeListener { newColor ->
-                binding!!.pxerView.selectedColor = newColor
-                binding!!.fabColor.setColor(newColor)
-            })
-        binding!!.fabColor.setOnClickListener { view -> cp.show(view) }
+            binding!!.pxerView.selectedColor
+        ) { newColor ->
+            binding!!.pxerView.selectedColor = newColor
+            binding!!.fabColor.setColor(newColor)
+        }
+        binding!!.fabColor.setOnClickListener(cp::show)
         binding!!.fabUndo.setOnClickListener { binding!!.pxerView.undo() }
         binding!!.fabRedo.setOnClickListener { binding!!.pxerView.redo() }
         binding!!.fabDropper.setOnClickListener {
@@ -263,7 +268,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
         layersBtn.setOnClickListener {
             binding!!.pxerView.addLayer()
-            layerItemAdapter.add(Math.max(binding!!.pxerView.currentLayer, 0), LayerThumbItem())
+            layerItemAdapter.add(max(binding!!.pxerView.currentLayer, 0), LayerThumbItem())
             layerAdapter.getSelectExtension().deselect()
             layerAdapter.getSelectExtension().select(binding!!.pxerView.currentLayer)
             layerItemAdapter.getAdapterItem(binding!!.pxerView.currentLayer).pressed()
@@ -376,7 +381,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         return super.onCreateOptionsMenu(menu)
     }
 
-    val myFilter: FileFilter =
+    private val myFilter: FileFilter =
         { it.isDirectory || it.name.endsWith(PxerView.PXER_EXTENSION_NAME, true) }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -406,7 +411,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                             "/PxerStudio/Project"
                         ),
                         context = context
-                    ) { dialog, file ->
+                    ) { _, file ->
                         binding!!.pxerView.loadProject(file)
                         setTitle(Tool.stripExtension(file.name), false)
                         currentProjectPath = file.path
@@ -482,7 +487,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             }
             R.id.copypastelayer -> {
                 binding!!.pxerView.copyAndPasteCurrentLayer()
-                layerItemAdapter.add(Math.max(binding!!.pxerView.currentLayer, 0), LayerThumbItem())
+                layerItemAdapter.add(max(binding!!.pxerView.currentLayer, 0), LayerThumbItem())
                 layerAdapter.getSelectExtension().deselect()
                 layerAdapter.getSelectExtension().select(binding!!.pxerView.currentLayer)
                 layerItemAdapter.getAdapterItem(binding!!.pxerView.currentLayer).pressed()
@@ -542,7 +547,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == RESULT_OK && requestCode == 659 && data != null) {
             val path = data.getStringExtra("selectedProjectPath")
-            if (path != null && !path.isEmpty()) {
+            if (path != null && path.isNotEmpty()) {
                 currentProjectPath = path
                 val file = File(path)
                 if (file.exists()) {
@@ -600,7 +605,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             .positiveButton(R.string.create)
             .negativeButton(R.string.cancel)
             .positiveButton {
-                if (!editText.text.toString().isEmpty()) {
+                if (editText.text.toString().isNotEmpty()) {
                     setTitle(editText.text.toString(), true)
                     binding!!.pxerView.createBlankProject(
                         editText.text.toString(),
@@ -644,7 +649,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
         fun pressed() {
             pressedTime++
-            pressedTime = Math.min(2, pressedTime)
+            pressedTime = min(2, pressedTime)
         }
 
         override val type: Int

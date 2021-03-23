@@ -32,6 +32,8 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
 import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Created by BennyKok on 10/3/2016.
@@ -108,19 +110,19 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
 
     fun copyAndPasteCurrentLayer() {
         val bitmap = pxerLayers[currentLayer]!!.bitmap!!.copy(Bitmap.Config.ARGB_8888, true)
-        pxerLayers.add(Math.max(currentLayer, 0), PxerLayer(bitmap))
-        history.add(Math.max(currentLayer, 0), ArrayList())
-        redohistory.add(Math.max(currentLayer, 0), ArrayList())
-        historyIndex.add(Math.max(currentLayer, 0), 0)
+        pxerLayers.add(max(currentLayer, 0), PxerLayer(bitmap))
+        history.add(max(currentLayer, 0), ArrayList())
+        redohistory.add(max(currentLayer, 0), ArrayList())
+        historyIndex.add(max(currentLayer, 0), 0)
     }
 
     fun addLayer() {
         val bitmap = Bitmap.createBitmap(picWidth, picHeight, Bitmap.Config.ARGB_8888)
         bitmap.eraseColor(Color.TRANSPARENT)
-        pxerLayers.add(Math.max(currentLayer, 0), PxerLayer(bitmap))
-        history.add(Math.max(currentLayer, 0), ArrayList())
-        redohistory.add(Math.max(currentLayer, 0), ArrayList())
-        historyIndex.add(Math.max(currentLayer, 0), 0)
+        pxerLayers.add(max(currentLayer, 0), PxerLayer(bitmap))
+        history.add(max(currentLayer, 0), ArrayList())
+        redohistory.add(max(currentLayer, 0), ArrayList())
+        historyIndex.add(max(currentLayer, 0), 0)
     }
 
     fun removeCurrentLayer() {
@@ -128,7 +130,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
         history.removeAt(currentLayer)
         redohistory.removeAt(currentLayer)
         historyIndex.removeAt(currentLayer)
-        currentLayer = (Math.max(0, currentLayer - 1))
+        currentLayer = (max(0, currentLayer - 1))
         invalidate()
     }
 
@@ -329,8 +331,8 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
 //                .inputRange(0, 20)
                 .title(R.string.save_project)
                 .input(context.getString(R.string.name), inputType = InputType.TYPE_CLASS_TEXT)
-                { dialog, text ->
-                    projectName = text.toString()
+                { _, text ->
+                    projectName = "$text"
                     if (context is DrawingActivity) (context as DrawingActivity).setTitle(
                         projectName,
                         false
@@ -417,7 +419,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
         mGestureDetector!!.onTouchEvent(motionEvent)
     }
 
-    fun reCalBackground() {
+    private fun reCalBackground() {
         preview = Bitmap.createBitmap(picWidth, picHeight, Bitmap.Config.ARGB_8888)
         bgbitmap = Bitmap.createBitmap(picWidth * 2, picHeight * 2, Bitmap.Config.ARGB_8888)
         bgbitmap!!.eraseColor(ColorUtils.setAlphaComponent(Color.WHITE, 200))
@@ -489,7 +491,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
             pxer = Pxer(x, y, bitmapToDraw!!.getPixel(x, y))
             if (!currentHistory.contains(pxer)) currentHistory.add(pxer)
         }
-        Log.v("shit", mode.toString())
+        Log.v("shit", "$mode")
         when (mode) {
             Mode.Normal -> run {
                 if (event.action == MotionEvent.ACTION_DOWN || event.action == MotionEvent.ACTION_UP) return@run
@@ -498,7 +500,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
                     y,
                     ColorUtils.compositeColors(selectedColor, bitmapToDraw.getPixel(x, y))
                 )
-                Log.v("shit", mode.toString())
+                Log.v("shit", "$mode")
                 setUnrecordedChanges(true)
             }
             Mode.Dropper -> run {
@@ -638,7 +640,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
     }
 
     private fun initPxerInfo() {
-        val length = Math.min(height, width)
+        val length = min(height, width)
         pxerSize = (length / 40).toFloat()
         picBoundary!![0f, 0f, pxerSize * picWidth] = pxerSize * picHeight
         scaleAtFirst()
@@ -722,7 +724,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
         invalidate()
     }
 
-    fun onLayerUpdate() {
+    private fun onLayerUpdate() {
         (context as DrawingActivity).onLayerUpdate()
     }
 
@@ -750,17 +752,9 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
         fun onColorDropped(newColor: Int)
     }
 
-    class PxerLayer {
-        @JvmField
-        var bitmap: Bitmap? = null
-
+    class PxerLayer(@JvmField var bitmap: Bitmap?) {
         @JvmField
         var visible = true
-
-        constructor()
-        constructor(bitmap: Bitmap?) {
-            this.bitmap = bitmap
-        }
     }
 
     class PxableLayer {
@@ -775,8 +769,8 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
 //            return Pxer(x, y, color)
 //        }
 
-        override fun equals(obj: Any?): Boolean {
-            return (obj as Pxer?)!!.x == x && obj!!.y == y
+        override fun equals(other: Any?): Boolean {
+            return (other as Pxer?)!!.x == x && other!!.y == y
         }
     }
 
@@ -786,7 +780,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
         private const val pressDelay = 60L
         fun cloneList(list: List<Pxer>): ArrayList<Pxer> {
             val clone = ArrayList<Pxer>(list.size)
-            for (item in list) clone.add(item.copy())
+            list.mapTo(clone) { it.copy() }
             return clone
         }
     }

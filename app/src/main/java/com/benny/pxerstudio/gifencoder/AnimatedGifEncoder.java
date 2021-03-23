@@ -117,13 +117,11 @@ public class AnimatedGifEncoder {
      * for all subsequent frames.
      *
      * @param im BufferedImage containing frame to write.
-     * @return true if successful.
      */
-    public boolean addFrame(Bitmap im) {
+    public void addFrame(Bitmap im) {
         if (im == null || !started) {
-            return false;
+            return;
         }
-        boolean ok = true;
         try {
             if (!sizeSet) {
                 // use first frame's size
@@ -147,21 +145,17 @@ public class AnimatedGifEncoder {
             }
             writePixels(); // encode and write pixel data
             firstFrame = false;
-        } catch (IOException e) {
-            ok = false;
+        } catch (IOException ignored) {
         }
-
-        return ok;
     }
 
     /**
      * Flushes any pending data and closes output file. If writing to an
      * OutputStream, the stream is not closed.
      */
-    public boolean finish() {
+    public void finish() {
         if (!started)
-            return false;
-        boolean ok = true;
+            return;
         started = false;
         try {
             out.write(0x3b); // gif trailer
@@ -169,10 +163,8 @@ public class AnimatedGifEncoder {
             if (closeStream) {
                 out.close();
             }
-        } catch (IOException e) {
-            ok = false;
+        } catch (IOException ignored) {
         }
-
         // reset for subsequent use
         transIndex = 0;
         out = null;
@@ -182,8 +174,6 @@ public class AnimatedGifEncoder {
         colorTab = null;
         closeStream = false;
         firstFrame = true;
-
-        return ok;
     }
 
     /**
@@ -248,11 +238,10 @@ public class AnimatedGifEncoder {
      * automatically.
      *
      * @param os OutputStream on which GIF images are written.
-     * @return false if initial write failed.
      */
-    public boolean start(OutputStream os) {
+    public void start(OutputStream os) {
         if (os == null)
-            return false;
+            return;
         boolean ok = true;
         closeStream = false;
         out = os;
@@ -261,7 +250,7 @@ public class AnimatedGifEncoder {
         } catch (IOException e) {
             ok = false;
         }
-        return started = ok;
+        started = ok;
     }
 
     /**
@@ -305,7 +294,7 @@ public class AnimatedGifEncoder {
             return -1;
         int r = c >> 16 & 0xff;
         int g = c >> 8 & 0xff;
-        int b = c >> 0 & 0xff;
+        int b = c & 0xff;
         int minpos = 0;
         int dmin = 256 * 256 * 256;
         int len = colorTab.length;
@@ -342,7 +331,7 @@ public class AnimatedGifEncoder {
         for (int i = 0; i < data.length; i++) {
             int td = data[i];
             int tind = i * 3;
-            pixels[tind++] = (byte) (td >> 0 & 0xFF);
+            pixels[tind++] = (byte) (td & 0xFF);
             pixels[tind++] = (byte) (td >> 8 & 0xFF);
             pixels[tind] = (byte) (td >> 16 & 0xFF);
         }

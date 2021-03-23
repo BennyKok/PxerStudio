@@ -29,7 +29,6 @@ public class FastBitmapView extends View {
     private final RectF boundary2 = new RectF();
     private final RectF boundary3 = new RectF();
     private final Path visibilityBg = new Path();
-    private final float radius = 0f;
     private final float iconSize = Tool.convertDpToPixel(24, getContext());
     private final float iconSize2 = iconSize / 2;
     private PorterDuffColorFilter overlay;
@@ -100,10 +99,10 @@ public class FastBitmapView extends View {
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setColor(Color.WHITE);
 
-        if (!visible) {
-            paint.setColorFilter(overlay);
-        } else {
+        if (visible) {
             paint.setColorFilter(null);
+        } else {
+            paint.setColorFilter(overlay);
         }
 
         if (bitmap != null)
@@ -119,6 +118,7 @@ public class FastBitmapView extends View {
             paint.setColor(accentColor);
         else
             paint.setColor(Color.parseColor("#c6c6c6"));
+        float radius = 0f;
         canvas.drawRoundRect(boundary, radius, radius, paint);
 
         super.onDraw(canvas);

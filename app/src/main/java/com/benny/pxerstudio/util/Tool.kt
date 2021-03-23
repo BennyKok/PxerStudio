@@ -23,13 +23,13 @@ object Tool {
     @JvmField
     val myType = Typeface.create("sans-serif-light", Typeface.NORMAL)
     fun print(o: Any) {
-        Log.d("Hey", o.toString())
+        Log.d("Hey", "$o")
     }
 
     fun print(vararg o: Any) {
         var result = ""
-        for (i in 0 until o.size) {
-            result += " " + o[i].toString()
+        for (element in o) {
+            result += " $element"
         }
         Log.d("Hey", result)
     }
@@ -43,9 +43,8 @@ object Tool {
     fun drawableToBitmap(drawable: Drawable): Bitmap? {
         var bitmap: Bitmap? = null
         if (drawable is BitmapDrawable) {
-            val bitmapDrawable = drawable
-            if (bitmapDrawable.bitmap != null) {
-                return bitmapDrawable.bitmap
+            if (drawable.bitmap != null) {
+                return drawable.bitmap
             }
         }
         bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
@@ -86,7 +85,7 @@ object Tool {
     fun stripExtension(str: String?): String? {
         if (str == null) return null
         val pos = str.lastIndexOf(".")
-        return if (pos == -1) str else str.substring(0, pos)
+        return if (pos == -1) str else str.take(pos)
     }
 
     @JvmStatic

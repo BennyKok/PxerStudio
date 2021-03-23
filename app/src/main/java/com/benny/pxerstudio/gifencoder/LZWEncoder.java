@@ -118,10 +118,7 @@ class LZWEncoder {
         int fcode;
         int i /* = 0 */;
         int c;
-        int ent;
         int disp;
-        int hsize_reg;
-        int hshift;
 
         // Set up the globals: g_init_bits - initial number of bits
         g_init_bits = init_bits;
@@ -137,14 +134,14 @@ class LZWEncoder {
 
         a_count = 0; // clear packet
 
-        ent = nextPixel();
+        int ent = nextPixel();
 
-        hshift = 0;
+        int hshift = 0;
         for (fcode = hsize; fcode < 65536; fcode *= 2)
             ++hshift;
         hshift = 8 - hshift; // set hash code range bound
 
-        hsize_reg = hsize;
+        int hsize_reg = hsize;
         cl_hash(hsize_reg); // clear hash table
 
         output(ClearCode, outs);

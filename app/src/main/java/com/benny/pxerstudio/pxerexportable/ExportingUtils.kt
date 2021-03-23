@@ -46,21 +46,21 @@ object ExportingUtils {
     }
 
     fun toastAndFinishExport(context: Context?, fileName: String?) {
-        if (fileName != null && !fileName.isEmpty()) MediaScannerConnection.scanFile(
+        if (fileName != null && fileName.isNotEmpty()) MediaScannerConnection.scanFile(
             context, arrayOf(fileName), null
-        ) { path, uri -> }
+        ) { _, _ -> }
         toast(context, "Exported successfully")
     }
 
     fun scanAlotsOfFile(context: Context?, files: List<File>) {
         val paths = arrayOfNulls<String>(files.size)
         for (i in files.indices) {
-            paths[i] = files[i].toString()
+            paths[i] = "${files[i]}"
         }
         MediaScannerConnection.scanFile(
             context,
             paths, null
-        ) { path, uri -> }
+        ) { _, _ -> }
     }
 
     fun showProgressDialog(context: Context?) {
@@ -80,16 +80,16 @@ object ExportingUtils {
     fun showExportingDialog(
         context: Context?,
         pxerView: PxerView,
-        listenser: OnExportConfirmedListenser
+        listener: OnExportConfirmedListener
     ) {
-        showExportingDialog(context, -1, pxerView, listenser)
+        showExportingDialog(context, -1, pxerView, listener)
     }
 
     fun showExportingDialog(
         context: Context?,
         maxSize: Int,
         pxerView: PxerView,
-        listenser: OnExportConfirmedListenser
+        listener: OnExportConfirmedListener
     ) {
         val l = LayoutInflater.from(context)
             .inflate(R.layout.dialog_activity_drawing, null) as ConstraintLayout
@@ -124,7 +124,7 @@ object ExportingUtils {
                     toast(context, "The file name cannot be empty!")
                     return@positiveButton
                 }
-                listenser.OnExportConfirmed(
+                listener.onExportConfirmed(
                     editText.text.toString(),
                     seekBar.progress + pxerView.picWidth,
                     seekBar.progress + pxerView.picHeight
@@ -134,8 +134,8 @@ object ExportingUtils {
             .show()
     }
 
-    interface OnExportConfirmedListenser {
-        fun OnExportConfirmed(fileName: String?, width: Int, height: Int)
+    interface OnExportConfirmedListener {
+        fun onExportConfirmed(fileName: String?, width: Int, height: Int)
     }
 
     fun getExportPath(context: Context): String {

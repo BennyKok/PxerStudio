@@ -22,9 +22,9 @@ import java.util.ArrayList;
 public class FolderExportable extends Exportable {
     @Override
     public void runExport(final Context context, final PxerView pxerView) {
-        ExportingUtils.INSTANCE.showExportingDialog(context, pxerView, new ExportingUtils.OnExportConfirmedListenser() {
+        ExportingUtils.INSTANCE.showExportingDialog(context, pxerView, new ExportingUtils.OnExportConfirmedListener() {
             @Override
-            public void OnExportConfirmed(String fileName, int width, int height) {
+            public void onExportConfirmed(String fileName, int width, int height) {
                 Paint paint = new Paint();
                 Canvas canvas = new Canvas();
 

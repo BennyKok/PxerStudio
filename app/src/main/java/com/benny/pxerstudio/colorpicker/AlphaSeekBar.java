@@ -11,11 +11,13 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
+import androidx.appcompat.widget.AppCompatSeekBar;
+
 /**
  * Created by BennyKok on 10/15/2016.
  */
 
-public class AlphaSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
+public class AlphaSeekBar extends AppCompatSeekBar {
 
     private final Paint thumbPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint huePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -127,10 +129,11 @@ public class AlphaSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height * 2; j++) {
                 int alpha = (int) ((float) 255 * ((float) i / (float) width));
-                if (j % 2 != 0)
-                    hueBitmap.setPixel(i * 2 + 1, j, Color.argb(alpha, 100, 100, 100));
-                else
+                if (j % 2 == 0) {
                     hueBitmap.setPixel(i * 2, j, Color.argb(alpha, 100, 100, 100));
+                } else {
+                    hueBitmap.setPixel(i * 2 + 1, j, Color.argb(alpha, 100, 100, 100));
+                }
             }
         }
 

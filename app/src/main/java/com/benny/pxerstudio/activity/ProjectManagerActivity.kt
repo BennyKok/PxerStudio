@@ -24,9 +24,9 @@ import java.util.*
 
 class ProjectManagerActivity : AppCompatActivity() {
 
-    internal var projects = ArrayList<File>()
-    internal lateinit var fa: FastAdapter<Item>
-    internal lateinit var ia: ItemAdapter<Item>
+    private var projects = ArrayList<File>()
+    private lateinit var fa: FastAdapter<Item>
+    private lateinit var ia: ItemAdapter<Item>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,8 +120,8 @@ class ProjectManagerActivity : AppCompatActivity() {
                             R.id.rename ->
                                 MaterialDialog(this).show {
                                     title = getString(R.string.rename)
-                                    input(hint = projects[position].name) { dialog, text ->
-                                        var mInput = text.toString()
+                                    input(hint = projects[position].name) { _, text ->
+                                        var mInput = "$text"
                                         if (!mInput.endsWith(".pxer"))
                                             mInput += ".pxer"
 
@@ -130,7 +130,7 @@ class ProjectManagerActivity : AppCompatActivity() {
 
                                         if (fromFile.renameTo(newFile)) {
                                             projects[position] = newFile
-                                            ia.set(position, Item(newFile.name, newFile.path))
+                                            ia[position] = Item(newFile.name, newFile.path)
                                             fa.notifyAdapterItemChanged(position)
 
                                             val newIntent = Intent()
@@ -186,7 +186,7 @@ class ProjectManagerActivity : AppCompatActivity() {
     }
 
     class Item(var title: String, var path: String) :
-        AbstractItem<ProjectManagerActivity.Item.ViewHolder>() {
+        AbstractItem<Item.ViewHolder>() {
 
         override val type: Int
             get() = 0
@@ -199,8 +199,8 @@ class ProjectManagerActivity : AppCompatActivity() {
         }
 
         class ViewHolder internal constructor(view: View) : FastAdapter.ViewHolder<Item>(view) {
-            internal var projectTitle: TextView = view.findViewById(R.id.title) as TextView
-            internal var projectPath: TextView = view.findViewById(R.id.path) as TextView
+            private var projectTitle: TextView = view.findViewById(R.id.title) as TextView
+            private var projectPath: TextView = view.findViewById(R.id.path) as TextView
 
             override fun bindView(item: Item, payloads: List<Any>) {
                 projectTitle.text = item.title

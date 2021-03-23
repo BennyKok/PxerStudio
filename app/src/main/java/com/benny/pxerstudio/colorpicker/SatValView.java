@@ -57,7 +57,7 @@ public class SatValView extends View {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 hue = progress;
                 if (getWidth() > 0)
-                    satBitmap = getSatValBitmap(hue, alpha);
+                    satBitmap = getSatValBitmap(hue);
                 onColorRetrieved(alpha, hue, sat, val);
                 invalidate();
             }
@@ -94,7 +94,7 @@ public class SatValView extends View {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        satBitmap = getSatValBitmap(hue, alpha);
+        satBitmap = getSatValBitmap(hue);
         reCalBackground();
         satBound.set(0, 0, getRight(), getBottom());
         placePointer(sat * getWidth(), getHeight() - val * getHeight(), false);
@@ -124,7 +124,7 @@ public class SatValView extends View {
         canvas.drawCircle(fingerX, fingerY, 20, thumbPaint);
     }
 
-    public Bitmap getSatValBitmap(float hue, int alpha) {
+    public Bitmap getSatValBitmap(float hue) {
         int skipCount = 1;
         int width = 100;
         int height = 100;
@@ -173,10 +173,11 @@ public class SatValView extends View {
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10 * 2; j++) {
-                if (j % 2 != 0)
-                    bgbitmap.setPixel(i * 2 + 1, j, Color.argb(200, 220, 220, 220));
-                else
+                if (j % 2 == 0) {
                     bgbitmap.setPixel(i * 2, j, Color.argb(200, 220, 220, 220));
+                } else {
+                    bgbitmap.setPixel(i * 2 + 1, j, Color.argb(200, 220, 220, 220));
+                }
             }
         }
     }
@@ -185,8 +186,6 @@ public class SatValView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                placePointer(event.getX(), event.getY(), true);
-                return true;
             case MotionEvent.ACTION_MOVE:
                 placePointer(event.getX(), event.getY(), true);
                 return true;

@@ -21,9 +21,9 @@ import java.io.OutputStream;
 public class PngExportable extends Exportable {
     @Override
     public void runExport(final Context context, final PxerView pxerView) {
-        ExportingUtils.INSTANCE.showExportingDialog(context, pxerView, new ExportingUtils.OnExportConfirmedListenser() {
+        ExportingUtils.INSTANCE.showExportingDialog(context, pxerView, new ExportingUtils.OnExportConfirmedListener() {
             @Override
-            public void OnExportConfirmed(String fileName, int width, int height) {
+            public void onExportConfirmed(String fileName, int width, int height) {
                 Paint paint = new Paint();
                 final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
