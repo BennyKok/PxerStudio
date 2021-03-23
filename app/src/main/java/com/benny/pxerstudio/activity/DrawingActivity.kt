@@ -1,6 +1,5 @@
 package com.benny.pxerstudio.activity
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -541,7 +540,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK && requestCode == 659 && data != null) {
+        if (resultCode == RESULT_OK && requestCode == 659 && data != null) {
             val path = data.getStringExtra("selectedProjectPath")
             if (path != null && !path.isEmpty()) {
                 currentProjectPath = path

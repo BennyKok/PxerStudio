@@ -1,6 +1,5 @@
 package com.benny.pxerstudio.activity
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -108,7 +107,7 @@ class ProjectManagerActivity : AppCompatActivity() {
                     val newIntent = Intent()
                     newIntent.putExtra("selectedProjectPath", item.path)
 
-                    setResult(Activity.RESULT_OK, newIntent)
+                    setResult(RESULT_OK, newIntent)
                     finish()
                     true
                 }
@@ -137,7 +136,7 @@ class ProjectManagerActivity : AppCompatActivity() {
                                             val newIntent = Intent()
                                             newIntent.putExtra("fileNameChanged", true)
 
-                                            setResult(Activity.RESULT_OK, newIntent)
+                                            setResult(RESULT_OK, newIntent)
                                         }
                                     }
                                     positiveButton(R.string.ok)
@@ -158,7 +157,7 @@ class ProjectManagerActivity : AppCompatActivity() {
                                         val newIntent = Intent()
                                         newIntent.putExtra("fileNameChanged", true)
 
-                                        setResult(Activity.RESULT_OK, newIntent)
+                                        setResult(RESULT_OK, newIntent)
 
                                         Tool.toast(
                                             this@ProjectManagerActivity,
