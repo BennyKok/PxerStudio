@@ -40,13 +40,23 @@ class AboutActivity : AppCompatActivity() {
             append(getString(R.string.brough_to_you_by))
             append("<br>")
 
-            append("com.mikepenz:fastadapter-extensions")
+            append("androidx.appcompat:appcompat")
             append("<br>")
-            append("com.mikepenz:fastadapter")
+            append("androidx.cardview:cardview")
+            append("<br>")
+            append("androidx.constraintlayout:constraintlayout")
+            append("<br>")
+            append("com.google.android.material:material")
             append("<br>")
             append("com.afollestad.material-dialogs:core")
             append("<br>")
-            append("com.afollestad.material-dialogs:commons")
+            append("com.afollestad.material-dialogs:files")
+            append("<br>")
+            append("com.afollestad.material-dialogs:input")
+            append("<br>")
+            append("com.mikepenz:fastadapter")
+            append("<br>")
+            append("com.mikepenz:fastadapter-extensions")
             append("<br>")
             append("de.psdev.licensesdialog:licensesdialog")
             append("<br>")
@@ -54,15 +64,6 @@ class AboutActivity : AppCompatActivity() {
             append("<br>")
             append("com.google.code.gson:gson")
             append("<br>")
-            append("com.android.support:appcompat-v7")
-            append("<br>")
-            append("com.android.support:support-v4")
-            append("<br>")
-            append("com.android.support:design")
-            append("<br>")
-            append("com.android.support:cardview-v7")
-            append("<br>")
-            append("com.android.support.constraint:constraint-layout")
         }
 
         libraryInfo.movementMethod = LinkMovementMethod.getInstance()
@@ -71,18 +72,18 @@ class AboutActivity : AppCompatActivity() {
         val notices = Notices()
         notices.addNotice(
             Notice(
-                "FastAdapter",
-                "https://github.com/mikepenz/FastAdapter",
-                "Copyright 2016 Mike Penz",
-                ApacheSoftwareLicense20()
-            )
-        )
-        notices.addNotice(
-            Notice(
                 "Material Dialogs",
                 "https://github.com/afollestad/material-dialogs",
                 "Copyright (c) 2014-2016 Aidan Michael Follestad",
                 MITLicense()
+            )
+        )
+        notices.addNotice(
+            Notice(
+                "FastAdapter",
+                "https://github.com/mikepenz/FastAdapter",
+                "Copyright 2021 Mike Penz",
+                ApacheSoftwareLicense20()
             )
         )
         notices.addNotice(
