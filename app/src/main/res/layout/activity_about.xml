@@ -9,7 +9,7 @@
     tools:context="com.benny.pxerstudio.activity.SplashActivity">
 
     <ImageView
-        android:id="@+id/iv"
+        android:id="@+id/about_app_icon"
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:layout_marginStart="16dp"
@@ -26,7 +26,7 @@
         app:srcCompat="@drawable/ic_launcher_splash" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/about_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -37,13 +37,13 @@
         android:textColor="?android:textColorPrimaryInverse"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/iv"
-        app:layout_constraintRight_toRightOf="@+id/iv"
-        app:layout_constraintTop_toBottomOf="@+id/iv"
+        app:layout_constraintLeft_toLeftOf="@+id/about_app_icon"
+        app:layout_constraintRight_toRightOf="@+id/about_app_icon"
+        app:layout_constraintTop_toBottomOf="@+id/about_app_icon"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/about_app_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -53,68 +53,12 @@
         android:textColor="?android:textColorPrimaryInverse"
         android:textSize="14sp"
         android:textStyle="normal|bold"
-        app:layout_constraintLeft_toLeftOf="@+id/textView"
-        app:layout_constraintRight_toRightOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintLeft_toLeftOf="@+id/about_app_name"
+        app:layout_constraintRight_toRightOf="@+id/about_app_name"
+        app:layout_constraintTop_toBottomOf="@+id/about_app_name" />
 
     <TextView
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center"
-        android:text="Created by BennyKok"
-        android:textColor="?android:textColorPrimaryInverse"
-        android:textColorLink="?android:textColorPrimaryInverse"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/tv1"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/tv1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center"
-        android:text="Get more apps"
-        android:textColor="?android:textColorPrimaryInverse"
-        android:textColorLink="?android:textColorPrimaryInverse"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/tv" />
-
-    <TextView
-        android:id="@+id/tv3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center"
-        android:text="Join the community"
-        android:textColor="?android:textColorPrimaryInverse"
-        android:textColorLink="?android:textColorPrimaryInverse"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginBottom="16dp"
-        android:background="#75ffffff"
-        app:layout_constraintBottom_toTopOf="@+id/tv"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <TextView
-        android:id="@+id/libinfo"
+        android:id="@+id/about_libinfo"
         android:layout_width="320dp"
         android:layout_height="189dp"
         android:layout_marginStart="32dp"
@@ -126,10 +70,66 @@
         android:scrollbars="vertical|horizontal"
         android:text="TextView"
         android:textColor="?android:textColorPrimaryInverse"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintBottom_toTopOf="@+id/about_divider"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/about_app_version"
         app:layout_constraintVertical_bias="1.0" />
+
+    <View
+        android:id="@+id/about_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginBottom="16dp"
+        android:background="#75ffffff"
+        app:layout_constraintBottom_toTopOf="@+id/about_creator"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/about_creator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Created by BennyKok"
+        android:textColor="?android:textColorPrimaryInverse"
+        android:textColorLink="?android:textColorPrimaryInverse"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/about_moreApps"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/about_moreApps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Get more apps"
+        android:textColor="?android:textColorPrimaryInverse"
+        android:textColorLink="?android:textColorPrimaryInverse"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/about_creator" />
+
+    <TextView
+        android:id="@+id/about_gplus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Join the community"
+        android:textColor="?android:textColorPrimaryInverse"
+        android:textColorLink="?android:textColorPrimaryInverse"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/about_creator"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/about_creator" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

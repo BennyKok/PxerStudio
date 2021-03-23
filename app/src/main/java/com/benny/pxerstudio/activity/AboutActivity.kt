@@ -21,19 +21,19 @@ class AboutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
 
-        val tv = findViewById<TextView>(R.id.tv)
-        tv.text = Html.fromHtml(getString(R.string.created_by_bennykok))
-        tv.movementMethod = LinkMovementMethod.getInstance()
+        val aboutCreator = findViewById<TextView>(R.id.about_creator)
+        aboutCreator.text = Html.fromHtml(getString(R.string.created_by_bennykok))
+        aboutCreator.movementMethod = LinkMovementMethod.getInstance()
 
-        val tv1 = findViewById<TextView>(R.id.tv1)
-        tv1.text = Html.fromHtml(getString(R.string.get_more_apps))
-        tv1.movementMethod = LinkMovementMethod.getInstance()
+        val aboutMoreApps = findViewById<TextView>(R.id.about_moreApps)
+        aboutMoreApps.text = Html.fromHtml(getString(R.string.get_more_apps))
+        aboutMoreApps.movementMethod = LinkMovementMethod.getInstance()
 
-        val tv3 = findViewById<TextView>(R.id.tv3)
-        tv3.text = Html.fromHtml(getString(R.string.join_the_community))
-        tv3.movementMethod = LinkMovementMethod.getInstance()
+        val aboutGplus = findViewById<TextView>(R.id.about_gplus)
+        aboutGplus.text = Html.fromHtml(getString(R.string.join_the_community))
+        aboutGplus.movementMethod = LinkMovementMethod.getInstance()
 
-        val tv2 = findViewById<TextView>(R.id.libinfo)
+        val libraryInfo = findViewById<TextView>(R.id.about_libinfo)
         val sb = StringBuilder()
 
         with(sb) {
@@ -65,8 +65,8 @@ class AboutActivity : AppCompatActivity() {
             append("com.android.support.constraint:constraint-layout")
         }
 
-        tv2.movementMethod = LinkMovementMethod.getInstance()
-        tv2.text = Html.fromHtml("$sb")
+        libraryInfo.movementMethod = LinkMovementMethod.getInstance()
+        libraryInfo.text = Html.fromHtml("$sb")
 
         val notices = Notices()
         notices.addNotice(
@@ -108,9 +108,9 @@ class AboutActivity : AppCompatActivity() {
         builder.setTitle(getString(R.string.opensource_library))
         val dialog = builder.build()
 
-        tv2.setOnClickListener { dialog.show() }
+        libraryInfo.setOnClickListener { dialog.show() }
 
-        findViewById<ImageView>(R.id.iv).setOnClickListener { v ->
+        findViewById<ImageView>(R.id.about_app_icon).setOnClickListener { v ->
             if (v.animation == null || v.animation != null && v.animation.hasEnded())
                 v.animate()
                     .scaleX(1.1f)

@@ -31,10 +31,10 @@ class ProjectManagerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_project_manager)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        val toolbar = findViewById<Toolbar>(R.id.projectManager_toolbar)
         setSupportActionBar(toolbar)
 
-        val rv = findViewById<RecyclerView>(R.id.rv)
+        val contentRv = findViewById<RecyclerView>(R.id.cM_recyclerView)
 
         //Comment this line out and the if statement if you forked this repo or downloaded the code
 /*
@@ -78,12 +78,12 @@ class ProjectManagerActivity : AppCompatActivity() {
         }
 */
 
-        rv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        contentRv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         ia = ItemAdapter()
         fa = FastAdapter.with(ia)
 
         fa.getSelectExtension().isSelectable = false
-        rv.adapter = fa
+        contentRv.adapter = fa
 
         projects.clear()
 
@@ -95,7 +95,7 @@ class ProjectManagerActivity : AppCompatActivity() {
                 projects.add(temp[i])
             }
             if (projects.size >= 1) {
-                findViewById<TextView>(R.id.noProjectFound).visibility = View.GONE
+                findViewById<TextView>(R.id.cM_noProjectFound).visibility = View.GONE
 
                 for (i in projects.indices) {
                     val mName = projects[i].name.substring(0, projects[i].name.lastIndexOf('.'))
@@ -151,7 +151,7 @@ class ProjectManagerActivity : AppCompatActivity() {
                                         projects.removeAt(position)
 
                                         if (projects.size < 1)
-                                            findViewById<TextView>(R.id.noProjectFound).visibility =
+                                            findViewById<TextView>(R.id.cM_noProjectFound).visibility =
                                                 View.VISIBLE
 
                                         val newIntent = Intent()
@@ -199,8 +199,10 @@ class ProjectManagerActivity : AppCompatActivity() {
         }
 
         class ViewHolder internal constructor(view: View) : FastAdapter.ViewHolder<Item>(view) {
-            private var projectTitle: TextView = view.findViewById(R.id.title) as TextView
-            private var projectPath: TextView = view.findViewById(R.id.path) as TextView
+            private var projectTitle: TextView =
+                view.findViewById(R.id.item_project_title) as TextView
+            private var projectPath: TextView =
+                view.findViewById(R.id.item_project_path) as TextView
 
             override fun bindView(item: Item, payloads: List<Any>) {
                 projectTitle.text = item.title

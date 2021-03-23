@@ -93,20 +93,20 @@ object ExportingUtils {
     ) {
         val l = LayoutInflater.from(context)
             .inflate(R.layout.dialog_activity_drawing, null) as ConstraintLayout
-        val editText = l.findViewById<View>(R.id.et1) as EditText
-        val seekBar = l.findViewById<View>(R.id.sb) as SeekBar
-        val textView = l.findViewById<View>(R.id.tv2) as TextView
-        editText.setText(pxerView.projectName)
-        if (maxSize == -1) seekBar.max = 4096 - pxerView.picWidth else seekBar.max =
+        val nameEdit = l.findViewById<View>(R.id.dialog_drawing_name_edit) as EditText
+        val sizeSeekBar = l.findViewById<View>(R.id.dialog_drawing_size_seekBar) as SeekBar
+        val sizeTv = l.findViewById<View>(R.id.dialog_drawing_size) as TextView
+        nameEdit.setText(pxerView.projectName)
+        if (maxSize == -1) sizeSeekBar.max = 4096 - pxerView.picWidth else sizeSeekBar.max =
             maxSize - pxerView.picWidth
-        textView.text =
+        sizeTv.text =
             "Size : " + java.lang.String.valueOf(pxerView.picWidth) +
                     " x " + java.lang.String.valueOf(
                 pxerView.picHeight
             )
-        seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+        sizeSeekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                textView.text =
+                sizeTv.text =
                     "Size : " + (i + pxerView.picWidth).toString() +
                             " x " + (i + pxerView.picHeight).toString()
             }
@@ -120,14 +120,14 @@ object ExportingUtils {
             .customView(view = l)
             .title(null, "Export")
             .positiveButton(null, "Export") {
-                if (editText.text.toString().isEmpty()) {
+                if (nameEdit.text.toString().isEmpty()) {
                     toast(context, "The file name cannot be empty!")
                     return@positiveButton
                 }
                 listener.onExportConfirmed(
-                    editText.text.toString(),
-                    seekBar.progress + pxerView.picWidth,
-                    seekBar.progress + pxerView.picHeight
+                    nameEdit.text.toString(),
+                    sizeSeekBar.progress + pxerView.picWidth,
+                    sizeSeekBar.progress + pxerView.picHeight
                 )
             }
             .negativeButton(null, "Cancel")

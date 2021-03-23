@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv"
+        android:id="@+id/dialog_drawing_np_name"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -15,22 +15,22 @@
         android:gravity="center_vertical"
         android:text="Name :"
         android:textColor="?android:textColorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/et1"
+        app:layout_constraintBottom_toBottomOf="@+id/dialog_drawing_np_name_edit"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/et1" />
+        app:layout_constraintTop_toTopOf="@+id/dialog_drawing_np_name_edit" />
 
     <EditText
-        android:id="@+id/et1"
+        android:id="@+id/dialog_drawing_np_name_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        app:layout_constraintLeft_toRightOf="@+id/tv"
+        app:layout_constraintLeft_toRightOf="@+id/dialog_drawing_np_name"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv2"
+        android:id="@+id/dialog_drawing_np_width"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -40,45 +40,45 @@
         android:text="Width :"
         android:textColor="?android:textColorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et1"
-        tools:layout_conversion_absoluteHeight="16dp"
-        tools:layout_conversion_absoluteWidth="50dp"
-        tools:layout_conversion_absoluteX="10dp"
-        tools:layout_conversion_absoluteY="52dp" />
-
-    <TextView
-        android:id="@+id/tv3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical"
-        android:text="Height :"
-        android:textColor="?android:textColorPrimary"
-        app:layout_constraintLeft_toLeftOf="@+id/sb2"
-        app:layout_constraintTop_toBottomOf="@+id/sb"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_drawing_np_name_edit"
         tools:layout_conversion_absoluteHeight="16dp"
         tools:layout_conversion_absoluteWidth="50dp"
         tools:layout_conversion_absoluteX="10dp"
         tools:layout_conversion_absoluteY="52dp" />
 
     <SeekBar
-        android:id="@+id/sb"
+        android:id="@+id/dialog_drawing_np_width_seekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:padding="0dp"
-        app:layout_constraintLeft_toLeftOf="@+id/tv2"
+        app:layout_constraintLeft_toLeftOf="@+id/dialog_drawing_np_width"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv2"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_drawing_np_width"
         tools:layout_conversion_absoluteHeight="18dp"
         tools:layout_conversion_absoluteWidth="314dp"
         tools:layout_conversion_absoluteX="60dp"
         tools:layout_conversion_absoluteY="52dp" />
 
+    <TextView
+        android:id="@+id/dialog_drawing_np_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="Height :"
+        android:textColor="?android:textColorPrimary"
+        app:layout_constraintLeft_toLeftOf="@+id/dialog_drawing_np_height_seekBar"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_drawing_np_width_seekBar"
+        tools:layout_conversion_absoluteHeight="16dp"
+        tools:layout_conversion_absoluteWidth="50dp"
+        tools:layout_conversion_absoluteX="10dp"
+        tools:layout_conversion_absoluteY="52dp" />
+
     <SeekBar
-        android:id="@+id/sb2"
+        android:id="@+id/dialog_drawing_np_height_seekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -86,9 +86,9 @@
         android:layout_marginRight="16dp"
         android:padding="0dp"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@+id/tv2"
+        app:layout_constraintLeft_toLeftOf="@+id/dialog_drawing_np_width"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv3"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_drawing_np_height"
         tools:layout_conversion_absoluteHeight="18dp"
         tools:layout_conversion_absoluteWidth="314dp"
         tools:layout_conversion_absoluteX="60dp"

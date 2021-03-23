@@ -20,9 +20,9 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        (findViewById<View>(R.id.iv)).animate().alpha(1f).scaleY(1.1f).scaleX(1.1f)
+        (findViewById<View>(R.id.splash_imageView)).animate().alpha(1f).scaleY(1.1f).scaleX(1.1f)
             .setDuration(2000L).interpolator = AccelerateDecelerateInterpolator()
-        (findViewById<View>(R.id.tv)).animate().alpha(1f).scaleY(1.1f).scaleX(1.1f)
+        (findViewById<View>(R.id.splash_textView)).animate().alpha(1f).scaleY(1.1f).scaleX(1.1f)
             .setDuration(2000L).interpolator = AccelerateDecelerateInterpolator()
 
 //        AdHelper.checkAndInitAd(this)

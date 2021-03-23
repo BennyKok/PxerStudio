@@ -9,7 +9,7 @@
     tools:context="com.benny.pxerstudio.activity.SplashActivity">
 
     <ImageView
-        android:id="@+id/iv"
+        android:id="@+id/splash_imageView"
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:layout_marginStart="16dp"
@@ -27,7 +27,7 @@
         app:srcCompat="@drawable/ic_launcher_splash" />
 
     <TextView
-        android:id="@+id/tv"
+        android:id="@+id/splash_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -39,9 +39,9 @@
         android:textColor="?android:textColorPrimaryInverse"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/iv"
-        app:layout_constraintRight_toRightOf="@+id/iv"
-        app:layout_constraintTop_toBottomOf="@+id/iv"
+        app:layout_constraintLeft_toLeftOf="@+id/splash_imageView"
+        app:layout_constraintRight_toRightOf="@+id/splash_imageView"
+        app:layout_constraintTop_toBottomOf="@+id/splash_imageView"
         app:layout_constraintVertical_bias="0.060000002" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

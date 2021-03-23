@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/maincontent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -15,7 +14,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/drawing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -23,7 +22,7 @@
             app:titleTextAppearance="@style/TextThemeToolBar">
 
             <TextView
-                android:id="@+id/title_text_view"
+                android:id="@+id/drawing_toolbar_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
@@ -44,13 +43,13 @@
         tools:showIn="@layout/activity_drawing">
 
         <com.benny.pxerstudio.widget.PxerView
-            android:id="@+id/pxerView"
+            android:id="@+id/drawing_pxerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/tools_view"
+            android:id="@+id/drawing_tools_cardView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="end"
@@ -60,7 +59,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tools_recycler"
+                android:id="@+id/drawing_tools_recyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
@@ -70,7 +69,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/layer_view"
+            android:id="@+id/drawing_layer_cardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -90,7 +89,7 @@
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/layers_add"
+                    android:id="@+id/drawing_layer_add_cardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="6dp"
@@ -110,7 +109,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/layers_recycler"
+                    android:id="@+id/drawing_layer_recyclerView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -121,7 +120,7 @@
     </FrameLayout>
 
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/tools_fab"
+        android:id="@+id/drawing_tools_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -146,7 +145,7 @@
         android:orientation="horizontal">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_undo"
+            android:id="@+id/drawing_fab_undo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_undo"
@@ -157,7 +156,7 @@
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_redo"
+            android:id="@+id/drawing_fab_redo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_redo"
@@ -168,7 +167,7 @@
             fab:fab_size="mini" />
 
         <com.benny.pxerstudio.widget.BorderFab
-            android:id="@+id/fab_color"
+            android:id="@+id/drawing_fab_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@android:color/transparent"
@@ -178,7 +177,7 @@
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_dropper"
+            android:id="@+id/drawing_fab_dropper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_colorize"

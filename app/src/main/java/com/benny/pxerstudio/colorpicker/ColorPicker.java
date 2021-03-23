@@ -26,9 +26,9 @@ public class ColorPicker {
                 new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT));
-        satValView = (SatValView) contentView.findViewById(R.id.satValView);
-        satValView.withHueBar((HueSeekBar) contentView.findViewById(R.id.hueSeekBar));
-        satValView.withAlphaBar((AlphaSeekBar) contentView.findViewById(R.id.alphaSeekBar));
+        satValView = (SatValView) contentView.findViewById(R.id.colorpicker_satValView);
+        satValView.withHueBar((HueSeekBar) contentView.findViewById(R.id.colorpicker_hueSeekBar));
+        satValView.withAlphaBar((AlphaSeekBar) contentView.findViewById(R.id.colorpicker_alphaSeekBar));
         satValView.setListener(listener);
         satValView.setColor(startColor);
         popupWindow = new PopupWindow(contentView);
