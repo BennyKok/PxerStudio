@@ -22,23 +22,23 @@ import com.benny.pxerstudio.util.Tool;
  */
 
 public class FastBitmapView extends View {
-    private Paint bgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint iconPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint bgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint iconPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final RectF boundary = new RectF();
+    private final RectF boundary2 = new RectF();
+    private final RectF boundary3 = new RectF();
+    private final Path visibilityBg = new Path();
+    private final float radius = 0f;
+    private final float iconSize = Tool.convertDpToPixel(24, getContext());
+    private final float iconSize2 = iconSize / 2;
     private PorterDuffColorFilter overlay;
     private boolean selected;
     private boolean visible = true;
     private int accentColor;
-    private RectF boundary = new RectF();
-    private RectF boundary2 = new RectF();
-    private RectF boundary3 = new RectF();
     private Bitmap bitmap;
     private Bitmap invisibleBitmap;
-    private Path visibilityBg = new Path();
     private float strokeWidth = 2.5f;
-    private float radius = 0f;
-    private float iconSize = Tool.convertDpToPixel(24, getContext());
-    private float iconSize2 = iconSize / 2;
 
     public FastBitmapView(Context context) {
         super(context);
@@ -128,10 +128,10 @@ public class FastBitmapView extends View {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         float w = getWidth() * Math.min(
                 bitmap.getWidth(),
-                bitmap.getHeight()) / (Math.max(bitmap.getWidth(), bitmap.getHeight()));
+                bitmap.getHeight()) / Math.max(bitmap.getWidth(), bitmap.getHeight());
         float h = getHeight() * Math.min(
                 bitmap.getWidth(),
-                bitmap.getHeight()) / (Math.max(bitmap.getWidth(), bitmap.getHeight()));
+                bitmap.getHeight()) / Math.max(bitmap.getWidth(), bitmap.getHeight());
 
         boundary.set(0, 0, getWidth(), getHeight());
         boundary.inset(strokeWidth / 2, strokeWidth / 2);

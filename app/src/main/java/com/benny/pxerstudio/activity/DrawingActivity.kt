@@ -432,7 +432,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 binding!!.pxerView.showGrid = !binding!!.pxerView.showGrid
             }
             R.id.layers -> {
-                binding!!.layerView.pivotX = (binding!!.layerView!!.width / 2).toFloat()
+                binding!!.layerView.pivotX = (binding!!.layerView.width / 2).toFloat()
                 binding!!.layerView.pivotY = 0f
                 if (binding!!.layerView.visibility == View.VISIBLE) {
                     binding!!.layerView
@@ -508,7 +508,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             R.id.tvisibility -> run {
                 if (onlyShowSelected) return@run
                 val layer = binding!!.pxerView.pxerLayers[binding!!.pxerView.currentLayer]
-                layer!!.visible = !layer!!.visible
+                layer!!.visible = !layer.visible
                 binding!!.pxerView.invalidate()
                 layerAdapter.notifyAdapterItemChanged(binding!!.pxerView.currentLayer)
             }
@@ -672,7 +672,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
                 val layer = binding!!.pxerView.pxerLayers[layoutPosition]
                 iv.setVisible(layer!!.visible)
-                iv.bitmap = layer!!.bitmap
+                iv.bitmap = layer.bitmap
             }
 
             override fun unbindView(item: LayerThumbItem) {

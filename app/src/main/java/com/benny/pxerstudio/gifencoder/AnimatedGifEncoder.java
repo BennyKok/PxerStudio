@@ -120,7 +120,7 @@ public class AnimatedGifEncoder {
      * @return true if successful.
      */
     public boolean addFrame(Bitmap im) {
-        if ((im == null) || !started) {
+        if (im == null || !started) {
             return false;
         }
         boolean ok = true;
@@ -303,9 +303,9 @@ public class AnimatedGifEncoder {
     protected int findClosest(int c) {
         if (colorTab == null)
             return -1;
-        int r = (c >> 16) & 0xff;
-        int g = (c >> 8) & 0xff;
-        int b = (c >> 0) & 0xff;
+        int r = c >> 16 & 0xff;
+        int g = c >> 8 & 0xff;
+        int b = c >> 0 & 0xff;
         int minpos = 0;
         int dmin = 256 * 256 * 256;
         int len = colorTab.length;
@@ -315,7 +315,7 @@ public class AnimatedGifEncoder {
             int db = b - (colorTab[i] & 0xff);
             int d = dr * dr + dg * dg + db * db;
             int index = i / 3;
-            if (usedEntry[index] && (d < dmin)) {
+            if (usedEntry[index] && d < dmin) {
                 dmin = d;
                 minpos = index;
             }
@@ -330,7 +330,7 @@ public class AnimatedGifEncoder {
     protected void getImagePixels() {
         int w = image.getWidth();
         int h = image.getHeight();
-        if ((w != width) || (h != height)) {
+        if (w != width || h != height) {
             // create new image with right size/format
             Bitmap temp = Bitmap.createBitmap(width, height, Config.RGB_565);
             Canvas g = new Canvas(temp);
@@ -342,9 +342,9 @@ public class AnimatedGifEncoder {
         for (int i = 0; i < data.length; i++) {
             int td = data[i];
             int tind = i * 3;
-            pixels[tind++] = (byte) ((td >> 0) & 0xFF);
-            pixels[tind++] = (byte) ((td >> 8) & 0xFF);
-            pixels[tind] = (byte) ((td >> 16) & 0xFF);
+            pixels[tind++] = (byte) (td >> 0 & 0xFF);
+            pixels[tind++] = (byte) (td >> 8 & 0xFF);
+            pixels[tind] = (byte) (td >> 16 & 0xFF);
         }
     }
 
@@ -419,10 +419,10 @@ public class AnimatedGifEncoder {
         writeShort(width);
         writeShort(height);
         // packed fields
-        out.write((0x80 | // 1 : global color table flag = 1 (gct used)
+        out.write(0x80 | // 1 : global color table flag = 1 (gct used)
                 0x70 | // 2-4 : color resolution = 7
                 0x00 | // 5 : gct sort flag = 0
-                palSize)); // 6-8 : gct size
+                palSize); // 6-8 : gct size
 
         out.write(0); // background color index
         out.write(0); // pixel aspect ratio - assume 1:1
@@ -447,7 +447,7 @@ public class AnimatedGifEncoder {
      */
     protected void writePalette() throws IOException {
         out.write(colorTab, 0, colorTab.length);
-        int n = (3 * 256) - colorTab.length;
+        int n = 3 * 256 - colorTab.length;
         for (int i = 0; i < n; i++) {
             out.write(0);
         }
@@ -466,7 +466,7 @@ public class AnimatedGifEncoder {
      */
     protected void writeShort(int value) throws IOException {
         out.write(value & 0xff);
-        out.write((value >> 8) & 0xff);
+        out.write(value >> 8 & 0xff);
     }
 
     /**

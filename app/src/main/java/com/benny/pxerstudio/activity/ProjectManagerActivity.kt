@@ -113,7 +113,7 @@ class ProjectManagerActivity : AppCompatActivity() {
                 }
 
                 fa.onLongClickListener = { v, _, _, position ->
-                    val pm = PopupMenu(v!!.context, v!!)
+                    val pm = PopupMenu(v.context, v)
                     pm.inflate(R.menu.menu_popup_project)
                     pm.setOnMenuItemClickListener { item ->
                         when (item.itemId) {

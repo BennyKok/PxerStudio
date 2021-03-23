@@ -30,7 +30,7 @@ public class AtlasExportable extends Exportable {
 
                 int atlasWidth = (int) Math.ceil(
                         (float) pxerView.getPxerLayers().size() /
-                                (float) Math.sqrt(((float) pxerView.getPxerLayers().size())));
+                                (float) Math.sqrt((float) pxerView.getPxerLayers().size()));
                 int atlasHeight = (int) Math.ceil(
                         (float) pxerView.getPxerLayers().size() / (float) atlasWidth);
 

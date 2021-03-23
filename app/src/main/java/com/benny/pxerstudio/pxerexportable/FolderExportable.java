@@ -41,7 +41,7 @@ public class FolderExportable extends Exportable {
                             paint);
                     final File file = new File(
                             ExportingUtils.INSTANCE.checkAndCreateProjectDirs(fileName, context),
-                            fileName + "_Frame_" + String.valueOf(i + 1) + ".png");
+                            fileName + "_Frame_" + (i + 1) + ".png");
                     pngs.add(file);
                     bitmaps.add(bitmap);
                 }
@@ -67,9 +67,9 @@ public class FolderExportable extends Exportable {
 
                     @Override
                     protected void onProgressUpdate(Integer... values) {
-                        if (ExportingUtils.INSTANCE.currentProgressDialog != null) {
-                            ExportingUtils.INSTANCE.currentProgressDialog.setTitle(
-                                    "Working on frame " + String.valueOf(values[0] + 1));
+                        if (ExportingUtils.currentProgressDialog != null) {
+                            ExportingUtils.currentProgressDialog.setTitle(
+                                    "Working on frame " + (values[0] + 1));
                         }
                         super.onProgressUpdate(values);
                     }

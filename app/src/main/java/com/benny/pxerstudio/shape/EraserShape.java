@@ -15,9 +15,9 @@ import java.util.ArrayList;
 
 public class EraserShape extends BaseShape {
 
-    private Paint p = new Paint();
+    private final Paint p = new Paint();
+    private final ArrayList<PxerView.Pxer> previousPxer = new ArrayList<>();
     private boolean hasInit;
-    private ArrayList<PxerView.Pxer> previousPxer = new ArrayList<>();
     private Path path;
 
     public EraserShape() {

@@ -97,7 +97,7 @@ public class SatValView extends View {
         satBitmap = getSatValBitmap(hue, alpha);
         reCalBackground();
         satBound.set(0, 0, getRight(), getBottom());
-        placePointer(sat * getWidth(), getHeight() - (val * getHeight()), false);
+        placePointer(sat * getWidth(), getHeight() - val * getHeight(), false);
     }
 
     private void init() {
@@ -135,19 +135,19 @@ public class SatValView extends View {
         for (int y = 0; y < height; y += skipCount) {
             for (int x = 0; x < width; x += skipCount) {
 
-                if (pix >= (width * height))
+                if (pix >= width * height)
                     break;
 
-                float sat = (x) / (float) width;
-                float val = ((height - y)) / (float) height;
+                float sat = x / (float) width;
+                float val = (height - y) / (float) height;
 
-                float[] hsv = new float[]{hue, sat, val};
+                float[] hsv = {hue, sat, val};
 
                 int color = Color.HSVToColor(hsv);
                 for (int m = 0; m < skipCount; m++) {
-                    if (pix >= (width * height))
+                    if (pix >= width * height)
                         break;
-                    if ((x + m) < width) {
+                    if (x + m < width) {
                         colors[pix] = color;
                         pix++;
                     }
@@ -155,7 +155,7 @@ public class SatValView extends View {
             }
 
             for (int n = 0; n < skipCount; n++) {
-                if (pix >= (width * height))
+                if (pix >= width * height)
                     break;
                 for (int x = 0; x < width; x++) {
                     colors[pix] = colors[pix - width];
@@ -218,8 +218,8 @@ public class SatValView extends View {
         fingerX = x;
         fingerY = y;
 
-        sat = (x) / (float) getWidth();
-        val = ((getHeight() - y)) / (float) getHeight();
+        sat = x / (float) getWidth();
+        val = (getHeight() - y) / (float) getHeight();
 
         onColorRetrieved(alpha, hue, sat, val);
     }
@@ -252,7 +252,7 @@ public class SatValView extends View {
     private void setSaturationAndValue(float sat, float val) {
         this.sat = sat;
         this.val = val;
-        placePointer(sat * getWidth(), getHeight() - (val * getHeight()), false);
+        placePointer(sat * getWidth(), getHeight() - val * getHeight(), false);
     }
 
     public interface OnColorChangeListener {

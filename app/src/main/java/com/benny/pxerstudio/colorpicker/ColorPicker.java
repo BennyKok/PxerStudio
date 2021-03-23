@@ -17,9 +17,9 @@ import com.benny.pxerstudio.util.Tool;
  */
 
 public class ColorPicker {
-    private PopupWindow popupWindow;
+    private final PopupWindow popupWindow;
+    private final SatValView satValView;
     private SatValView.OnColorChangeListener listener;
-    private SatValView satValView;
 
     public ColorPicker(Context c, int startColor, SatValView.OnColorChangeListener listener) {
         View contentView = LayoutInflater.from(c).inflate(R.layout.colorpicker_popup, null);

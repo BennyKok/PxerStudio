@@ -11,19 +11,35 @@ class LZWEncoder {
     static final int BITS = 12;
     static final int HSIZE = 5003; // 80% occupancy
     private static final int EOF = -1;
-    int n_bits; // number of bits/code
-    int maxbits = BITS; // user settable max # bits/code
-    int maxcode; // maximum code, given n_bits
+    // output
+    //
+    // Output the given code.
+    // Inputs:
+    // code: A n_bits-bit integer. If == -1, then EOF. This assumes
+    // that n_bits =< wordsize - 1.
+    // Outputs:
+    // Outputs code to the file.
+    // Assumptions:
+    // Chars are 8 bits long.
+    // Algorithm:
+    // Maintain a BITS character long buffer (so that 8 codes will
+    // fit in it exactly). Use the VAX insv instruction to insert each
+    // code in turn. When the buffer fills up empty it and start over.
+    private final int imgW;
+    private final int imgH;
+    private final byte[] pixAry;
 
     // GIFCOMPR.C - GIF Image compression routines
     //
     // Lempel-Ziv compression based on 'compress'. GIF modifications by
     // David Rowley (mgardi@watdcsu.waterloo.edu)
-
+    private final int initCodeSize;
+    int n_bits; // number of bits/code
+    int maxbits = BITS; // user settable max # bits/code
+    int maxcode; // maximum code, given n_bits
     // General DEFINEs
     int maxmaxcode = 1 << BITS; // should NEVER generate this code
     int[] htab = new int[HSIZE];
-
     // GIF Image compression - modified 'compress'
     //
     // Based on: compress.c - File compression ala IEEE Computer, June 1984.
@@ -45,7 +61,6 @@ class LZWEncoder {
     int EOFCode;
     int cur_accum = 0;
     int cur_bits = 0;
-
     // Algorithm: use open addressing double hashing (no chaining) on the
     // prefix code / next character combination. We do a variant of Knuth's
     // algorithm D (vol. 3, sec. 6.4) along with G. Knott's relatively-prime
@@ -57,30 +72,12 @@ class LZWEncoder {
     // for the decompressor. Late addition: construct the table according to
     // file size for noticeable speed improvement on small files. Please direct
     // questions about this implementation to ames!jaw.
-    int masks[] = {0x0000, 0x0001, 0x0003, 0x0007, 0x000F, 0x001F, 0x003F, 0x007F, 0x00FF, 0x01FF,
+    int[] masks = {0x0000, 0x0001, 0x0003, 0x0007, 0x000F, 0x001F, 0x003F, 0x007F, 0x00FF, 0x01FF,
             0x03FF, 0x07FF, 0x0FFF, 0x1FFF, 0x3FFF, 0x7FFF, 0xFFFF};
     // Number of characters so far in this 'packet'
     int a_count;
     // Define the storage for the packet accumulator
     byte[] accum = new byte[256];
-
-    // output
-    //
-    // Output the given code.
-    // Inputs:
-    // code: A n_bits-bit integer. If == -1, then EOF. This assumes
-    // that n_bits =< wordsize - 1.
-    // Outputs:
-    // Outputs code to the file.
-    // Assumptions:
-    // Chars are 8 bits long.
-    // Algorithm:
-    // Maintain a BITS character long buffer (so that 8 codes will
-    // fit in it exactly). Use the VAX insv instruction to insert each
-    // code in turn. When the buffer fills up empty it and start over.
-    private int imgW, imgH;
-    private byte[] pixAry;
-    private int initCodeSize;
     private int remaining;
     private int curPixel;
 
@@ -134,7 +131,7 @@ class LZWEncoder {
         n_bits = g_init_bits;
         maxcode = MAXCODE(n_bits);
 
-        ClearCode = 1 << (init_bits - 1);
+        ClearCode = 1 << init_bits - 1;
         EOFCode = ClearCode + 1;
         free_ent = ClearCode + 2;
 
@@ -155,7 +152,7 @@ class LZWEncoder {
         outer_loop:
         while ((c = nextPixel()) != EOF) {
             fcode = (c << maxbits) + ent;
-            i = (c << hshift) ^ ent; // xor hashing
+            i = c << hshift ^ ent; // xor hashing
 
             if (htab[i] == fcode) {
                 ent = codetab[i];
@@ -231,7 +228,7 @@ class LZWEncoder {
         cur_accum &= masks[cur_bits];
 
         if (cur_bits > 0)
-            cur_accum |= (code << cur_bits);
+            cur_accum |= code << cur_bits;
         else
             cur_accum = code;
 

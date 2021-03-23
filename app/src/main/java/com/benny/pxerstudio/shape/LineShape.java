@@ -16,9 +16,9 @@ import java.util.ArrayList;
 
 public class LineShape extends BaseShape {
 
-    private Paint p = new Paint();
+    private final Paint p = new Paint();
+    private final ArrayList<PxerView.Pxer> previousPxer = new ArrayList<>();
     private boolean hasInit;
-    private ArrayList<PxerView.Pxer> previousPxer = new ArrayList<>();
 
     public LineShape() {
         p.setStyle(Paint.Style.STROKE);
@@ -73,7 +73,7 @@ public class LineShape extends BaseShape {
         for (int i = 0; i < pxerView.getPicWidth(); i++) {
             for (int y = 0; y < pxerView.getPicHeight(); y++) {
                 int c = pxerView.getPreview().getPixel(i, y);
-                if ((i == startX && y == startY) || (i == endX && y == endY))
+                if (i == startX && y == startY || i == endX && y == endY)
                     c = Color.YELLOW;
 
                 if (c == Color.YELLOW) {

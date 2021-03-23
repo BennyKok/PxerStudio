@@ -32,7 +32,7 @@ public class RectShape extends BaseShape {
         int rectWidth = Math.abs(startX - endX), rectHeight = Math.abs(startY - endY);
 
         for (int i = 0; i < rectWidth + 1; i++) {
-            int mX = startX + (i * ((endX - startX) < 0 ? -1 : 1));
+            int mX = startX + i * (endX - startX < 0 ? -1 : 1);
 
             previousPxer.add(new PxerView.Pxer(mX, startY, layerToDraw.getPixel(mX, startY)));
             previousPxer.add(new PxerView.Pxer(mX, endY, layerToDraw.getPixel(mX, endY)));
@@ -47,7 +47,7 @@ public class RectShape extends BaseShape {
                             layerToDraw.getPixel(mX, endY)));
         }
         for (int i = 1; i < rectHeight; i++) {
-            int mY = startY + (i * ((endY - startY) < 0 ? -1 : 1));
+            int mY = startY + i * (endY - startY < 0 ? -1 : 1);
 
             previousPxer.add(new PxerView.Pxer(startX, mY, layerToDraw.getPixel(startX, mY)));
             previousPxer.add(new PxerView.Pxer(endX, mY, layerToDraw.getPixel(endX, mY)));

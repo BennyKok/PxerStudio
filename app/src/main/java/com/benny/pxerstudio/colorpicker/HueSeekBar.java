@@ -16,9 +16,8 @@ import android.util.AttributeSet;
 
 public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
 
+    private final Paint thumbPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Bitmap hueBitmap;
-
-    private Paint thumbPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public HueSeekBar(Context context) {
         super(context);
@@ -53,7 +52,7 @@ public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
 
             @Override
             public void draw(Canvas canvas) {
-                float[] hsv = new float[]{getProgress(), 1, 1};
+                float[] hsv = {getProgress(), 1, 1};
                 thumbPaint.setColor(Color.HSVToColor(hsv));
                 thumbPaint.setStyle(Paint.Style.FILL_AND_STROKE);
                 canvas.drawRect(getBounds(), thumbPaint);
@@ -126,14 +125,14 @@ public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
         for (int x = 0; x < width; x++) {
             float hue = 0;
             if (width > height) {
-                hue = (x * 360f) / width;
+                hue = x * 360f / width;
             }
             for (int y = 0; y < height; y++) {
                 if (width <= height) {
-                    hue = (y * 360f) / height;
+                    hue = y * 360f / height;
                 }
 
-                float[] hsv = new float[]{hue, 1, 1};
+                float[] hsv = {hue, 1, 1};
 
                 hueBitmap.setPixel(x, y, Color.HSVToColor(hsv));
             }

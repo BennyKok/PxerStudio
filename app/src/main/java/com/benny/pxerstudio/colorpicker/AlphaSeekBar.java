@@ -17,10 +17,9 @@ import android.util.AttributeSet;
 
 public class AlphaSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
 
+    private final Paint thumbPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint huePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Bitmap hueBitmap;
-
-    private Paint thumbPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint huePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public AlphaSeekBar(Context context) {
         super(context);

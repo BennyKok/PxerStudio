@@ -757,7 +757,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
         @JvmField
         var visible = true
 
-        constructor() {}
+        constructor()
         constructor(bitmap: Bitmap?) {
             this.bitmap = bitmap
         }
