@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import androidx.appcompat.app.AppCompatActivity
+import com.benny.pxerstudio.BuildConfig
 import com.benny.pxerstudio.R
 import com.benny.pxerstudio.databinding.ActivityAboutBinding
 import de.psdev.licensesdialog.LicensesDialog
@@ -19,6 +20,9 @@ class AboutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAboutBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.aboutAppVersion.text =
+            "v" + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")"
 
         binding.aboutCreator.text = Html.fromHtml(getString(R.string.created_by_bennykok))
         binding.aboutCreator.movementMethod = LinkMovementMethod.getInstance()
