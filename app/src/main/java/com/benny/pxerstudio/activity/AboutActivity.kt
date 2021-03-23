@@ -69,10 +69,38 @@ class AboutActivity : AppCompatActivity() {
         tv2.text = Html.fromHtml(sb.toString())
 
         val notices = Notices()
-        notices.addNotice(Notice("FastAdapter", "https://github.com/mikepenz/FastAdapter", "Copyright 2016 Mike Penz", ApacheSoftwareLicense20()))
-        notices.addNotice(Notice("Material Dialogs", "https://github.com/afollestad/material-dialogs", "Copyright (c) 2014-2016 Aidan Michael Follestad", MITLicense()))
-        notices.addNotice(Notice("FloatingActionButton", "https://github.com/Clans/FloatingActionButton", "Copyright 2015 Dmytro Tarianyk", ApacheSoftwareLicense20()))
-        notices.addNotice(Notice("Gson", "https://github.com/google/gson", "Copyright 2008 Google Inc.", ApacheSoftwareLicense20()))
+        notices.addNotice(
+            Notice(
+                "FastAdapter",
+                "https://github.com/mikepenz/FastAdapter",
+                "Copyright 2016 Mike Penz",
+                ApacheSoftwareLicense20()
+            )
+        )
+        notices.addNotice(
+            Notice(
+                "Material Dialogs",
+                "https://github.com/afollestad/material-dialogs",
+                "Copyright (c) 2014-2016 Aidan Michael Follestad",
+                MITLicense()
+            )
+        )
+        notices.addNotice(
+            Notice(
+                "FloatingActionButton",
+                "https://github.com/Clans/FloatingActionButton",
+                "Copyright 2015 Dmytro Tarianyk",
+                ApacheSoftwareLicense20()
+            )
+        )
+        notices.addNotice(
+            Notice(
+                "Gson",
+                "https://github.com/google/gson",
+                "Copyright 2008 Google Inc.",
+                ApacheSoftwareLicense20()
+            )
+        )
 
         val builder = LicensesDialog.Builder(this@AboutActivity)
         builder.setIncludeOwnLicense(true)
@@ -84,7 +112,16 @@ class AboutActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.iv).setOnClickListener { v ->
             if (v.animation == null || v.animation != null && v.animation.hasEnded())
-                v.animate().scaleX(1.1f).scaleY(1.1f).rotationBy(-20f).withEndAction { v.animate().scaleX(1f).scaleY(1f).rotation(0f) }
+                v.animate()
+                    .scaleX(1.1f)
+                    .scaleY(1.1f)
+                    .rotationBy(-20f)
+                    .withEndAction {
+                        v.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .rotation(0f)
+                    }
         }
     }
 }

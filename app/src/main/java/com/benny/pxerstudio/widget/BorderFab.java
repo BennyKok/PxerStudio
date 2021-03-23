@@ -17,10 +17,10 @@ import com.github.clans.fab.FloatingActionButton;
  * Created by BennyKok on 10/9/2016.
  */
 
-public class BorderFab extends FloatingActionButton{
+public class BorderFab extends FloatingActionButton {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Paint colorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    float three,one;
+    float three, one;
 
     Bitmap bg;
 
@@ -46,23 +46,23 @@ public class BorderFab extends FloatingActionButton{
         init();
     }
 
-    public void setColor(int color){
+    public void setColor(int color) {
         this.color = color;
         invalidate();
     }
 
     private void init() {
-        bg = Bitmap.createBitmap(2,2, Bitmap.Config.ARGB_8888);
+        bg = Bitmap.createBitmap(2, 2, Bitmap.Config.ARGB_8888);
         bg.eraseColor(Color.WHITE);
-        bg.setPixel(0,0, Color.GRAY);
-        bg.setPixel(1,1, Color.GRAY);
+        bg.setPixel(0, 0, Color.GRAY);
+        bg.setPixel(1, 1, Color.GRAY);
 
-        three = Tool.convertDpToPixel(2,getContext());
-        one = Tool.convertDpToPixel(1,getContext());
+        three = Tool.convertDpToPixel(2, getContext());
+        one = Tool.convertDpToPixel(1, getContext());
 
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(getContext().getResources().getColor(R.color.colorAccent));
-        paint.setStrokeWidth(Tool.convertDpToPixel(6,getContext()));
+        paint.setStrokeWidth(Tool.convertDpToPixel(6, getContext()));
     }
 
     @Override
@@ -72,14 +72,13 @@ public class BorderFab extends FloatingActionButton{
 
         canvas.save();
         Path p = new Path();
-        p.addCircle(getWidth() / 2, getHeight()/ 2, getWidth() / 3 + one, Path.Direction.CCW);
+        p.addCircle(getWidth() / 2, getHeight() / 2, getWidth() / 3 + one, Path.Direction.CCW);
         canvas.clipPath(p);
-        canvas.drawBitmap(bg,null,new Rect(0,0,getWidth(),getHeight()),colorPaint);
+        canvas.drawBitmap(bg, null, new Rect(0, 0, getWidth(), getHeight()), colorPaint);
         canvas.restore();
 
         colorPaint.setColor(color);
-        canvas.drawCircle(getWidth() / 2,  getHeight()/ 2, getWidth() / 3 + one, colorPaint);
-        canvas.drawCircle(getWidth() / 2,  getHeight() / 2, getWidth() / 3 + one, paint);
+        canvas.drawCircle(getWidth() / 2, getHeight() / 2, getWidth() / 3 + one, colorPaint);
+        canvas.drawCircle(getWidth() / 2, getHeight() / 2, getWidth() / 3 + one, paint);
     }
-
 }

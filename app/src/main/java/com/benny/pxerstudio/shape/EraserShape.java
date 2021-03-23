@@ -13,24 +13,24 @@ import java.util.ArrayList;
  * Created by BennyKok on 10/15/2016.
  */
 
-public class EraserShape extends BaseShape{
+public class EraserShape extends BaseShape {
 
     private Paint p = new Paint();
     private boolean hasInit;
     private ArrayList<PxerView.Pxer> previousPxer = new ArrayList<>();
     private Path path;
 
-    public EraserShape(){
+    public EraserShape() {
         p.setStyle(Paint.Style.STROKE);
         p.setStrokeWidth(3f);
     }
 
     @Override
     public boolean onDraw(PxerView pxerView, int startX, int startY, int endX, int endY) {
-        if (!super.onDraw(pxerView,startX,startY,endX,endY))return true;
-        if (!hasInit){
+        if (!super.onDraw(pxerView, startX, startY, endX, endY)) return true;
+        if (!hasInit) {
             path = new Path();
-            path.moveTo(startX,startY);
+            path.moveTo(startX, startY);
             p.setColor(Color.YELLOW);
             pxerView.getPreview().eraseColor(Color.TRANSPARENT);
             pxerView.getPreviewCanvas().setBitmap(pxerView.getPreview());
@@ -40,18 +40,18 @@ public class EraserShape extends BaseShape{
 
         Bitmap layerToDraw = pxerView.getPxerLayers().get(pxerView.getCurrentLayer()).bitmap;
 
-        path.lineTo(endX,endY);
+        path.lineTo(endX, endY);
 
-        pxerView.getPreviewCanvas().drawPath(path,p);
+        pxerView.getPreviewCanvas().drawPath(path, p);
 
         for (int i = 0; i < pxerView.getPicWidth(); i++) {
             for (int y = 0; y < pxerView.getPicHeight(); y++) {
-                int c = pxerView.getPreview().getPixel(i,y);
-                if (c != Color.TRANSPARENT){
-                    PxerView.Pxer history = new PxerView.Pxer(i,y,layerToDraw.getPixel(i,y));
+                int c = pxerView.getPreview().getPixel(i, y);
+                if (c != Color.TRANSPARENT) {
+                    PxerView.Pxer history = new PxerView.Pxer(i, y, layerToDraw.getPixel(i, y));
                     if (!previousPxer.contains(history))
                         previousPxer.add(history);
-                    layerToDraw.setPixel(i,y,Color.TRANSPARENT);
+                    layerToDraw.setPixel(i, y, Color.TRANSPARENT);
                 }
             }
         }
@@ -66,7 +66,7 @@ public class EraserShape extends BaseShape{
 
         hasInit = false;
 
-        if (previousPxer.isEmpty())return;
+        if (previousPxer.isEmpty()) return;
         pxerView.getCurrentHistory().addAll(previousPxer);
         previousPxer.clear();
 

@@ -34,7 +34,6 @@
             <item
                 android:id="@+id/mergealllayer"
                 android:title="@string/merge_all_layers" />
-
         </menu>
     </item>
 

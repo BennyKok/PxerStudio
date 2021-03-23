@@ -38,35 +38,46 @@ class ProjectManagerActivity : AppCompatActivity() {
         val rv = findViewById<RecyclerView>(R.id.rv)
 
         //Comment this line out and the if statement if you forked this repo or downloaded the code
-//        val adView = AdHelper.checkAndEnableAd(this)
-//        if (adView != null) {
-//            val fl = FrameLayout(this)
-//            fl.visibility = View.GONE
-//
-//            adView.adListener = object : AdListener() {
-//                override fun onAdLoaded() {
-//                    fl.visibility = View.VISIBLE
-//                    super.onAdLoaded()
-//                }
-//            }
-//
-//            //ProgressBar progressBar = new ProgressBar(this,null,android.R.attr.progressBarStyle);
-//            //progressBar.setIndeterminate(true);
-//
-//            val lp = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//            lp.addRule(RelativeLayout.CENTER_HORIZONTAL)
-//            lp.addRule(RelativeLayout.ALIGN_PARENT_TOP)
-//
-//            val lp2 = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//            lp2.gravity = Gravity.CENTER
-//
-//            //fl.addView(progressBar,lp2);
-//            fl.addView(adView)
-//            (findViewById<RelativeLayout>(R.id.content_project_manager)).addView(fl, lp)
-//
-//            fl.id = R.id.ad_view
-//            (rv.layoutParams as RelativeLayout.LayoutParams).addRule(RelativeLayout.BELOW, R.id.ad_view)
-//        }
+/*
+        val adView = AdHelper.checkAndEnableAd(this)
+        if (adView != null) {
+            val fl = FrameLayout(this)
+            fl.visibility = View.GONE
+
+            adView.adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    fl.visibility = View.VISIBLE
+                    super.onAdLoaded()
+                }
+            }
+
+            //ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyle);
+            //progressBar.setIndeterminate(true);
+
+            val lp = RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            lp.addRule(RelativeLayout.CENTER_HORIZONTAL)
+            lp.addRule(RelativeLayout.ALIGN_PARENT_TOP)
+
+            val lp2 = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            lp2.gravity = Gravity.CENTER
+
+            //fl.addView(progressBar,lp2);
+            fl.addView(adView)
+            (findViewById<RelativeLayout>(R.id.content_project_manager)).addView(fl, lp)
+
+            fl.id = R.id.ad_view
+            (rv.layoutParams as RelativeLayout.LayoutParams).addRule(
+                RelativeLayout.BELOW,
+                R.id.ad_view
+            )
+        }
+*/
 
         rv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         ia = ItemAdapter()
@@ -132,23 +143,33 @@ class ProjectManagerActivity : AppCompatActivity() {
                                     positiveButton(R.string.ok)
                                 }
 
-                            R.id.delete -> Tool.prompt(this@ProjectManagerActivity).title(R.string.deleteproject).message(R.string.deleteprojectwarning).positiveButton(R.string.delete).positiveButton {
-                                if (projects[position].delete()) {
-                                    ia.remove(position)
-                                    projects.removeAt(position)
+                            R.id.delete -> Tool.prompt(this@ProjectManagerActivity)
+                                .title(R.string.deleteproject)
+                                .message(R.string.deleteprojectwarning)
+                                .positiveButton(R.string.delete).positiveButton {
+                                    if (projects[position].delete()) {
+                                        ia.remove(position)
+                                        projects.removeAt(position)
 
-                                    if (projects.size < 1)
-                                        findViewById<TextView>(R.id.noProjectFound).visibility = View.VISIBLE
+                                        if (projects.size < 1)
+                                            findViewById<TextView>(R.id.noProjectFound).visibility =
+                                                View.VISIBLE
 
-                                    val newIntent = Intent()
-                                    newIntent.putExtra("fileNameChanged", true)
+                                        val newIntent = Intent()
+                                        newIntent.putExtra("fileNameChanged", true)
 
-                                    setResult(Activity.RESULT_OK, newIntent)
+                                        setResult(Activity.RESULT_OK, newIntent)
 
-                                    Tool.toast(this@ProjectManagerActivity, getString(R.string.projectdeleted))
-                                } else
-                                    Tool.toast(this@ProjectManagerActivity, getString(R.string.unabletodeleteproject))
-                            }.show()
+                                        Tool.toast(
+                                            this@ProjectManagerActivity,
+                                            getString(R.string.projectdeleted)
+                                        )
+                                    } else
+                                        Tool.toast(
+                                            this@ProjectManagerActivity,
+                                            getString(R.string.unabletodeleteproject)
+                                        )
+                                }.show()
                         }
                         true
                     }
@@ -165,7 +186,8 @@ class ProjectManagerActivity : AppCompatActivity() {
         }
     }
 
-    class Item(var title: String, var path: String) : AbstractItem<ProjectManagerActivity.Item.ViewHolder>() {
+    class Item(var title: String, var path: String) :
+        AbstractItem<ProjectManagerActivity.Item.ViewHolder>() {
 
         override val type: Int
             get() = 0
@@ -190,5 +212,4 @@ class ProjectManagerActivity : AppCompatActivity() {
             }
         }
     }
-
 }

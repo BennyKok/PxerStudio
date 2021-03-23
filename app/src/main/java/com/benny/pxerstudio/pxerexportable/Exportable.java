@@ -9,5 +9,5 @@ import com.benny.pxerstudio.widget.PxerView;
  */
 
 public abstract class Exportable {
-    public abstract void runExport(final Context context,final PxerView pxerView);
+    public abstract void runExport(final Context context, final PxerView pxerView);
 }

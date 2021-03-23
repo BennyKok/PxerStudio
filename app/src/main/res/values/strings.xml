@@ -57,6 +57,4 @@
     <string name="error_while_loading_project">Error while loading your project</string>
     <string name="no_project_found">No project found</string>
     <string name="duplicate_layer">Duplicate</string>
-
-
 </resources>

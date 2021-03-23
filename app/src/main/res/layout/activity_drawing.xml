@@ -23,12 +23,12 @@
             app:titleTextAppearance="@style/TextThemeToolBar">
 
             <TextView
-                android:onClick="onProjectTitleClicked"
                 android:id="@+id/title_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="2"
+                android:onClick="onProjectTitleClicked"
                 android:textAppearance="@style/TextTheme"
                 android:textColor="?android:textColorPrimary" />
 
@@ -125,28 +125,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="6dp"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
-
+        android:layout_marginBottom="6dp"
         android:onClick="onToggleToolsPanel"
         android:src="@drawable/ic_mode_edit_24dp"
         app:layout_anchorGravity="bottom|right"
         fab:fab_colorNormal="?colorAccent"
-
         fab:fab_colorPressed="?colorAccent"
         fab:fab_colorRipple="#66FFFFFF"
-
         fab:fab_size="normal" />
-
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
-        android:layout_marginBottom="6dp"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
+        android:layout_marginBottom="6dp"
         android:orientation="horizontal">
 
         <com.github.clans.fab.FloatingActionButton
@@ -156,7 +152,6 @@
             android:src="@drawable/ic_undo_24dp"
             fab:fab_colorNormal="?colorAccent"
             fab:fab_colorPressed="?colorAccent"
-
             fab:fab_colorRipple="#66FFFFFF"
             fab:fab_showShadow="true"
             fab:fab_size="mini" />
@@ -168,7 +163,6 @@
             android:src="@drawable/ic_redo_24dp"
             fab:fab_colorNormal="?colorAccent"
             fab:fab_colorPressed="?colorAccent"
-
             fab:fab_colorRipple="#66FFFFFF"
             fab:fab_showShadow="true"
             fab:fab_size="mini" />
@@ -179,7 +173,6 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@android:color/transparent"
             fab:fab_colorPressed="@android:color/transparent"
-
             fab:fab_colorRipple="@android:color/transparent"
             fab:fab_showShadow="true"
             fab:fab_size="mini" />
@@ -191,11 +184,9 @@
             android:src="@drawable/ic_colorize_24dp"
             fab:fab_colorNormal="?colorAccent"
             fab:fab_colorPressed="?colorAccent"
-
             fab:fab_colorRipple="#66FFFFFF"
             fab:fab_showShadow="true"
             fab:fab_size="mini" />
-
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

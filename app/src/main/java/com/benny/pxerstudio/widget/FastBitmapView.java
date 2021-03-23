@@ -9,10 +9,10 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
-
-import androidx.core.graphics.ColorUtils;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.core.graphics.ColorUtils;
 
 import com.benny.pxerstudio.R;
 import com.benny.pxerstudio.util.Tool;
@@ -85,7 +85,8 @@ public class FastBitmapView extends View {
         iconPaint.setColor(Color.WHITE);
         iconPaint.setStyle(Paint.Style.FILL_AND_STROKE);
 
-        overlay = new PorterDuffColorFilter(ColorUtils.setAlphaComponent(Color.DKGRAY, 100), PorterDuff.Mode.SRC_OVER);
+        overlay = new PorterDuffColorFilter(
+                ColorUtils.setAlphaComponent(Color.DKGRAY, 100), PorterDuff.Mode.SRC_OVER);
 
         strokeWidth = Tool.convertDpToPixel(strokeWidth, getContext());
 
@@ -125,19 +126,36 @@ public class FastBitmapView extends View {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        float w = getWidth() * Math.min(bitmap.getWidth(), bitmap.getHeight()) / (Math.max(bitmap.getWidth(), bitmap.getHeight()));
-        float h = getHeight() * Math.min(bitmap.getWidth(), bitmap.getHeight()) / (Math.max(bitmap.getWidth(), bitmap.getHeight()));
+        float w = getWidth() * Math.min(
+                bitmap.getWidth(),
+                bitmap.getHeight()) / (Math.max(bitmap.getWidth(), bitmap.getHeight()));
+        float h = getHeight() * Math.min(
+                bitmap.getWidth(),
+                bitmap.getHeight()) / (Math.max(bitmap.getWidth(), bitmap.getHeight()));
 
         boundary.set(0, 0, getWidth(), getHeight());
         boundary.inset(strokeWidth / 2, strokeWidth / 2);
 
-        if (bitmap.getWidth() < bitmap.getHeight())
-            boundary2.set(Math.abs(getWidth() - w) / 2, 0, getWidth() - Math.abs(getWidth() - w) / 2, getHeight());
-        else
-            boundary2.set(0, Math.abs(getHeight() - h) / 2, getHeight(), getHeight() - Math.abs(getHeight() - h) / 2);
+        if (bitmap.getWidth() < bitmap.getHeight()) {
+            boundary2.set(
+                    Math.abs(getWidth() - w) / 2,
+                    0,
+                    getWidth() - Math.abs(getWidth() - w) / 2,
+                    getHeight());
+        } else {
+            boundary2.set(
+                    0,
+                    Math.abs(getHeight() - h) / 2,
+                    getHeight(),
+                    getHeight() - Math.abs(getHeight() - h) / 2);
+        }
         boundary2.inset(strokeWidth, strokeWidth);
 
-        boundary3.set(getWidth() / 2 - iconSize2, getHeight() / 2 - iconSize2, getWidth() / 2 + iconSize2, getHeight() / 2 + iconSize2);
+        boundary3.set(
+                getWidth() / 2 - iconSize2,
+                getHeight() / 2 - iconSize2,
+                getWidth() / 2 + iconSize2,
+                getHeight() / 2 + iconSize2);
 
         visibilityBg.reset();
         visibilityBg.moveTo(strokeWidth, strokeWidth);

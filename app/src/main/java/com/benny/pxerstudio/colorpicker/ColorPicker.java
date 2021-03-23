@@ -23,7 +23,10 @@ public class ColorPicker {
 
     public ColorPicker(Context c, int startColor, SatValView.OnColorChangeListener listener) {
         View contentView = LayoutInflater.from(c).inflate(R.layout.colorpicker_popup, null);
-        contentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        contentView.setLayoutParams(
+                new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
         satValView = (SatValView) contentView.findViewById(R.id.satValView);
         satValView.withHueBar((HueSeekBar) contentView.findViewById(R.id.hueSeekBar));
         satValView.withAlphaBar((AlphaSeekBar) contentView.findViewById(R.id.alphaSeekBar));
@@ -32,7 +35,7 @@ public class ColorPicker {
         popupWindow = new PopupWindow(contentView);
         popupWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#424242")));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            popupWindow.setElevation(Tool.convertDpToPixel(8,c));
+            popupWindow.setElevation(Tool.convertDpToPixel(8, c));
         }
         popupWindow.setHeight((int) Tool.convertDpToPixel(292, c));
         popupWindow.setWidth((int) Tool.convertDpToPixel(216, c));

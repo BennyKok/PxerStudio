@@ -3,12 +3,9 @@ package com.benny.pxerstudio.util
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.os.Environment
-import android.text.InputType
 import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.Toast
@@ -52,9 +49,17 @@ object Tool {
             }
         }
         bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
-            Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888) // Single color bitmap will be created of 1x1 pixel
+            Bitmap.createBitmap(
+                1,
+                1,
+                Bitmap.Config.ARGB_8888
+            ) // Single color bitmap will be created of 1x1 pixel
         } else {
-            Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            Bitmap.createBitmap(
+                drawable.intrinsicWidth,
+                drawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
         }
         val canvas = Canvas(bitmap)
         drawable.setBounds(0, 0, canvas.width, canvas.height)
@@ -107,21 +112,22 @@ object Tool {
     @JvmStatic
     fun prompt(c: Context?): MaterialDialog {
         return MaterialDialog(c!!)
-                .negativeButton(R.string.cancel)
-//                .titleGravity(GravityEnum.CENTER)
-//                .typeface(myType, myType)
-//                .positiveColor(Color.RED)
+            .negativeButton(R.string.cancel)
+//            .titleGravity(GravityEnum.CENTER)
+//            .typeface(myType, myType)
+//            .positiveColor(Color.RED)
     }
-
-//    fun promptTextInput(c: Context?, title: String?): MaterialDialog {
-//        return MaterialDialog(c!!)
-//                .negativeButton(R.string.cancel)
-//                .positiveButton(R.string.ok)
-//                .title(null,title)
-//                .inputType(InputType.TYPE_CLASS_TEXT)
-//                .inputRange(0, 20)
-//                .titleGravity(GravityEnum.CENTER)
-//                .typeface(myType, myType)
-//                .positiveColor(Color.GREEN)
-//    }
+/*
+    fun promptTextInput(c: Context?, title: String?): MaterialDialog {
+        return MaterialDialog(c!!)
+            .negativeButton(R.string.cancel)
+            .positiveButton(R.string.ok)
+            .title(null, title)
+            .inputType(InputType.TYPE_CLASS_TEXT)
+            .inputRange(0, 20)
+            .titleGravity(GravityEnum.CENTER)
+            .typeface(myType, myType)
+            .positiveColor(Color.GREEN)
+    }
+*/
 }

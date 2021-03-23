@@ -7,8 +7,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 
-import com.benny.pxerstudio.util.Tool;
 import com.benny.pxerstudio.gifencoder.AnimatedGifEncoder;
+import com.benny.pxerstudio.util.Tool;
 import com.benny.pxerstudio.widget.PxerView;
 
 import java.io.ByteArrayOutputStream;
@@ -36,7 +36,11 @@ public class GifExportable extends Exportable {
                 for (int i = 0; i < pxerView.getPxerLayers().size(); i++) {
                     final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                     canvas.setBitmap(bitmap);
-                    canvas.drawBitmap(pxerView.getPxerLayers().get(i).bitmap, null, new Rect(0, 0, width, height), paint);
+                    canvas.drawBitmap(
+                            pxerView.getPxerLayers().get(i).bitmap,
+                            null,
+                            new Rect(0, 0, width, height),
+                            paint);
                     encoder.addFrame(bitmap);
                 }
                 encoder.finish();
@@ -65,7 +69,7 @@ public class GifExportable extends Exportable {
                     @Override
                     protected void onPostExecute(Void aVoid) {
                         ExportingUtils.INSTANCE.dismissAllDialogs();
-                        ExportingUtils.INSTANCE.toastAndFinishExport(context,file.toString());
+                        ExportingUtils.INSTANCE.toastAndFinishExport(context, file.toString());
                         Tool.freeMemory();
                         super.onPostExecute(aVoid);
                     }

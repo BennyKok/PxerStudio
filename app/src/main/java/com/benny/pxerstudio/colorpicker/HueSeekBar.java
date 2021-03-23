@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.SeekBar;
 
 /**
  * Created by BennyKok on 10/15/2016.
@@ -33,13 +32,13 @@ public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
         init();
     }
 
-    private void init(){
+    private void init() {
         thumbPaint.setColor(Color.WHITE);
         thumbPaint.setStyle(Paint.Style.STROKE);
         thumbPaint.setStrokeWidth(8);
 
         setMax(360);
-        setPadding(0,0,0,0);
+        setPadding(0, 0, 0, 0);
 
         setThumb(new Drawable() {
             @Override
@@ -49,7 +48,7 @@ public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
 
             @Override
             public int getIntrinsicWidth() {
-                return getHeight()/3;
+                return getHeight() / 3;
             }
 
             @Override
@@ -57,22 +56,27 @@ public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
                 float[] hsv = new float[]{getProgress(), 1, 1};
                 thumbPaint.setColor(Color.HSVToColor(hsv));
                 thumbPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-                canvas.drawRect(getBounds(),thumbPaint);
+                canvas.drawRect(getBounds(), thumbPaint);
 
                 thumbPaint.setColor(Color.WHITE);
                 thumbPaint.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(getBounds(),thumbPaint);
+                canvas.drawRect(getBounds(), thumbPaint);
             }
+
             @Override
-            public void setAlpha(int alpha) {}
+            public void setAlpha(int alpha) {
+            }
+
             @Override
-            public void setColorFilter(ColorFilter colorFilter) {}
+            public void setColorFilter(ColorFilter colorFilter) {
+            }
+
             @Override
             public int getOpacity() {
                 return PixelFormat.TRANSPARENT;
             }
         });
-        setThumbOffset(-(getHeight()/3)/6);
+        setThumbOffset(-(getHeight() / 3) / 6);
         setProgressDrawable(new Drawable() {
             @Override
             public int getIntrinsicHeight() {
@@ -83,15 +87,21 @@ public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
             public int getIntrinsicWidth() {
                 return getWidth();
             }
+
             @Override
             public void draw(Canvas canvas) {
                 if (hueBitmap != null)
-                    canvas.drawBitmap(hueBitmap,null,getBounds(),null);
+                    canvas.drawBitmap(hueBitmap, null, getBounds(), null);
             }
+
             @Override
-            public void setAlpha(int alpha) {}
+            public void setAlpha(int alpha) {
+            }
+
             @Override
-            public void setColorFilter(ColorFilter colorFilter) {}
+            public void setColorFilter(ColorFilter colorFilter) {
+            }
+
             @Override
             public int getOpacity() {
                 return PixelFormat.TRANSPARENT;
@@ -130,6 +140,5 @@ public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
         }
 
         return hueBitmap;
-
     }
 }

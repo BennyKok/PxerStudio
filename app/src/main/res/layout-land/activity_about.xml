@@ -5,93 +5,93 @@
     android:id="@+id/activity_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.benny.pxerstudio.activity.SplashActivity"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    tools:context="com.benny.pxerstudio.activity.SplashActivity">
 
     <ImageView
-        app:srcCompat="@drawable/ic_launcher_splash"
         android:id="@+id/iv"
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:layout_marginStart="32dp"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/divider" />
+        app:srcCompat="@drawable/ic_launcher_splash" />
 
     <TextView
-        android:gravity="center"
-        android:textSize="30sp"
-        android:fontFamily="sans-serif-light"
-        android:textColor="?android:textColorPrimaryInverse"
-        android:text="@string/app_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/textView"
-        app:layout_constraintLeft_toRightOf="@+id/iv"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/libinfo"
-        app:layout_constraintHorizontal_bias="0.36" />
-
-    <TextView
-        android:gravity="center"
-        android:textSize="14sp"
-        android:fontFamily="sans-serif-light"
-        android:textColor="?android:textColorPrimaryInverse"
-        android:text="@string/version_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="?android:textColorPrimaryInverse"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/libinfo"
+        app:layout_constraintHorizontal_bias="0.36"
+        app:layout_constraintLeft_toRightOf="@+id/iv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="@string/version_code"
+        android:textColor="?android:textColorPrimaryInverse"
+        android:textSize="14sp"
         android:textStyle="normal|bold"
-        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.19"
         app:layout_constraintLeft_toRightOf="@+id/textView"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="0.19" />
+        app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <TextView
-        android:textColorLink="?android:textColorPrimaryInverse"
-        android:gravity="center"
-        android:textSize="14sp"
-        android:fontFamily="sans-serif-light"
-        android:textColor="?android:textColorPrimaryInverse"
-        android:text="Created by BennyKok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/tv"
-        android:layout_marginStart="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv1"
-        android:layout_marginBottom="8dp" />
-
-    <TextView
-        android:textColorLink="?android:textColorPrimaryInverse"
-        android:gravity="center"
-        android:textSize="14sp"
-        android:fontFamily="sans-serif-light"
-        android:textColor="?android:textColorPrimaryInverse"
-        android:text="Get more apps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Created by BennyKok"
+        android:textColor="?android:textColorPrimaryInverse"
+        android:textColorLink="?android:textColorPrimaryInverse"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv1"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
         android:id="@+id/tv1"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Get more apps"
+        android:textColor="?android:textColorPrimaryInverse"
+        android:textColorLink="?android:textColorPrimaryInverse"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/tv" />
 
     <TextView
-        android:textColorLink="?android:textColorPrimaryInverse"
-        android:gravity="center"
-        android:textSize="14sp"
-        android:fontFamily="sans-serif-light"
-        android:textColor="?android:textColorPrimaryInverse"
-        android:text="Join the community"
+        android:id="@+id/tv3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv3"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Join the community"
+        android:textColor="?android:textColorPrimaryInverse"
+        android:textColorLink="?android:textColorPrimaryInverse"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/tv"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv" />
@@ -100,30 +100,29 @@
         android:id="@+id/divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
+        android:layout_marginBottom="16dp"
         android:background="#75ffffff"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/tv"
-        android:layout_marginBottom="16dp" />
-
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
-        android:text="TextView"
-        android:scrollbars="vertical|horizontal"
+        android:id="@+id/libinfo"
         android:layout_width="320dp"
         android:layout_height="189dp"
-        android:id="@+id/libinfo"
-        android:fontFamily="sans-serif-light"
-        android:textColor="?android:textColorPrimaryInverse"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="16dp"
-        app:layout_constraintLeft_toRightOf="@+id/iv"
         android:layout_marginLeft="16dp"
-        app:layout_constraintVertical_bias="1.0"
-        app:layout_constraintHorizontal_bias="0.39" />
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:fontFamily="sans-serif-light"
+        android:scrollbars="vertical|horizontal"
+        android:text="TextView"
+        android:textColor="?android:textColorPrimaryInverse"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintHorizontal_bias="0.39"
+        app:layout_constraintLeft_toRightOf="@+id/iv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 
+import com.benny.pxerstudio.pxerexportable.ExportingUtils.OnExportConfirmedListenser;
 import com.benny.pxerstudio.util.Tool;
 import com.benny.pxerstudio.widget.PxerView;
 
@@ -21,29 +22,44 @@ import java.io.OutputStream;
 public class AtlasExportable extends Exportable {
     @Override
     public void runExport(final Context context, final PxerView pxerView) {
-        ExportingUtils.INSTANCE.showExportingDialog(context,2048, pxerView, new ExportingUtils.OnExportConfirmedListenser() {
+        ExportingUtils.INSTANCE.showExportingDialog(context, 2048, pxerView, new OnExportConfirmedListenser() {
             @Override
             public void OnExportConfirmed(String fileName, int width, int height) {
                 Paint paint = new Paint();
                 Canvas canvas = new Canvas();
 
-                int atlasWidth = (int)Math.ceil((float)pxerView.getPxerLayers().size()/(float)Math.sqrt(((float)pxerView.getPxerLayers().size())));
-                int atlasHeight = (int)Math.ceil((float)pxerView.getPxerLayers().size()/(float)atlasWidth);
+                int atlasWidth = (int) Math.ceil(
+                        (float) pxerView.getPxerLayers().size() /
+                                (float) Math.sqrt(((float) pxerView.getPxerLayers().size())));
+                int atlasHeight = (int) Math.ceil(
+                        (float) pxerView.getPxerLayers().size() / (float) atlasWidth);
 
-                final Bitmap bitmap = Bitmap.createBitmap(width * atlasWidth, height * atlasHeight, Bitmap.Config.ARGB_8888);
+                final Bitmap bitmap = Bitmap.createBitmap(
+                        width * atlasWidth,
+                        height * atlasHeight,
+                        Bitmap.Config.ARGB_8888);
                 canvas.setBitmap(bitmap);
 
                 int counter = 0;
                 for (int y = 0; y < atlasHeight; y++) {
                     for (int x = 0; x < atlasWidth; x++) {
                         if (pxerView.getPxerLayers().size() > counter) {
-                            canvas.drawBitmap(pxerView.getPxerLayers().get(counter).bitmap, null, new Rect(width * x, height * y, width * (x + 1), height * (y + 1)), paint);
+                            canvas.drawBitmap(
+                                    pxerView.getPxerLayers().get(counter).bitmap,
+                                    null,
+                                    new Rect(width * x,
+                                            height * y,
+                                            width * (x + 1),
+                                            height * (y + 1)),
+                                    paint);
                         }
-                        counter ++;
+                        counter++;
                     }
                 }
 
-                final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context), fileName + "_Atlas" + ".png");
+                final File file = new File(
+                        ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context),
+                        fileName + "_Atlas" + ".png");
 
                 ExportingUtils.INSTANCE.showProgressDialog(context);
                 new AsyncTask<Void, Void, Void>() {
