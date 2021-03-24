@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
@@ -94,7 +96,7 @@ class ProjectManagerActivity : AppCompatActivity() {
                 projects.add(temp[i])
             }
             if (projects.size >= 1) {
-                binding.projectManagerCM.cMNoProjectFound.visibility = View.GONE
+                binding.projectManagerCM.cMNoProjectFound.isGone = true
 
                 for (i in projects.indices) {
                     val mName = projects[i].name.substring(0, projects[i].name.lastIndexOf('.'))
@@ -150,8 +152,8 @@ class ProjectManagerActivity : AppCompatActivity() {
                                         projects.removeAt(position)
 
                                         if (projects.size < 1)
-                                            binding.projectManagerCM.cMNoProjectFound.visibility =
-                                                View.VISIBLE
+                                            binding.projectManagerCM.cMNoProjectFound.isVisible =
+                                                true
 
                                         val newIntent = Intent()
                                         newIntent.putExtra("fileNameChanged", true)

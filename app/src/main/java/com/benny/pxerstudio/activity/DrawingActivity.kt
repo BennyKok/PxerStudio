@@ -6,7 +6,6 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
-import android.text.Html
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -16,6 +15,10 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.edit
+import androidx.core.text.parseAsHtml
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,11 +65,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         set(value) {
             field = value
             binding!!.drawingToolbarTextView.text =
-                Html.fromHtml(
-                    "PxerStudio<br><small><small>"
-                            + binding!!.drawingPxerView.projectName
-                            + (if (value) "*" else "") + "</small></small>"
-                )
+                ("PxerStudio<br><small><small>"
+                        + binding!!.drawingPxerView.projectName
+                        + (if (value) "*" else "") + "</small></small>"
+                        ).parseAsHtml()
         }
 
     private lateinit var layerAdapter: FastAdapter<LayerThumbItem>
@@ -81,11 +83,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
     fun setTitle(subtitle: String?, edited: Boolean) {
         binding!!.drawingToolbarTextView.text =
-            Html.fromHtml(
-                "PxerStudio<br><small><small>" +
-                        if (subtitle.isNullOrEmpty()) UNTITLED
-                        else subtitle + (if (edited) "*" else "") + "</small></small>"
-            )
+            ("PxerStudio<br><small><small>" +
+                    if (subtitle.isNullOrEmpty()) UNTITLED
+                    else subtitle + (if (edited) "*" else "") + "</small></small>"
+                    ).parseAsHtml()
         isEdited = edited
     }
 
@@ -149,8 +150,8 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     // Needed for onClick in layout
     @Suppress("UNUSED_PARAMETER")
     fun onToggleToolsPanel(view: View) {
-        if (binding!!.drawingToolsCardView.visibility == View.INVISIBLE) {
-            binding!!.drawingToolsCardView.visibility = View.VISIBLE
+        if (binding!!.drawingToolsCardView.isInvisible) {
+            binding!!.drawingToolsCardView.isVisible = true
             binding!!.drawingToolsCardView
                 .animate()
                 .setDuration(100)
@@ -163,7 +164,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 .setInterpolator(AccelerateDecelerateInterpolator())
                 .translationX((+binding!!.drawingToolsCardView.width).toFloat())
                 .withEndAction {
-                    binding!!.drawingToolsCardView.visibility = View.INVISIBLE
+                    binding!!.drawingToolsCardView.isInvisible = true
                 }
         }
     }
@@ -250,7 +251,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 binding!!.drawingFabRedo.hide(true)
 
                 binding!!.drawingToolsFab.hide(true)
-                if (binding!!.drawingToolsCardView.visibility == View.VISIBLE)
+                if (binding!!.drawingToolsCardView.isVisible)
                     binding!!.drawingToolsFab.callOnClick()
 
                 previousMode = binding!!.drawingPxerView.mode
@@ -439,7 +440,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 binding!!.drawingLayerCardView.pivotX =
                     (binding!!.drawingLayerCardView.width / 2).toFloat()
                 binding!!.drawingLayerCardView.pivotY = 0f
-                if (binding!!.drawingLayerCardView.visibility == View.VISIBLE) {
+                if (binding!!.drawingLayerCardView.isVisible) {
                     binding!!.drawingLayerCardView
                         .animate()
                         .setDuration(100)
@@ -448,10 +449,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                         .scaleX(0.85f)
                         .scaleY(0.85f)
                         .withEndAction {
-                            binding!!.drawingLayerCardView.visibility = View.INVISIBLE
+                            binding!!.drawingLayerCardView.isInvisible = true
                         }
                 } else {
-                    binding!!.drawingLayerCardView.visibility = View.VISIBLE
+                    binding!!.drawingLayerCardView.isVisible = true
                     binding!!.drawingLayerCardView
                         .animate()
                         .setDuration(100)
@@ -634,10 +635,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
     private fun saveState() {
         val pxerPref = getSharedPreferences("pxerPref", Context.MODE_PRIVATE)
-        pxerPref.edit()
-            .putString("lastOpenedProject", currentProjectPath)
-            .putInt("lastUsedColor", binding!!.drawingPxerView.selectedColor)
-            .apply()
+        pxerPref.edit {
+            putString("lastOpenedProject", currentProjectPath)
+            putInt("lastUsedColor", binding!!.drawingPxerView.selectedColor)
+        }
         if (!binding!!.drawingPxerView.projectName.isNullOrEmpty() || binding!!.drawingPxerView.projectName != UNTITLED)
             binding!!.drawingPxerView.save(false)
         else

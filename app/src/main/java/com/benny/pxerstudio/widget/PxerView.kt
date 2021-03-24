@@ -14,6 +14,7 @@ import android.view.ScaleGestureDetector
 import android.view.ScaleGestureDetector.OnScaleGestureListener
 import android.view.View
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.createBitmap
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.benny.pxerstudio.R
@@ -117,7 +118,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
     }
 
     fun addLayer() {
-        val bitmap = Bitmap.createBitmap(picWidth, picHeight, Bitmap.Config.ARGB_8888)
+        val bitmap = createBitmap(picWidth, picHeight)
         bitmap.eraseColor(Color.TRANSPARENT)
         pxerLayers.add(max(currentLayer, 0), PxerLayer(bitmap))
         history.add(max(currentLayer, 0), ArrayList())
@@ -197,7 +198,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
                 points!![i * picHeight + j] = Point(i, j)
             }
         }
-        val bitmap = Bitmap.createBitmap(picWidth, picHeight, Bitmap.Config.ARGB_8888)
+        val bitmap = createBitmap(picWidth, picHeight)
         bitmap.eraseColor(Color.TRANSPARENT)
         pxerLayers.clear()
         pxerLayers.add(PxerLayer(bitmap))
@@ -251,7 +252,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
         historyIndex.clear()
         pxerLayers.clear()
         for (i in out.indices) {
-            val bitmap = Bitmap.createBitmap(picWidth, picHeight, Bitmap.Config.ARGB_8888)
+            val bitmap = createBitmap(picWidth, picHeight)
             history.add(ArrayList())
             redohistory.add(ArrayList())
             historyIndex.add(0)
@@ -398,7 +399,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
                 points!![i * picHeight + j] = Point(i, j)
             }
         }
-        val bitmap = Bitmap.createBitmap(picWidth, picHeight, Bitmap.Config.ARGB_8888)
+        val bitmap = createBitmap(picWidth, picHeight)
         bitmap.eraseColor(Color.TRANSPARENT)
         pxerLayers.clear()
         pxerLayers.add(PxerLayer(bitmap))
@@ -420,8 +421,8 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
     }
 
     private fun reCalBackground() {
-        preview = Bitmap.createBitmap(picWidth, picHeight, Bitmap.Config.ARGB_8888)
-        bgbitmap = Bitmap.createBitmap(picWidth * 2, picHeight * 2, Bitmap.Config.ARGB_8888)
+        preview = createBitmap(picWidth, picHeight)
+        bgbitmap = createBitmap(picWidth * 2, picHeight * 2)
         bgbitmap!!.eraseColor(ColorUtils.setAlphaComponent(Color.WHITE, 200))
         for (i in 0 until picWidth) {
             for (j in 0 until picHeight * 2) {

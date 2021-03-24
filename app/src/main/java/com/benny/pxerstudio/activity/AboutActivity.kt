@@ -1,9 +1,9 @@
 package com.benny.pxerstudio.activity
 
 import android.os.Bundle
-import android.text.Html
 import android.text.method.LinkMovementMethod
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.parseAsHtml
 import com.benny.pxerstudio.BuildConfig
 import com.benny.pxerstudio.R
 import com.benny.pxerstudio.databinding.ActivityAboutBinding
@@ -24,13 +24,13 @@ class AboutActivity : AppCompatActivity() {
         binding.aboutAppVersion.text =
             "v" + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")"
 
-        binding.aboutCreator.text = Html.fromHtml(getString(R.string.created_by_bennykok))
+        binding.aboutCreator.text = getString(R.string.created_by_bennykok).parseAsHtml()
         binding.aboutCreator.movementMethod = LinkMovementMethod.getInstance()
 
-        binding.aboutMoreApps.text = Html.fromHtml(getString(R.string.get_more_apps))
+        binding.aboutMoreApps.text = getString(R.string.get_more_apps).parseAsHtml()
         binding.aboutMoreApps.movementMethod = LinkMovementMethod.getInstance()
 
-        binding.aboutGplus.text = Html.fromHtml(getString(R.string.join_the_community))
+        binding.aboutGplus.text = getString(R.string.join_the_community).parseAsHtml()
         binding.aboutGplus.movementMethod = LinkMovementMethod.getInstance()
 
         val sb = StringBuilder()
@@ -65,7 +65,7 @@ class AboutActivity : AppCompatActivity() {
         }
 
         binding.aboutLibinfo.movementMethod = LinkMovementMethod.getInstance()
-        binding.aboutLibinfo.text = Html.fromHtml("$sb")
+        binding.aboutLibinfo.text = "$sb".parseAsHtml()
 
         val notices = Notices()
         notices.addNotice(
