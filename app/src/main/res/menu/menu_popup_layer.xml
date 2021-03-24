@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/tvisibility"
+        android:id="@+id/menu_popup_layer_toggleVisibility"
         android:title="@string/toggle_visibility" />
     <item
-        android:id="@+id/copypastelayer"
+        android:id="@+id/menu_popup_layer_duplicate"
         android:title="@string/duplicate_layer" />
     <item
-        android:id="@+id/deletelayer"
+        android:id="@+id/menu_popup_layer_delete"
         android:title="@string/remove_current_layer" />
     <item
-        android:id="@+id/clearlayer"
+        android:id="@+id/menu_popup_layer_clear"
         android:title="@string/clear_current_layer" />
     <item
-        android:id="@+id/mergedown"
+        android:id="@+id/menu_popup_layer_mergeDown"
         android:title="@string/merge_down" />
 </menu>

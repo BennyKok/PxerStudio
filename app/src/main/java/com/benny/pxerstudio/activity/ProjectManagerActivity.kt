@@ -116,7 +116,7 @@ class ProjectManagerActivity : AppCompatActivity() {
                     pm.inflate(R.menu.menu_popup_project)
                     pm.setOnMenuItemClickListener { item ->
                         when (item.itemId) {
-                            R.id.rename ->
+                            R.id.menu_popup_project_rename ->
                                 MaterialDialog(this).show {
                                     title = getString(R.string.rename)
                                     input(hint = projects[position].name) { _, text ->
@@ -141,7 +141,7 @@ class ProjectManagerActivity : AppCompatActivity() {
                                     positiveButton(R.string.ok)
                                 }
 
-                            R.id.delete -> Tool.prompt(this@ProjectManagerActivity)
+                            R.id.menu_popup_project_delete -> Tool.prompt(this@ProjectManagerActivity)
                                 .title(R.string.deleteproject)
                                 .message(R.string.deleteprojectwarning)
                                 .positiveButton(R.string.delete).positiveButton {

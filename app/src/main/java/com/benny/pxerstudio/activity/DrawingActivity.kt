@@ -384,7 +384,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.onlyshowselectedlayer -> {
+            R.id.menu_drawing_layers_onlyShowSelected -> {
                 onlyShowSelected = true
                 binding!!.drawingPxerView.visibilityAllLayer(false)
 
@@ -395,13 +395,13 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
                 layerAdapter.notifyAdapterDataSetChanged()
             }
-            R.id.export -> PngExportable().runExport(this, binding!!.drawingPxerView)
-            R.id.exportgif -> GifExportable().runExport(this, binding!!.drawingPxerView)
-            R.id.exportfolder -> FolderExportable().runExport(this, binding!!.drawingPxerView)
-            R.id.exportatlas -> AtlasExportable().runExport(this, binding!!.drawingPxerView)
-            R.id.save -> binding!!.drawingPxerView.save(true)
-            R.id.projectm -> openProjectManager()
-            R.id.open ->
+            R.id.menu_drawing_export_png -> PngExportable().runExport(this, binding!!.drawingPxerView)
+            R.id.menu_drawing_export_gif -> GifExportable().runExport(this, binding!!.drawingPxerView)
+            R.id.menu_drawing_export_folder -> FolderExportable().runExport(this, binding!!.drawingPxerView)
+            R.id.menu_drawing_export_atlas -> AtlasExportable().runExport(this, binding!!.drawingPxerView)
+            R.id.menu_drawing_project_save -> binding!!.drawingPxerView.save(true)
+            R.id.menu_drawing_project_manager -> openProjectManager()
+            R.id.menu_drawing_project_open ->
                 MaterialDialog(this).show {
                     fileChooser(
                         filter = myFilter,
@@ -416,26 +416,26 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                         currentProjectPath = file.path
                     }
                 }
-            R.id.newp -> createNewProject()
-            R.id.resetvp -> binding!!.drawingPxerView.resetViewPort()
-            R.id.hidealllayers -> run {
+            R.id.menu_drawing_project_new -> createNewProject()
+            R.id.menu_drawing_resetViewPort -> binding!!.drawingPxerView.resetViewPort()
+            R.id.menu_drawing_layers_hideAll -> run {
                 if (onlyShowSelected) return@run
                 binding!!.drawingPxerView.visibilityAllLayer(false)
                 layerAdapter.notifyAdapterDataSetChanged()
             }
-            R.id.showalllayers -> {
+            R.id.menu_drawing_layers_showAll -> {
                 onlyShowSelected = false
                 binding!!.drawingPxerView.visibilityAllLayer(true)
                 layerAdapter.notifyAdapterDataSetChanged()
             }
-            R.id.gridonoff -> {
+            R.id.menu_drawing_gridOnOff -> {
                 if (binding!!.drawingPxerView.showGrid)
                     item.setIcon(R.drawable.ic_grid_on)
                 else
                     item.setIcon(R.drawable.ic_grid_off)
                 binding!!.drawingPxerView.showGrid = !binding!!.drawingPxerView.showGrid
             }
-            R.id.layers -> {
+            R.id.menu_drawing_layers -> {
                 binding!!.drawingLayerCardView.pivotX =
                     (binding!!.drawingLayerCardView.width / 2).toFloat()
                 binding!!.drawingLayerCardView.pivotY = 0f
@@ -469,7 +469,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 //                else
 //                    layer_view.visibility = View.VISIBLE
             }
-            R.id.deletelayer -> run {
+            R.id.menu_popup_layer_delete -> run {
                 if (binding!!.drawingPxerView.pxerLayers.size <= 1) return@run
                 Tool.prompt(this).title(R.string.deletelayer).message(R.string.deletelayerwarning)
                     .positiveButton(R.string.delete).positiveButton {
@@ -487,7 +487,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                         layerAdapter.notifyAdapterDataSetChanged()
                     }.show()
             }
-            R.id.copypastelayer -> {
+            R.id.menu_popup_layer_duplicate -> {
                 binding!!.drawingPxerView.copyAndPasteCurrentLayer()
                 layerItemAdapter.add(
                     max(binding!!.drawingPxerView.currentLayer, 0),
@@ -498,7 +498,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 layerItemAdapter.getAdapterItem(binding!!.drawingPxerView.currentLayer).pressed()
                 binding!!.drawingLayerRecyclerView.invalidate()
             }
-            R.id.mergealllayer -> run {
+            R.id.menu_drawing_layers_mergeAll -> run {
                 if (binding!!.drawingPxerView.pxerLayers.size <= 1) return@run
                 Tool.prompt(this).title(R.string.mergealllayers)
                     .message(R.string.mergealllayerswarning).positiveButton(R.string.merge)
@@ -514,8 +514,8 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                         layerItemAdapter.getAdapterItem(0).pressed()
                     }.show()
             }
-            R.id.about -> startActivity(Intent(this@DrawingActivity, AboutActivity::class.java))
-            R.id.tvisibility -> run {
+            R.id.menu_drawing_about -> startActivity(Intent(this@DrawingActivity, AboutActivity::class.java))
+            R.id.menu_popup_layer_toggleVisibility -> run {
                 if (onlyShowSelected) return@run
                 val layer =
                     binding!!.drawingPxerView.pxerLayers[binding!!.drawingPxerView.currentLayer]
@@ -523,12 +523,12 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 binding!!.drawingPxerView.invalidate()
                 layerAdapter.notifyAdapterItemChanged(binding!!.drawingPxerView.currentLayer)
             }
-            R.id.clearlayer -> Tool.prompt(this)
+            R.id.menu_popup_layer_clear -> Tool.prompt(this)
                 .title(R.string.clearcurrentlayer)
                 .message(R.string.clearcurrentlayerwarning)
                 .positiveButton(R.string.clear)
                 .positiveButton { binding!!.drawingPxerView.clearCurrentLayer() }.show()
-            R.id.mergedown -> run {
+            R.id.menu_popup_layer_mergeDown -> run {
                 if (binding!!.drawingPxerView.currentLayer == binding!!.drawingPxerView.pxerLayers.size - 1) return@run
                 Tool.prompt(this)
                     .title(R.string.mergedownlayer)
