@@ -104,7 +104,7 @@ object Tool {
     @JvmStatic
     fun prompt(c: Context?): MaterialDialog {
         return MaterialDialog(c!!)
-            .negativeButton(R.string.cancel)
+            .negativeButton(android.R.string.cancel)
 //            .titleGravity(GravityEnum.CENTER)
 //            .typeface(myType, myType)
 //            .positiveColor(Color.RED)

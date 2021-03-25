@@ -1,59 +1,74 @@
 <resources>
+    <!-- Toolbar menu (always shown) -->
+    <string name="grid_on_off">Grid on/off</string>
+    <string name="reset_view_port">Reset View Port</string>
 
-    <string name="app_name">PxerStudio</string>
-    <string name="created_by_bennykok"><![CDATA[Created by <a href="https://bennykok.com/">BennyKok</a>]]></string>
-    <string name="get_more_apps"><![CDATA[<a href="https://play.google.com/store/apps/dev?id=9219874075463759288&amp;hl=zh_HK">Get more apps</a>]]></string>
-    <string name="join_the_community"><![CDATA[<a href="https://plus.google.com/communities/108794551381643757096">Join the community</a>]]></string>
-    <string name="title_activity_project_manager">Project Manager</string>
-    <string name="save_project">Save project</string>
-    <string name="save">Save</string>
-    <string name="name">Name</string>
-    <string name="brough_to_you_by"><![CDATA[<b>Brought to you by these amazing open source project:</b>]]></string>
-    <string name="opensource_library">Open Source Library</string>
-    <string name="deletelayer">Delete layer</string>
-    <string name="deletelayerwarning">Are you sure to delete this layer?</string>
-    <string name="delete">Delete</string>
-    <string name="merge">merge</string>
-    <string name="mergealllayers">Merge all layers</string>
-    <string name="mergealllayerswarning">Are you sure to merge all layers?</string>
-    <string name="clearcurrentlayer">Clear current layer</string>
-    <string name="clearcurrentlayerwarning">Are you sure to clear current layer?</string>
-    <string name="clear">clear</string>
-    <string name="mergedownlayer">Merge down layer</string>
-    <string name="mergedownlayerwarning">Are you sure to merge down layer?</string>
-    <string name="newproject">New Project</string>
-    <string name="create">Create</string>
-    <string name="cancel">Cancel</string>
-    <string name="rename">Rename</string>
-    <string name="deleteproject">Delete project</string>
-    <string name="deleteprojectwarning">Are you sure to delete this project?!</string>
-    <string name="projectdeleted">Project deleted</string>
-    <string name="unabletodeleteproject">Unable to delete project!</string>
-    <string name="ok">ok</string>
-    <string name="merge_down">Merge down</string>
-    <string name="clear_current_layer">Clear</string>
-    <string name="remove_current_layer">Remove</string>
+    <!-- menu_popup_layer -->
     <string name="toggle_visibility">Toggle visibility</string>
+    <string name="duplicate_layer">Duplicate</string>
+    <string name="remove">Remove</string>
+    <string name="clear">Clear</string>
+    <string name="merge_down">Merge down</string>
+
+    <!-- Layers menu -->
+    <string name="layers">Layers</string>
+    <string name="only_show_selected_layer">Only show selected layer</string>
     <string name="show_all_layers">Show all layers</string>
     <string name="hide_all_layers">Hide all layers</string>
     <string name="merge_all_layers">Merge all layers</string>
+
+    <!-- Export menu -->
     <string name="export">Export</string>
     <string name="png">PNG</string>
     <string name="gif">GIF</string>
     <string name="sprite_atlas">Sprite Atlas</string>
     <string name="folder">Folder</string>
-    <string name="only_show_selected_layer">Only show selected layer</string>
-    <string name="layer">Layer</string>
-    <string name="layers">Layers</string>
-    <string name="reset_view_port">Reset View Port</string>
-    <string name="grid_on_off">Grid on/off</string>
+
+    <!-- Project menu -->
     <string name="project">Project</string>
     <string name="project_manager">Project Manager</string>
+    <string name="save">Save</string>
     <string name="open">Open</string>
-    <string name="about">About</string>
     <string name="new_new">New</string>
-    <string name="something_went_wrong">Something went wrong!</string>
-    <string name="error_while_loading_project">Error while loading your project</string>
+
+    <!-- Dialogs -->
+    <string name="merge">Merge</string>
+    <string name="merge_all_layers_warning">Merge all layers?</string>
+
+    <string name="remove_layer">Remove layer</string>
+    <string name="remove_layer_warning">Remove this layer?</string>
+
+    <string name="clear_current_layer">Clear current layer</string>
+    <string name="clear_current_layer_warning">Clear the current layer?</string>
+
+    <string name="merge_down_layer">Merge down layer</string>
+    <string name="merge_down_layer_warning">Merge down layer?</string>
+
+    <string name="new_project">New Project</string>
+    <string name="create">Create</string>
+
+    <string name="save_project">Save project</string>
+    <string name="name">Name</string>
+
+    <!-- ProjectManagerActivity -->
+    <string name="rename">Rename</string>
+    <string name="delete">Delete</string>
+    <string name="delete_project">Delete project</string>
+    <string name="delete_project_warning">Delete this project?</string>
+    <string name="project_deleted">Project deleted</string>
     <string name="no_project_found">No project found</string>
-    <string name="duplicate_layer">Duplicate</string>
+
+    <!-- About -->
+    <string name="about">About</string>
+    <!-- About activity -->
+    <string name="app_creator">Created by BennyKok</string>
+    <string name="get_more_apps">Get more apps</string>
+    <string name="find_on_github">Find on GitHub</string>
+    <string name="brought_to_you_by"><![CDATA[<b>Brought to you by these amazing open-source projects:</b>]]></string>
+    <string name="opensource_libraries">Open-source libraries</string>
+
+    <!-- Errors -->
+    <string name="error_something_went_wrong">Something went wrong!</string>
+    <string name="error_loading_project">An error occurred while loading your project.</string>
+    <string name="error_deleting_project">Unable to delete project!</string>
 </resources>

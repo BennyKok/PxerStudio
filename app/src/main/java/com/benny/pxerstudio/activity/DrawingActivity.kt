@@ -470,10 +470,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 //                else
 //                    layer_view.visibility = View.VISIBLE
             }
-            R.id.menu_popup_layer_delete -> run {
+            R.id.menu_popup_layer_remove -> run {
                 if (binding!!.drawingPxerView.pxerLayers.size <= 1) return@run
-                Tool.prompt(this).title(R.string.deletelayer).message(R.string.deletelayerwarning)
-                    .positiveButton(R.string.delete).positiveButton {
+                Tool.prompt(this).title(R.string.remove_layer).message(R.string.remove_layer_warning)
+                    .positiveButton(R.string.remove).positiveButton {
                         if (!isEdited)
                             isEdited = true
 
@@ -501,8 +501,8 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             }
             R.id.menu_drawing_layers_mergeAll -> run {
                 if (binding!!.drawingPxerView.pxerLayers.size <= 1) return@run
-                Tool.prompt(this).title(R.string.mergealllayers)
-                    .message(R.string.mergealllayerswarning).positiveButton(R.string.merge)
+                Tool.prompt(this).title(R.string.merge_all_layers)
+                    .message(R.string.merge_all_layers_warning).positiveButton(R.string.merge)
                     .positiveButton {
                         if (!isEdited)
                             isEdited = true
@@ -525,15 +525,15 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 layerAdapter.notifyAdapterItemChanged(binding!!.drawingPxerView.currentLayer)
             }
             R.id.menu_popup_layer_clear -> Tool.prompt(this)
-                .title(R.string.clearcurrentlayer)
-                .message(R.string.clearcurrentlayerwarning)
+                .title(R.string.clear_current_layer)
+                .message(R.string.clear_current_layer_warning)
                 .positiveButton(R.string.clear)
                 .positiveButton { binding!!.drawingPxerView.clearCurrentLayer() }.show()
             R.id.menu_popup_layer_mergeDown -> run {
                 if (binding!!.drawingPxerView.currentLayer == binding!!.drawingPxerView.pxerLayers.size - 1) return@run
                 Tool.prompt(this)
-                    .title(R.string.mergedownlayer)
-                    .message(R.string.mergedownlayerwarning)
+                    .title(R.string.merge_down_layer)
+                    .message(R.string.merge_down_layer_warning)
                     .positiveButton(R.string.merge)
                     .positiveButton {
                         binding!!.drawingPxerView.mergeDownLayer()
@@ -610,9 +610,9 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         MaterialDialog(this)
 //            .typeface(Tool.myType, Tool.myType)
             .customView(view = layoutRoot)
-            .title(R.string.newproject)
+            .title(R.string.new_project)
             .positiveButton(R.string.create)
-            .negativeButton(R.string.cancel)
+            .negativeButton(android.R.string.cancel)
             .positiveButton {
                 if (projectNameEdit.text.toString().isNotEmpty()) {
                     setTitle(projectNameEdit.text.toString(), true)

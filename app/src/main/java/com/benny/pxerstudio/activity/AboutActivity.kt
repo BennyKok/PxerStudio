@@ -24,18 +24,18 @@ class AboutActivity : AppCompatActivity() {
         binding.aboutAppVersion.text =
             "v" + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")"
 
-        binding.aboutCreator.text = getString(R.string.created_by_bennykok).parseAsHtml()
+        binding.aboutCreator.text = getString(R.string.creator_website).parseAsHtml()
         binding.aboutCreator.movementMethod = LinkMovementMethod.getInstance()
 
-        binding.aboutMoreApps.text = getString(R.string.get_more_apps).parseAsHtml()
+        binding.aboutMoreApps.text = getString(R.string.get_more_apps_link).parseAsHtml()
         binding.aboutMoreApps.movementMethod = LinkMovementMethod.getInstance()
 
-        binding.aboutGplus.text = getString(R.string.join_the_community).parseAsHtml()
-        binding.aboutGplus.movementMethod = LinkMovementMethod.getInstance()
+        binding.aboutGithub.text = getString(R.string.github_link).parseAsHtml()
+        binding.aboutGithub.movementMethod = LinkMovementMethod.getInstance()
 
         val sb = StringBuilder()
         with(sb) {
-            append(getString(R.string.brough_to_you_by))
+            append(getString(R.string.brought_to_you_by))
             append("<br>")
 
             append("androidx.appcompat:appcompat")
@@ -104,7 +104,7 @@ class AboutActivity : AppCompatActivity() {
         val builder = LicensesDialog.Builder(this@AboutActivity)
         builder.setIncludeOwnLicense(true)
         builder.setNotices(notices)
-        builder.setTitle(getString(R.string.opensource_library))
+        builder.setTitle(getString(R.string.opensource_libraries))
         val dialog = builder.build()
 
         binding.aboutLibinfo.setOnClickListener { dialog.show() }

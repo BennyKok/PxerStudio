@@ -17,7 +17,7 @@
         android:title="@string/layers"
         app:showAsAction="always" />
 
-    <item android:title="@string/layer">
+    <item android:title="@string/layers">
         <menu>
             <item
                 android:id="@+id/menu_drawing_layers_onlyShowSelected"

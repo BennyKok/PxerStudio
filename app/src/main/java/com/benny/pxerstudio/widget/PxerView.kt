@@ -232,11 +232,11 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
         } catch (e: Exception) {
             e.printStackTrace()
             prompt(context)
-                .message(R.string.error_while_loading_project, null, null)
-                .title(R.string.something_went_wrong, null)
+                .message(R.string.error_loading_project, null, null)
+                .title(R.string.error_something_went_wrong, null)
                 .negativeButton(null, null, null)
                 //.positiveColor(Color.GRAY)
-                .positiveButton(R.string.cancel, null, null).show()
+                .positiveButton(android.R.string.ok, null, null).show()
             return false
         }
         picWidth = out[0].width

@@ -140,12 +140,12 @@ class ProjectManagerActivity : AppCompatActivity() {
                                             setResult(RESULT_OK, newIntent)
                                         }
                                     }
-                                    positiveButton(R.string.ok)
+                                    positiveButton(android.R.string.ok)
                                 }
 
                             R.id.menu_popup_project_delete -> Tool.prompt(this@ProjectManagerActivity)
-                                .title(R.string.deleteproject)
-                                .message(R.string.deleteprojectwarning)
+                                .title(R.string.delete_project)
+                                .message(R.string.delete_project_warning)
                                 .positiveButton(R.string.delete).positiveButton {
                                     if (projects[position].delete()) {
                                         ia.remove(position)
@@ -162,12 +162,12 @@ class ProjectManagerActivity : AppCompatActivity() {
 
                                         Tool.toast(
                                             this@ProjectManagerActivity,
-                                            getString(R.string.projectdeleted)
+                                            getString(R.string.project_deleted)
                                         )
                                     } else
                                         Tool.toast(
                                             this@ProjectManagerActivity,
-                                            getString(R.string.unabletodeleteproject)
+                                            getString(R.string.error_deleting_project)
                                         )
                                 }.show()
                         }

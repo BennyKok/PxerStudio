@@ -33,7 +33,7 @@
             android:label="About" />
         <activity
             android:name=".activity.ProjectManagerActivity"
-            android:label="@string/title_activity_project_manager" />
+            android:label="@string/project_manager" />
     </application>
 
 </manifest>

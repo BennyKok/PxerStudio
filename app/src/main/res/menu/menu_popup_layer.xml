@@ -7,11 +7,11 @@
         android:id="@+id/menu_popup_layer_duplicate"
         android:title="@string/duplicate_layer" />
     <item
-        android:id="@+id/menu_popup_layer_delete"
-        android:title="@string/remove_current_layer" />
+        android:id="@+id/menu_popup_layer_remove"
+        android:title="@string/remove" />
     <item
         android:id="@+id/menu_popup_layer_clear"
-        android:title="@string/clear_current_layer" />
+        android:title="@string/clear" />
     <item
         android:id="@+id/menu_popup_layer_mergeDown"
         android:title="@string/merge_down" />
