@@ -65,13 +65,6 @@ public class EraserShape extends BaseShape {
         super.onDrawEnd(pxerView);
 
         hasInit = false;
-
-        if (previousPxer.isEmpty()) return;
-        pxerView.getCurrentHistory().addAll(previousPxer);
-        previousPxer.clear();
-
-        pxerView.setUnrecordedChanges(true);
-        pxerView.finishAddHistory();
+        endDraw(previousPxer, pxerView);
     }
-
 }

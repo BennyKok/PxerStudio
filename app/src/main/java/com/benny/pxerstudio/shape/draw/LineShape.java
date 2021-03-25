@@ -1,10 +1,8 @@
-package com.benny.pxerstudio.shape;
+package com.benny.pxerstudio.shape.draw;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
-
-import androidx.core.graphics.ColorUtils;
 
 import com.benny.pxerstudio.widget.PxerView;
 
@@ -14,7 +12,7 @@ import java.util.ArrayList;
  * Created by BennyKok on 10/12/2016.
  */
 
-public class LineShape extends BaseShape {
+public class LineShape extends DrawShape {
 
     private final Paint p = new Paint();
     private final ArrayList<PxerView.Pxer> previousPxer = new ArrayList<>();
@@ -37,12 +35,8 @@ public class LineShape extends BaseShape {
             hasInit = true;
         }
 
-        Bitmap layerToDraw = pxerView.getPxerLayers().get(pxerView.getCurrentLayer()).bitmap;
-        for (int i = 0; i < previousPxer.size(); i++) {
-            PxerView.Pxer pxer = previousPxer.get(i);
-            layerToDraw.setPixel(pxer.getX(), pxer.getY(), pxer.getColor());
-        }
-        previousPxer.clear();
+        final Bitmap layerToDraw = pxerView.getPxerLayers().get(pxerView.getCurrentLayer()).bitmap;
+        draw(layerToDraw, previousPxer);
 
         pxerView.getPreview().eraseColor(Color.TRANSPARENT);
 /*
@@ -77,10 +71,8 @@ public class LineShape extends BaseShape {
                     c = Color.YELLOW;
 
                 if (c == Color.YELLOW) {
-                    previousPxer.add(new PxerView.Pxer(i, y, layerToDraw.getPixel(i, y)));
-                    layerToDraw.setPixel(i, y,
-                            ColorUtils.compositeColors(
-                                    pxerView.getSelectedColor(), layerToDraw.getPixel(i, y)));
+                    addPxerView(layerToDraw, previousPxer, i, y);
+                    drawOnLayer(layerToDraw, pxerView, i, y);
                 }
             }
         }
@@ -94,12 +86,6 @@ public class LineShape extends BaseShape {
         super.onDrawEnd(pxerView);
 
         hasInit = false;
-
-        if (previousPxer.isEmpty()) return;
-        pxerView.getCurrentHistory().addAll(previousPxer);
-        previousPxer.clear();
-
-        pxerView.setUnrecordedChanges(true);
-        pxerView.finishAddHistory();
+        endDraw(previousPxer, pxerView);
     }
 }

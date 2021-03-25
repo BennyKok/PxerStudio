@@ -35,8 +35,8 @@ import com.benny.pxerstudio.pxerexportable.FolderExportable
 import com.benny.pxerstudio.pxerexportable.GifExportable
 import com.benny.pxerstudio.pxerexportable.PngExportable
 import com.benny.pxerstudio.shape.EraserShape
-import com.benny.pxerstudio.shape.LineShape
-import com.benny.pxerstudio.shape.RectShape
+import com.benny.pxerstudio.shape.draw.LineShape
+import com.benny.pxerstudio.shape.draw.RectShape
 import com.benny.pxerstudio.util.Tool
 import com.benny.pxerstudio.widget.FastBitmapView
 import com.benny.pxerstudio.widget.PxerView
