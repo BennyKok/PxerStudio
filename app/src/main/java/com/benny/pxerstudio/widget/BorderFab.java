@@ -21,6 +21,8 @@ public class BorderFab extends FloatingActionButton {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Paint colorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     float three, one;
+    Path path = new Path();
+    Rect rect = new Rect(0, 0, getWidth(), getHeight());
 
     Bitmap bg;
 
@@ -66,14 +68,13 @@ public class BorderFab extends FloatingActionButton {
         colorPaint.setColor(Color.WHITE);
 
         canvas.save();
-        Path p = new Path();
-        p.addCircle(getWidth() / 2, getHeight() / 2, getWidth() / 3 + one, Path.Direction.CCW);
-        canvas.clipPath(p);
-        canvas.drawBitmap(bg, null, new Rect(0, 0, getWidth(), getHeight()), colorPaint);
+        path.addCircle(getWidth() / 2f, getHeight() / 2f, getWidth() / 3f + one, Path.Direction.CCW);
+        canvas.clipPath(path);
+        canvas.drawBitmap(bg, null, rect, colorPaint);
         canvas.restore();
 
         colorPaint.setColor(color);
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, getWidth() / 3 + one, colorPaint);
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, getWidth() / 3 + one, paint);
+        canvas.drawCircle(getWidth() / 2f, getHeight() / 2f, getWidth() / 3f + one, colorPaint);
+        canvas.drawCircle(getWidth() / 2f, getHeight() / 2f, getWidth() / 3f + one, paint);
     }
 }
