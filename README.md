@@ -9,9 +9,6 @@ Go to our [Community](https://plus.google.com/communities/108794551381643757096)
 Get it here
 https://play.google.com/store/apps/details?id=com.benny.pxerstudio
 
-Support this project by buying the PremiumKey
-https://play.google.com/store/apps/details?id=com.benny.pxerstudiopremiumkey
-
 ### Current Features>
 
 Zoom and move with two fingers
