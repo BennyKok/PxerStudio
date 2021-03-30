@@ -34,13 +34,13 @@ abstract class BaseShape {
         return !hasEnded
     }
 
-    protected fun endDraw(previousPxer: ArrayList<Pxer>, pxerView: PxerView) {
+    protected fun PxerView.endDraw(previousPxer: ArrayList<Pxer>) {
         if (previousPxer.isEmpty()) {
             return
         }
-        pxerView.currentHistory.addAll(previousPxer)
+        this.currentHistory.addAll(previousPxer)
         previousPxer.clear()
-        pxerView.setUnrecordedChanges(true)
-        pxerView.finishAddHistory()
+        this.setUnrecordedChanges(true)
+        this.finishAddHistory()
     }
 }

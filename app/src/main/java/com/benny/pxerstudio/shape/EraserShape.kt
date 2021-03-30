@@ -58,7 +58,7 @@ class EraserShape : BaseShape() {
     override fun onDrawEnd(pxerView: PxerView) {
         super.onDrawEnd(pxerView)
         hasInit = false
-        endDraw(previousPxer, pxerView)
+        pxerView.endDraw(previousPxer)
     }
 
     init {

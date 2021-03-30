@@ -49,6 +49,6 @@ class RectShape : DrawShape() {
 
     override fun onDrawEnd(pxerView: PxerView) {
         super.onDrawEnd(pxerView)
-        endDraw(previousPxer, pxerView)
+        pxerView.endDraw(previousPxer)
     }
 }
