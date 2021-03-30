@@ -36,48 +36,6 @@ class ProjectManagerActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.projectManagerToolbar)
 
-        //Comment this line out and the if statement if you forked this repo or downloaded the code
-/*
-        val adView = AdHelper.checkAndEnableAd(this)
-        if (adView != null) {
-            val fl = FrameLayout(this)
-            fl.visibility = View.GONE
-
-            adView.adListener = object : AdListener() {
-                override fun onAdLoaded() {
-                    fl.visibility = View.VISIBLE
-                    super.onAdLoaded()
-                }
-            }
-
-            //ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyle);
-            //progressBar.setIndeterminate(true);
-
-            val lp = RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            lp.addRule(RelativeLayout.CENTER_HORIZONTAL)
-            lp.addRule(RelativeLayout.ALIGN_PARENT_TOP)
-
-            val lp2 = FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            lp2.gravity = Gravity.CENTER
-
-            //fl.addView(progressBar,lp2);
-            fl.addView(adView)
-            (findViewById<RelativeLayout>(R.id.content_project_manager)).addView(fl, lp)
-
-            fl.id = R.id.ad_view
-            (rv.layoutParams as RelativeLayout.LayoutParams).addRule(
-                RelativeLayout.BELOW,
-                R.id.ad_view
-            )
-        }
-*/
-
         binding.projectManagerCM.cMRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         ia = ItemAdapter()
