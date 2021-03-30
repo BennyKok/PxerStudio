@@ -1,0 +1,4 @@
+1.1.0: First F-Droid release!
+- Fix blurry pixels
+- Library updates
+- Lots of behind-the-scene improvements

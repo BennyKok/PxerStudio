@@ -1,0 +1,12 @@
+An open-source pixel drawing tool for Android.
+
+Features:
+- Canvas zooming and moving (two fingers)
+- Layer support
+- Grid support
+- Unlimited undo and redo
+- Color picker with an alpha channel
+- Various tools (bucket fill, eraser, rectangle, pen, line, eyedropper...)
+- Create canvas size up to 128 x 128
+- Exportable to GIF, PNG, sprite atlas, folder...
+- Support for multiple projects
