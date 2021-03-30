@@ -1,18 +1,18 @@
 package com.benny.pxerstudio.activity
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
-import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.benny.pxerstudio.R
+import com.benny.pxerstudio.databinding.ActivityProjectManagerBinding
+import com.benny.pxerstudio.databinding.ItemProjectBinding
 import com.benny.pxerstudio.pxerexportable.ExportingUtils
 import com.benny.pxerstudio.util.Tool
 import com.mikepenz.fastadapter.FastAdapter
@@ -25,55 +25,66 @@ import java.util.*
 
 class ProjectManagerActivity : AppCompatActivity() {
 
-    internal var projects = ArrayList<File>()
-    internal lateinit var fa: FastAdapter<Item>
-    internal lateinit var ia: ItemAdapter<Item>
+    private var projects = ArrayList<File>()
+    private lateinit var fa: FastAdapter<Item>
+    private lateinit var ia: ItemAdapter<Item>
+    private lateinit var binding: ActivityProjectManagerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_project_manager)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        val rv = findViewById<RecyclerView>(R.id.rv)
+        binding = ActivityProjectManagerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.projectManagerToolbar)
 
         //Comment this line out and the if statement if you forked this repo or downloaded the code
-//        val adView = AdHelper.checkAndEnableAd(this)
-//        if (adView != null) {
-//            val fl = FrameLayout(this)
-//            fl.visibility = View.GONE
-//
-//            adView.adListener = object : AdListener() {
-//                override fun onAdLoaded() {
-//                    fl.visibility = View.VISIBLE
-//                    super.onAdLoaded()
-//                }
-//            }
-//
-//            //ProgressBar progressBar = new ProgressBar(this,null,android.R.attr.progressBarStyle);
-//            //progressBar.setIndeterminate(true);
-//
-//            val lp = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//            lp.addRule(RelativeLayout.CENTER_HORIZONTAL)
-//            lp.addRule(RelativeLayout.ALIGN_PARENT_TOP)
-//
-//            val lp2 = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//            lp2.gravity = Gravity.CENTER
-//
-//            //fl.addView(progressBar,lp2);
-//            fl.addView(adView)
-//            (findViewById<RelativeLayout>(R.id.content_project_manager)).addView(fl, lp)
-//
-//            fl.id = R.id.ad_view
-//            (rv.layoutParams as RelativeLayout.LayoutParams).addRule(RelativeLayout.BELOW, R.id.ad_view)
-//        }
+/*
+        val adView = AdHelper.checkAndEnableAd(this)
+        if (adView != null) {
+            val fl = FrameLayout(this)
+            fl.visibility = View.GONE
 
-        rv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+            adView.adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    fl.visibility = View.VISIBLE
+                    super.onAdLoaded()
+                }
+            }
+
+            //ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyle);
+            //progressBar.setIndeterminate(true);
+
+            val lp = RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            lp.addRule(RelativeLayout.CENTER_HORIZONTAL)
+            lp.addRule(RelativeLayout.ALIGN_PARENT_TOP)
+
+            val lp2 = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            lp2.gravity = Gravity.CENTER
+
+            //fl.addView(progressBar,lp2);
+            fl.addView(adView)
+            (findViewById<RelativeLayout>(R.id.content_project_manager)).addView(fl, lp)
+
+            fl.id = R.id.ad_view
+            (rv.layoutParams as RelativeLayout.LayoutParams).addRule(
+                RelativeLayout.BELOW,
+                R.id.ad_view
+            )
+        }
+*/
+
+        binding.projectManagerCM.cMRecyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         ia = ItemAdapter()
         fa = FastAdapter.with(ia)
 
         fa.getSelectExtension().isSelectable = false
-        rv.adapter = fa
+        binding.projectManagerCM.cMRecyclerView.adapter = fa
 
         projects.clear()
 
@@ -85,7 +96,7 @@ class ProjectManagerActivity : AppCompatActivity() {
                 projects.add(temp[i])
             }
             if (projects.size >= 1) {
-                findViewById<TextView>(R.id.noProjectFound).visibility = View.GONE
+                binding.projectManagerCM.cMNoProjectFound.isGone = true
 
                 for (i in projects.indices) {
                     val mName = projects[i].name.substring(0, projects[i].name.lastIndexOf('.'))
@@ -97,21 +108,21 @@ class ProjectManagerActivity : AppCompatActivity() {
                     val newIntent = Intent()
                     newIntent.putExtra("selectedProjectPath", item.path)
 
-                    setResult(Activity.RESULT_OK, newIntent)
+                    setResult(RESULT_OK, newIntent)
                     finish()
                     true
                 }
 
                 fa.onLongClickListener = { v, _, _, position ->
-                    val pm = PopupMenu(v!!.context, v!!)
+                    val pm = PopupMenu(v.context, v)
                     pm.inflate(R.menu.menu_popup_project)
                     pm.setOnMenuItemClickListener { item ->
                         when (item.itemId) {
-                            R.id.rename ->
+                            R.id.menu_popup_project_rename ->
                                 MaterialDialog(this).show {
                                     title = getString(R.string.rename)
-                                    input(hint = projects[position].name) { dialog, text ->
-                                        var mInput = text.toString()
+                                    input(hint = projects[position].name) { _, text ->
+                                        var mInput = "$text"
                                         if (!mInput.endsWith(".pxer"))
                                             mInput += ".pxer"
 
@@ -120,35 +131,45 @@ class ProjectManagerActivity : AppCompatActivity() {
 
                                         if (fromFile.renameTo(newFile)) {
                                             projects[position] = newFile
-                                            ia.set(position, Item(newFile.name, newFile.path))
+                                            ia[position] = Item(newFile.name, newFile.path)
                                             fa.notifyAdapterItemChanged(position)
 
                                             val newIntent = Intent()
                                             newIntent.putExtra("fileNameChanged", true)
 
-                                            setResult(Activity.RESULT_OK, newIntent)
+                                            setResult(RESULT_OK, newIntent)
                                         }
                                     }
-                                    positiveButton(R.string.ok)
+                                    positiveButton(android.R.string.ok)
                                 }
 
-                            R.id.delete -> Tool.prompt(this@ProjectManagerActivity).title(R.string.deleteproject).message(R.string.deleteprojectwarning).positiveButton(R.string.delete).positiveButton {
-                                if (projects[position].delete()) {
-                                    ia.remove(position)
-                                    projects.removeAt(position)
+                            R.id.menu_popup_project_delete -> Tool.prompt(this@ProjectManagerActivity)
+                                .title(R.string.delete_project)
+                                .message(R.string.delete_project_warning)
+                                .positiveButton(R.string.delete).positiveButton {
+                                    if (projects[position].delete()) {
+                                        ia.remove(position)
+                                        projects.removeAt(position)
 
-                                    if (projects.size < 1)
-                                        findViewById<TextView>(R.id.noProjectFound).visibility = View.VISIBLE
+                                        if (projects.size < 1)
+                                            binding.projectManagerCM.cMNoProjectFound.isVisible =
+                                                true
 
-                                    val newIntent = Intent()
-                                    newIntent.putExtra("fileNameChanged", true)
+                                        val newIntent = Intent()
+                                        newIntent.putExtra("fileNameChanged", true)
 
-                                    setResult(Activity.RESULT_OK, newIntent)
+                                        setResult(RESULT_OK, newIntent)
 
-                                    Tool.toast(this@ProjectManagerActivity, getString(R.string.projectdeleted))
-                                } else
-                                    Tool.toast(this@ProjectManagerActivity, getString(R.string.unabletodeleteproject))
-                            }.show()
+                                        Tool.toast(
+                                            this@ProjectManagerActivity,
+                                            getString(R.string.project_deleted)
+                                        )
+                                    } else
+                                        Tool.toast(
+                                            this@ProjectManagerActivity,
+                                            getString(R.string.error_deleting_project)
+                                        )
+                                }.show()
                         }
                         true
                     }
@@ -165,7 +186,7 @@ class ProjectManagerActivity : AppCompatActivity() {
         }
     }
 
-    class Item(var title: String, var path: String) : AbstractItem<ProjectManagerActivity.Item.ViewHolder>() {
+    class Item(var title: String, var path: String) : AbstractItem<Item.ViewHolder>() {
 
         override val type: Int
             get() = 0
@@ -178,17 +199,15 @@ class ProjectManagerActivity : AppCompatActivity() {
         }
 
         class ViewHolder internal constructor(view: View) : FastAdapter.ViewHolder<Item>(view) {
-            internal var projectTitle: TextView = view.findViewById(R.id.title) as TextView
-            internal var projectPath: TextView = view.findViewById(R.id.path) as TextView
+            private var itemProjectBinding = ItemProjectBinding.bind(view)
 
             override fun bindView(item: Item, payloads: List<Any>) {
-                projectTitle.text = item.title
-                projectPath.text = item.path
+                itemProjectBinding.itemProjectTitle.text = item.title
+                itemProjectBinding.itemProjectPath.text = item.path
             }
 
             override fun unbindView(item: Item) {
             }
         }
     }
-
 }

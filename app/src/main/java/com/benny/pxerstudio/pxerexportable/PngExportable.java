@@ -18,25 +18,31 @@ import java.io.OutputStream;
  * Created by BennyKok on 10/17/2016.
  */
 
-public class PngExportable extends Exportable{
+public class PngExportable extends Exportable {
     @Override
     public void runExport(final Context context, final PxerView pxerView) {
-        ExportingUtils.INSTANCE.showExportingDialog(context, pxerView, new ExportingUtils.OnExportConfirmedListenser() {
+        ExportingUtils.INSTANCE.showExportingDialog(context, pxerView, new ExportingUtils.OnExportConfirmedListener() {
             @Override
-            public void OnExportConfirmed(String fileName, int width, int height) {
+            public void onExportConfirmed(String fileName, int width, int height) {
                 Paint paint = new Paint();
                 final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
                 for (int i = 0; i < pxerView.getPxerLayers().size(); i++) {
                     if (pxerView.getPxerLayers().get(i).visible)
-                        canvas.drawBitmap(pxerView.getPxerLayers().get(i).bitmap, null, new Rect(0, 0, width, height), null);
+                        canvas.drawBitmap(
+                                pxerView.getPxerLayers().get(i).bitmap,
+                                null,
+                                new Rect(0, 0, width, height),
+                                null);
                 }
 
-                final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context),fileName + ".png");
+                final File file = new File(
+                        ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context), fileName + ".png");
 
                 ExportingUtils.INSTANCE.showProgressDialog(context);
 
                 new AsyncTask<Void, Void, Void>() {
+
                     @Override
                     protected Void doInBackground(Void... params) {
                         try {
@@ -54,7 +60,7 @@ public class PngExportable extends Exportable{
                     @Override
                     protected void onPostExecute(Void aVoid) {
                         ExportingUtils.INSTANCE.dismissAllDialogs();
-                        ExportingUtils.INSTANCE.toastAndFinishExport(context,file.toString());
+                        ExportingUtils.INSTANCE.toastAndFinishExport(context, file.toString());
                         Tool.freeMemory();
                         super.onPostExecute(aVoid);
                     }

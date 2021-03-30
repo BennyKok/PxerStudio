@@ -2,16 +2,14 @@ package com.benny.pxerstudio.util
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.os.Environment
-import android.text.InputType
 import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.Toast
+import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
 import com.afollestad.materialdialogs.MaterialDialog
 import com.benny.pxerstudio.R
 import java.io.File
@@ -26,13 +24,13 @@ object Tool {
     @JvmField
     val myType = Typeface.create("sans-serif-light", Typeface.NORMAL)
     fun print(o: Any) {
-        Log.d("Hey", o.toString())
+        Log.d("Hey", "$o")
     }
 
     fun print(vararg o: Any) {
         var result = ""
-        for (i in 0 until o.size) {
-            result += " " + o[i].toString()
+        for (element in o) {
+            result += " $element"
         }
         Log.d("Hey", result)
     }
@@ -46,20 +44,19 @@ object Tool {
     fun drawableToBitmap(drawable: Drawable): Bitmap? {
         var bitmap: Bitmap? = null
         if (drawable is BitmapDrawable) {
-            val bitmapDrawable = drawable
-            if (bitmapDrawable.bitmap != null) {
-                return bitmapDrawable.bitmap
+            if (drawable.bitmap != null) {
+                return drawable.bitmap
             }
         }
         bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
-            Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888) // Single color bitmap will be created of 1x1 pixel
+            createBitmap(1, 1) // Single color bitmap will be created of 1x1 pixel
         } else {
-            Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight)
         }
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
-        drawable.draw(canvas)
-        return bitmap
+        return bitmap.applyCanvas {
+            drawable.setBounds(0, 0, width, height)
+            drawable.draw(this)
+        }
     }
 
     @JvmStatic
@@ -81,7 +78,7 @@ object Tool {
     fun stripExtension(str: String?): String? {
         if (str == null) return null
         val pos = str.lastIndexOf(".")
-        return if (pos == -1) str else str.substring(0, pos)
+        return if (pos == -1) str else str.take(pos)
     }
 
     @JvmStatic
@@ -107,21 +104,22 @@ object Tool {
     @JvmStatic
     fun prompt(c: Context?): MaterialDialog {
         return MaterialDialog(c!!)
-                .negativeButton(R.string.cancel)
-//                .titleGravity(GravityEnum.CENTER)
-//                .typeface(myType, myType)
-//                .positiveColor(Color.RED)
+            .negativeButton(android.R.string.cancel)
+//            .titleGravity(GravityEnum.CENTER)
+//            .typeface(myType, myType)
+//            .positiveColor(Color.RED)
     }
-
-//    fun promptTextInput(c: Context?, title: String?): MaterialDialog {
-//        return MaterialDialog(c!!)
-//                .negativeButton(R.string.cancel)
-//                .positiveButton(R.string.ok)
-//                .title(null,title)
-//                .inputType(InputType.TYPE_CLASS_TEXT)
-//                .inputRange(0, 20)
-//                .titleGravity(GravityEnum.CENTER)
-//                .typeface(myType, myType)
-//                .positiveColor(Color.GREEN)
-//    }
+/*
+    fun promptTextInput(c: Context?, title: String?): MaterialDialog {
+        return MaterialDialog(c!!)
+            .negativeButton(R.string.cancel)
+            .positiveButton(R.string.ok)
+            .title(null, title)
+            .inputType(InputType.TYPE_CLASS_TEXT)
+            .inputRange(0, 20)
+            .titleGravity(GravityEnum.CENTER)
+            .typeface(myType, myType)
+            .positiveColor(Color.GREEN)
+    }
+*/
 }

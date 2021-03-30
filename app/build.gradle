@@ -1,16 +1,18 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion '31.0.0-rc2'
-
+    buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "com.benny.pxerstudio"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 5
         versionName '1.0.4'
+
+        vectorDrawables.useSupportLibrary true
     }
     buildTypes {
         release {
@@ -23,43 +25,43 @@ android {
         dataBinding true
     }
     compileOptions {
+        encoding "UTF-8"
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+    lintOptions {
+        disable 'StaticFieldLeak'
+    }
+    packagingOptions {
+        exclude 'META-INF/*'
     }
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.13.2'
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    //Third-party UI lib
-    implementation('de.psdev.licensesdialog:licensesdialog:2.1.0') {
-        exclude group: 'com.android.support'
-    }
-    implementation('com.github.clans:fab:1.6.4') {
-        exclude group: 'com.android.support'
-    }
+// Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation 'com.afollestad.material-dialogs:core:3.3.0'
-    implementation 'com.afollestad.material-dialogs:files:3.3.0'
-    implementation 'com.afollestad.material-dialogs:input:3.3.0'
-
-//    implementation('com.mikepenz:fastadapter-extensions:2.6.3@aar'){
-//        exclude group: 'com.android.support'
-//    }
-    implementation "com.mikepenz:fastadapter-extensions-drag:5.3.5" // drag support
-    implementation('com.mikepenz:fastadapter:5.3.5') {
-        transitive = true
-    }
-
-    //Support lib
+// AndroidX
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.legacy:legacy-support-v13:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'com.google.android.material:material:1.3.0'
 
-    //Others
+// Third-party
+    def dialogsVersion = "3.3.0"
+    implementation "com.afollestad.material-dialogs:core:$dialogsVersion"
+    implementation "com.afollestad.material-dialogs:files:$dialogsVersion"
+    implementation "com.afollestad.material-dialogs:input:$dialogsVersion"
+
+    def fastadapterVersion = "5.3.5"
+    implementation "com.mikepenz:fastadapter-extensions-drag:$fastadapterVersion" // drag support
+    implementation "com.mikepenz:fastadapter:$fastadapterVersion"
+
+    implementation 'de.psdev.licensesdialog:licensesdialog:2.1.0'
+    implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

@@ -1,14 +1,12 @@
 package com.benny.pxerstudio.activity
 
 import android.os.Bundle
-import android.text.Html
 import android.text.method.LinkMovementMethod
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-
+import androidx.core.text.parseAsHtml
+import com.benny.pxerstudio.BuildConfig
 import com.benny.pxerstudio.R
-
+import com.benny.pxerstudio.databinding.ActivityAboutBinding
 import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20
 import de.psdev.licensesdialog.licenses.MITLicense
@@ -16,37 +14,47 @@ import de.psdev.licensesdialog.model.Notice
 import de.psdev.licensesdialog.model.Notices
 
 class AboutActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityAboutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about)
+        binding = ActivityAboutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val tv = findViewById<TextView>(R.id.tv)
-        tv.text = Html.fromHtml(getString(R.string.created_by_bennykok))
-        tv.movementMethod = LinkMovementMethod.getInstance()
+        binding.aboutAppVersion.text =
+            "v" + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")"
 
-        val tv1 = findViewById<TextView>(R.id.tv1)
-        tv1.text = Html.fromHtml(getString(R.string.get_more_apps))
-        tv1.movementMethod = LinkMovementMethod.getInstance()
+        binding.aboutCreator.text = getString(R.string.creator_website).parseAsHtml()
+        binding.aboutCreator.movementMethod = LinkMovementMethod.getInstance()
 
-        val tv3 = findViewById<TextView>(R.id.tv3)
-        tv3.text = Html.fromHtml(getString(R.string.join_the_community))
-        tv3.movementMethod = LinkMovementMethod.getInstance()
+        binding.aboutMoreApps.text = getString(R.string.get_more_apps_link).parseAsHtml()
+        binding.aboutMoreApps.movementMethod = LinkMovementMethod.getInstance()
 
-        val tv2 = findViewById<TextView>(R.id.libinfo)
+        binding.aboutGithub.text = getString(R.string.github_link).parseAsHtml()
+        binding.aboutGithub.movementMethod = LinkMovementMethod.getInstance()
+
         val sb = StringBuilder()
-
         with(sb) {
-            append(getString(R.string.brough_to_you_by))
+            append(getString(R.string.brought_to_you_by))
             append("<br>")
 
-            append("com.mikepenz:fastadapter-extensions")
+            append("androidx.appcompat:appcompat")
             append("<br>")
-            append("com.mikepenz:fastadapter")
+            append("androidx.cardview:cardview")
+            append("<br>")
+            append("androidx.constraintlayout:constraintlayout")
+            append("<br>")
+            append("com.google.android.material:material")
             append("<br>")
             append("com.afollestad.material-dialogs:core")
             append("<br>")
-            append("com.afollestad.material-dialogs:commons")
+            append("com.afollestad.material-dialogs:files")
+            append("<br>")
+            append("com.afollestad.material-dialogs:input")
+            append("<br>")
+            append("com.mikepenz:fastadapter")
+            append("<br>")
+            append("com.mikepenz:fastadapter-extensions")
             append("<br>")
             append("de.psdev.licensesdialog:licensesdialog")
             append("<br>")
@@ -54,37 +62,65 @@ class AboutActivity : AppCompatActivity() {
             append("<br>")
             append("com.google.code.gson:gson")
             append("<br>")
-            append("com.android.support:appcompat-v7")
-            append("<br>")
-            append("com.android.support:support-v4")
-            append("<br>")
-            append("com.android.support:design")
-            append("<br>")
-            append("com.android.support:cardview-v7")
-            append("<br>")
-            append("com.android.support.constraint:constraint-layout")
         }
 
-        tv2.movementMethod = LinkMovementMethod.getInstance()
-        tv2.text = Html.fromHtml(sb.toString())
+        binding.aboutLibinfo.movementMethod = LinkMovementMethod.getInstance()
+        binding.aboutLibinfo.text = "$sb".parseAsHtml()
 
         val notices = Notices()
-        notices.addNotice(Notice("FastAdapter", "https://github.com/mikepenz/FastAdapter", "Copyright 2016 Mike Penz", ApacheSoftwareLicense20()))
-        notices.addNotice(Notice("Material Dialogs", "https://github.com/afollestad/material-dialogs", "Copyright (c) 2014-2016 Aidan Michael Follestad", MITLicense()))
-        notices.addNotice(Notice("FloatingActionButton", "https://github.com/Clans/FloatingActionButton", "Copyright 2015 Dmytro Tarianyk", ApacheSoftwareLicense20()))
-        notices.addNotice(Notice("Gson", "https://github.com/google/gson", "Copyright 2008 Google Inc.", ApacheSoftwareLicense20()))
+        notices.addNotice(
+            Notice(
+                "Material Dialogs",
+                "https://github.com/afollestad/material-dialogs",
+                "Copyright (c) 2014-2016 Aidan Michael Follestad",
+                MITLicense()
+            )
+        )
+        notices.addNotice(
+            Notice(
+                "FastAdapter",
+                "https://github.com/mikepenz/FastAdapter",
+                "Copyright 2021 Mike Penz",
+                ApacheSoftwareLicense20()
+            )
+        )
+        notices.addNotice(
+            Notice(
+                "FloatingActionButton",
+                "https://github.com/Clans/FloatingActionButton",
+                "Copyright 2015 Dmytro Tarianyk",
+                ApacheSoftwareLicense20()
+            )
+        )
+        notices.addNotice(
+            Notice(
+                "Gson",
+                "https://github.com/google/gson",
+                "Copyright 2008 Google Inc.",
+                ApacheSoftwareLicense20()
+            )
+        )
 
         val builder = LicensesDialog.Builder(this@AboutActivity)
         builder.setIncludeOwnLicense(true)
         builder.setNotices(notices)
-        builder.setTitle(getString(R.string.opensource_library))
+        builder.setTitle(getString(R.string.opensource_libraries))
         val dialog = builder.build()
 
-        tv2.setOnClickListener { dialog.show() }
+        binding.aboutLibinfo.setOnClickListener { dialog.show() }
 
-        findViewById<ImageView>(R.id.iv).setOnClickListener { v ->
+        binding.aboutAppIcon.setOnClickListener { v ->
             if (v.animation == null || v.animation != null && v.animation.hasEnded())
-                v.animate().scaleX(1.1f).scaleY(1.1f).rotationBy(-20f).withEndAction { v.animate().scaleX(1f).scaleY(1f).rotation(0f) }
+                v.animate()
+                    .scaleX(1.1f)
+                    .scaleY(1.1f)
+                    .rotationBy(-20f)
+                    .withEndAction {
+                        v.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .rotation(0f)
+                    }
         }
     }
 }

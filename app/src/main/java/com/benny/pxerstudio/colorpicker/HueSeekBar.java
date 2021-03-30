@@ -9,17 +9,17 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.SeekBar;
+
+import androidx.appcompat.widget.AppCompatSeekBar;
 
 /**
  * Created by BennyKok on 10/15/2016.
  */
 
-public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
+public class HueSeekBar extends AppCompatSeekBar {
 
+    private final Paint thumbPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Bitmap hueBitmap;
-
-    private Paint thumbPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public HueSeekBar(Context context) {
         super(context);
@@ -33,13 +33,13 @@ public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
         init();
     }
 
-    private void init(){
+    private void init() {
         thumbPaint.setColor(Color.WHITE);
         thumbPaint.setStyle(Paint.Style.STROKE);
         thumbPaint.setStrokeWidth(8);
 
         setMax(360);
-        setPadding(0,0,0,0);
+        setPadding(0, 0, 0, 0);
 
         setThumb(new Drawable() {
             @Override
@@ -49,30 +49,35 @@ public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
 
             @Override
             public int getIntrinsicWidth() {
-                return getHeight()/3;
+                return getHeight() / 3;
             }
 
             @Override
             public void draw(Canvas canvas) {
-                float[] hsv = new float[]{getProgress(), 1, 1};
+                float[] hsv = {getProgress(), 1, 1};
                 thumbPaint.setColor(Color.HSVToColor(hsv));
                 thumbPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-                canvas.drawRect(getBounds(),thumbPaint);
+                canvas.drawRect(getBounds(), thumbPaint);
 
                 thumbPaint.setColor(Color.WHITE);
                 thumbPaint.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(getBounds(),thumbPaint);
+                canvas.drawRect(getBounds(), thumbPaint);
             }
+
             @Override
-            public void setAlpha(int alpha) {}
+            public void setAlpha(int alpha) {
+            }
+
             @Override
-            public void setColorFilter(ColorFilter colorFilter) {}
+            public void setColorFilter(ColorFilter colorFilter) {
+            }
+
             @Override
             public int getOpacity() {
                 return PixelFormat.TRANSPARENT;
             }
         });
-        setThumbOffset(-(getHeight()/3)/6);
+        setThumbOffset(-(getHeight() / 3) / 6);
         setProgressDrawable(new Drawable() {
             @Override
             public int getIntrinsicHeight() {
@@ -83,15 +88,21 @@ public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
             public int getIntrinsicWidth() {
                 return getWidth();
             }
+
             @Override
             public void draw(Canvas canvas) {
                 if (hueBitmap != null)
-                    canvas.drawBitmap(hueBitmap,null,getBounds(),null);
+                    canvas.drawBitmap(hueBitmap, null, getBounds(), null);
             }
+
             @Override
-            public void setAlpha(int alpha) {}
+            public void setAlpha(int alpha) {
+            }
+
             @Override
-            public void setColorFilter(ColorFilter colorFilter) {}
+            public void setColorFilter(ColorFilter colorFilter) {
+            }
+
             @Override
             public int getOpacity() {
                 return PixelFormat.TRANSPARENT;
@@ -116,20 +127,19 @@ public class HueSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
         for (int x = 0; x < width; x++) {
             float hue = 0;
             if (width > height) {
-                hue = (x * 360f) / width;
+                hue = x * 360f / width;
             }
             for (int y = 0; y < height; y++) {
                 if (width <= height) {
-                    hue = (y * 360f) / height;
+                    hue = y * 360f / height;
                 }
 
-                float[] hsv = new float[]{hue, 1, 1};
+                float[] hsv = {hue, 1, 1};
 
                 hueBitmap.setPixel(x, y, Color.HSVToColor(hsv));
             }
         }
 
         return hueBitmap;
-
     }
 }

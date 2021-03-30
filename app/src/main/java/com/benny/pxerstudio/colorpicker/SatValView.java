@@ -6,11 +6,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import androidx.core.graphics.ColorUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
+
+import androidx.core.graphics.ColorUtils;
 
 /**
  * Created by BennyKok on 10/15/2016.
@@ -56,8 +57,8 @@ public class SatValView extends View {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 hue = progress;
                 if (getWidth() > 0)
-                    satBitmap = getSatValBitmap(hue, alpha);
-                onColorRetrieved(alpha,hue, sat, val);
+                    satBitmap = getSatValBitmap(hue);
+                onColorRetrieved(alpha, hue, sat, val);
                 invalidate();
             }
 
@@ -77,7 +78,7 @@ public class SatValView extends View {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 alpha = progress;
-                onColorRetrieved(alpha,hue, sat, val);
+                onColorRetrieved(alpha, hue, sat, val);
                 invalidate();
             }
 
@@ -93,10 +94,10 @@ public class SatValView extends View {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        satBitmap = getSatValBitmap(hue, alpha);
+        satBitmap = getSatValBitmap(hue);
         reCalBackground();
-        satBound.set(0,0,getRight(),getBottom());
-        placePointer(sat * getWidth(), getHeight() - (val * getHeight()),false);
+        satBound.set(0, 0, getRight(), getBottom());
+        placePointer(sat * getWidth(), getHeight() - val * getHeight(), false);
     }
 
     private void init() {
@@ -114,17 +115,16 @@ public class SatValView extends View {
     }
 
 
-
     @Override
     protected void onDraw(Canvas canvas) {
         satPaint.setAlpha(alpha);
         if (bgbitmap != null && !isInEditMode())
-            canvas.drawBitmap(bgbitmap,null,canvas.getClipBounds(),bgPaint);
+            canvas.drawBitmap(bgbitmap, null, canvas.getClipBounds(), bgPaint);
         canvas.drawBitmap(satBitmap, null, canvas.getClipBounds(), satPaint);
         canvas.drawCircle(fingerX, fingerY, 20, thumbPaint);
     }
 
-    public Bitmap getSatValBitmap(float hue,int alpha) {
+    public Bitmap getSatValBitmap(float hue) {
         int skipCount = 1;
         int width = 100;
         int height = 100;
@@ -135,19 +135,19 @@ public class SatValView extends View {
         for (int y = 0; y < height; y += skipCount) {
             for (int x = 0; x < width; x += skipCount) {
 
-                if (pix >= (width * height))
+                if (pix >= width * height)
                     break;
 
-                float sat = (x) / (float) width;
-                float val = ((height - y)) / (float) height;
+                float sat = x / (float) width;
+                float val = (height - y) / (float) height;
 
-                float[] hsv = new float[]{hue, sat, val};
+                float[] hsv = {hue, sat, val};
 
-                int color =  Color.HSVToColor(hsv);
+                int color = Color.HSVToColor(hsv);
                 for (int m = 0; m < skipCount; m++) {
-                    if (pix >= (width * height))
+                    if (pix >= width * height)
                         break;
-                    if ((x + m) < width) {
+                    if (x + m < width) {
                         colors[pix] = color;
                         pix++;
                     }
@@ -155,7 +155,7 @@ public class SatValView extends View {
             }
 
             for (int n = 0; n < skipCount; n++) {
-                if (pix >= (width * height))
+                if (pix >= width * height)
                     break;
                 for (int x = 0; x < width; x++) {
                     colors[pix] = colors[pix - width];
@@ -165,19 +165,19 @@ public class SatValView extends View {
         }
         hueBitmap.setPixels(colors, 0, width, 0, 0, width, height);
         return hueBitmap;
-
     }
 
-    public void reCalBackground(){
-        bgbitmap = Bitmap.createBitmap(10*2,10*2,Bitmap.Config.ARGB_8888);
-        bgbitmap.eraseColor(ColorUtils.setAlphaComponent(Color.GRAY,200));
+    public void reCalBackground() {
+        bgbitmap = Bitmap.createBitmap(10 * 2, 10 * 2, Bitmap.Config.ARGB_8888);
+        bgbitmap.eraseColor(ColorUtils.setAlphaComponent(Color.GRAY, 200));
 
         for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10*2; j++) {
-                if (j%2 != 0)
-                    bgbitmap.setPixel(i*2+1,j,Color.argb(200,220,220,220));
-                else
-                    bgbitmap.setPixel(i*2,j,Color.argb(200,220,220,220));
+            for (int j = 0; j < 10 * 2; j++) {
+                if (j % 2 == 0) {
+                    bgbitmap.setPixel(i * 2, j, Color.argb(200, 220, 220, 220));
+                } else {
+                    bgbitmap.setPixel(i * 2 + 1, j, Color.argb(200, 220, 220, 220));
+                }
             }
         }
     }
@@ -186,16 +186,14 @@ public class SatValView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                placePointer(event.getX(), event.getY(),true);
-                return true;
             case MotionEvent.ACTION_MOVE:
-                placePointer(event.getX(), event.getY(),true);
+                placePointer(event.getX(), event.getY(), true);
                 return true;
         }
         return super.onTouchEvent(event);
     }
 
-    private void placePointer(float x, float y,boolean notify) {
+    private void placePointer(float x, float y, boolean notify) {
         if (x < 0)
             x = 0;
         else if (x > getWidth())
@@ -210,7 +208,7 @@ public class SatValView extends View {
         fingerY = y;
 
         if (notify)
-        retrieveColorAt(x, y);
+            retrieveColorAt(x, y);
 
         invalidate();
     }
@@ -219,45 +217,44 @@ public class SatValView extends View {
         fingerX = x;
         fingerY = y;
 
-        sat = (x) / (float) getWidth();
-        val = ((getHeight() - y)) / (float) getHeight();
+        sat = x / (float) getWidth();
+        val = (getHeight() - y) / (float) getHeight();
 
-        onColorRetrieved(alpha,hue, sat, val);
+        onColorRetrieved(alpha, hue, sat, val);
     }
 
     public void setListener(OnColorChangeListener listener) {
         this.listener = listener;
     }
 
-
-    public interface OnColorChangeListener {
-        void onColorChanged(int newColor);
-    }
-
-    private void onColorRetrieved(int alpha,float hue, float sat, float val) {
-        int color = ColorUtils.setAlphaComponent(Color.HSVToColor(new float[]{hue, sat, val}),alpha);
+    private void onColorRetrieved(int alpha, float hue, float sat, float val) {
+        int color = ColorUtils.setAlphaComponent(Color.HSVToColor(new float[]{hue, sat, val}), alpha);
 
         if (listener != null) {
             listener.onColorChanged(color);
         }
     }
 
-    public void setColor(int color){
+    public void setColor(int color) {
         float[] hsv = new float[3];
-        Color.colorToHSV(color,hsv);
+        Color.colorToHSV(color, hsv);
         setSaturationAndValue(hsv[1], hsv[2]);
         alpha = Color.alpha(color);
-        if (hsb != null){
-            hsb.setProgress((int)hsv[0]);
+        if (hsb != null) {
+            hsb.setProgress((int) hsv[0]);
         }
-        if (asb != null){
+        if (asb != null) {
             asb.setProgress(Color.alpha(color));
         }
     }
 
-    private void setSaturationAndValue(float sat,float val){
+    private void setSaturationAndValue(float sat, float val) {
         this.sat = sat;
         this.val = val;
-        placePointer(sat * getWidth(), getHeight() - (val * getHeight()),false);
+        placePointer(sat * getWidth(), getHeight() - val * getHeight(), false);
+    }
+
+    public interface OnColorChangeListener {
+        void onColorChanged(int newColor);
     }
 }

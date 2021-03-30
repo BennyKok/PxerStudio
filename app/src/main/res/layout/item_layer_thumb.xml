@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.benny.pxerstudio.widget.FastBitmapView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_margin="4dp"
+<com.benny.pxerstudio.widget.FastBitmapView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="80dp"
-    android:layout_height="80dp">
-
-</com.benny.pxerstudio.widget.FastBitmapView>
+    android:layout_height="80dp"
+    android:layout_margin="4dp" />

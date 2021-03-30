@@ -2,18 +2,12 @@ package com.benny.pxerstudio.pxerexportable
 
 import android.content.Context
 import android.media.MediaScannerConnection
-import android.os.Environment
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
-import com.benny.pxerstudio.R
-import com.benny.pxerstudio.util.Tool
+import com.benny.pxerstudio.databinding.DialogActivityDrawingBinding
 import com.benny.pxerstudio.util.Tool.toast
 import com.benny.pxerstudio.widget.PxerView
 import java.io.File
@@ -48,73 +42,96 @@ object ExportingUtils {
     }
 
     fun toastAndFinishExport(context: Context?, fileName: String?) {
-        if (fileName != null && !fileName.isEmpty()) MediaScannerConnection.scanFile(context, arrayOf(fileName), null
-        ) { path, uri -> }
+        if (fileName != null && fileName.isNotEmpty()) MediaScannerConnection.scanFile(
+            context, arrayOf(fileName), null
+        ) { _, _ -> }
         toast(context, "Exported successfully")
     }
 
     fun scanAlotsOfFile(context: Context?, files: List<File>) {
         val paths = arrayOfNulls<String>(files.size)
         for (i in files.indices) {
-            paths[i] = files[i].toString()
+            paths[i] = "${files[i]}"
         }
-        MediaScannerConnection.scanFile(context,
-                paths, null
-        ) { path, uri -> }
+        MediaScannerConnection.scanFile(
+            context,
+            paths, null
+        ) { _, _ -> }
     }
 
     fun showProgressDialog(context: Context?) {
         currentProgressDialog = MaterialDialog(context!!)
-//                .typeface(Tool.myType, Tool.myType)
-                .cancelable(false)
-                .cancelOnTouchOutside(false)
-                .title(null, "Painting...")
-                .message(null, "Exporting...")
-//                .progress
-//                .progress(true, 0)
-//                .progressIndeterminateStyle(true)
+//            .typeface(Tool.myType, Tool.myType)
+            .cancelable(false)
+            .cancelOnTouchOutside(false)
+            .title(null, "Painting...")
+            .message(null, "Exporting...")
+//            .progress
+//            .progress(true, 0)
+//            .progressIndeterminateStyle(true)
 
         currentProgressDialog!!.show()
     }
 
-    fun showExportingDialog(context: Context?, pxerView: PxerView, listenser: OnExportConfirmedListenser) {
-        showExportingDialog(context, -1, pxerView, listenser)
+    fun showExportingDialog(
+        context: Context?,
+        pxerView: PxerView,
+        listener: OnExportConfirmedListener
+    ) {
+        showExportingDialog(context, -1, pxerView, listener)
     }
 
-    fun showExportingDialog(context: Context?, maxSize: Int, pxerView: PxerView, listenser: OnExportConfirmedListenser) {
-        val l = LayoutInflater.from(context).inflate(R.layout.dialog_activity_drawing, null) as ConstraintLayout
-        val editText = l.findViewById<View>(R.id.et1) as EditText
-        val seekBar = l.findViewById<View>(R.id.sb) as SeekBar
-        val textView = l.findViewById<View>(R.id.tv2) as TextView
-        editText.setText(pxerView.projectName)
-        if (maxSize == -1) seekBar.max = 4096 - pxerView.picWidth else seekBar.max = maxSize - pxerView.picWidth
-        textView.text = "Size : " + java.lang.String.valueOf(pxerView.picWidth) + " x " + java.lang.String.valueOf(pxerView.picHeight)
-        seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                textView.text = "Size : " + (i + pxerView.picWidth).toString() + " x " + (i + pxerView.picHeight).toString()
-            }
+    fun showExportingDialog(
+        context: Context?,
+        maxSize: Int,
+        pxerView: PxerView,
+        listener: OnExportConfirmedListener
+    ) {
+        val binding = DialogActivityDrawingBinding.inflate(LayoutInflater.from(context))
+        val layoutRoot = binding.root
 
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar) {}
-        })
-        MaterialDialog(context!!)
-//                .titleGravity(GravityEnum.CENTER)
-//                .typeface(Tool.myType, Tool.myType)
-                .customView(view = l)
-                .title(null, "Export")
-                .positiveButton(null, "Export") {
-                    if (editText.text.toString().isEmpty()) {
-                        toast(context, "The file name cannot be empty!")
-                        return@positiveButton
-                    }
-                    listenser.OnExportConfirmed(editText.text.toString(), seekBar.progress + pxerView.picWidth, seekBar.progress + pxerView.picHeight)
+        binding.dialogDrawingNameEdit.setText(pxerView.projectName)
+        if (maxSize == -1) {
+            binding.dialogDrawingSizeSeekBar.max = 4096 - pxerView.picWidth
+        } else {
+            binding.dialogDrawingSizeSeekBar.max = maxSize - pxerView.picWidth
+        }
+        binding.dialogDrawingSize.text =
+            "Size : " + java.lang.String.valueOf(pxerView.picWidth) +
+                    " x " + java.lang.String.valueOf(pxerView.picHeight)
+        binding.dialogDrawingSizeSeekBar
+            .setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                    binding.dialogDrawingSize.text =
+                        "Size : " + (i + pxerView.picWidth).toString() +
+                                " x " + (i + pxerView.picHeight).toString()
                 }
-                .negativeButton(null, "Cancel")
-                .show()
+
+                override fun onStartTrackingTouch(seekBar: SeekBar) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar) {}
+            })
+        MaterialDialog(context!!)
+//            .titleGravity(GravityEnum.CENTER)
+//            .typeface(Tool.myType, Tool.myType)
+            .customView(view = layoutRoot)
+            .title(null, "Export")
+            .positiveButton(null, "Export") {
+                if (binding.dialogDrawingNameEdit.text.toString().isEmpty()) {
+                    toast(context, "The file name cannot be empty!")
+                    return@positiveButton
+                }
+                listener.onExportConfirmed(
+                    binding.dialogDrawingNameEdit.text.toString(),
+                    binding.dialogDrawingSizeSeekBar.progress + pxerView.picWidth,
+                    binding.dialogDrawingSizeSeekBar.progress + pxerView.picHeight
+                )
+            }
+            .negativeButton(null, "Cancel")
+            .show()
     }
 
-    interface OnExportConfirmedListenser {
-        fun OnExportConfirmed(fileName: String?, width: Int, height: Int)
+    interface OnExportConfirmedListener {
+        fun onExportConfirmed(fileName: String?, width: Int, height: Int)
     }
 
     fun getExportPath(context: Context): String {
