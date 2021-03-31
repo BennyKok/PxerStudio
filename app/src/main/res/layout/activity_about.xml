@@ -59,7 +59,7 @@
     <TextView
         android:id="@+id/about_libinfo"
         android:layout_width="320dp"
-        android:layout_height="189dp"
+        android:layout_height="300dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
@@ -73,7 +73,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/about_app_version"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.25" />
 
     <View
         android:id="@+id/about_divider"

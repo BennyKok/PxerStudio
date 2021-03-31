@@ -1,8 +1,12 @@
 package com.benny.pxerstudio.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.text.parseAsHtml
 import com.benny.pxerstudio.BuildConfig
 import com.benny.pxerstudio.R
@@ -24,13 +28,16 @@ class AboutActivity : AppCompatActivity() {
         binding.aboutAppVersion.text =
             "v" + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")"
 
-        binding.aboutCreator.text = getString(R.string.creator_website).parseAsHtml()
+        binding.aboutCreator.startIntent(this, "https://bennykok.com/")
         binding.aboutCreator.movementMethod = LinkMovementMethod.getInstance()
 
-        binding.aboutMoreApps.text = getString(R.string.get_more_apps_link).parseAsHtml()
+        binding.aboutMoreApps.startIntent(
+            this,
+            "https://play.google.com/store/apps/dev?id=9219874075463759288"
+        )
         binding.aboutMoreApps.movementMethod = LinkMovementMethod.getInstance()
 
-        binding.aboutGithub.text = getString(R.string.github_link).parseAsHtml()
+        binding.aboutGithub.startIntent(this, "https://github.com/BennyKok/PxerStudio")
         binding.aboutGithub.movementMethod = LinkMovementMethod.getInstance()
 
         val sb = StringBuilder()
@@ -121,6 +128,13 @@ class AboutActivity : AppCompatActivity() {
                             .scaleY(1f)
                             .rotation(0f)
                     }
+        }
+    }
+
+    private fun TextView.startIntent(activity: Activity, uri: String) {
+        setOnClickListener {
+            val i = Intent(Intent.ACTION_VIEW, uri.toUri())
+            activity.startActivity(i)
         }
     }
 }
