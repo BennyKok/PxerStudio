@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PxerStudio</string>
-
     <string name="creator_website">https://bennykok.com/</string>
     <string name="get_more_apps_link">https://play.google.com/store/apps/dev?id=9219874075463759288</string>
     <string name="github_link">https://github.com/BennyKok/PxerStudio</string>
