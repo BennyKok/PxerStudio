@@ -1,0 +1,3 @@
+1.1.1: Actual first F-Droid release :^)
+- Removed unneeded internet permission
+- Fixed the margins of the about page; also fixed links accidentally being displayed
