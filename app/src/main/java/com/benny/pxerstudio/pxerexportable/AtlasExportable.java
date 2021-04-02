@@ -28,11 +28,10 @@ public class AtlasExportable extends Exportable {
                 Paint paint = new Paint();
                 Canvas canvas = new Canvas();
 
-                int atlasWidth = (int) Math.ceil(
-                        (float) pxerView.getPxerLayers().size() /
-                                (float) Math.sqrt((float) pxerView.getPxerLayers().size()));
-                int atlasHeight = (int) Math.ceil(
-                        (float) pxerView.getPxerLayers().size() / (float) atlasWidth);
+                float pxerSize = pxerView.getPxerLayers().size();
+
+                int atlasWidth = (int) Math.ceil(pxerSize / (float) Math.sqrt(pxerSize));
+                int atlasHeight = (int) Math.ceil(pxerSize / (float) atlasWidth);
 
                 final Bitmap bitmap = Bitmap.createBitmap(
                         width * atlasWidth,
@@ -43,7 +42,7 @@ public class AtlasExportable extends Exportable {
                 int counter = 0;
                 for (int y = 0; y < atlasHeight; y++) {
                     for (int x = 0; x < atlasWidth; x++) {
-                        if (pxerView.getPxerLayers().size() > counter) {
+                        if (pxerSize > counter) {
                             canvas.drawBitmap(
                                     pxerView.getPxerLayers().get(counter).bitmap,
                                     null,

@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import com.afollestad.materialdialogs.MaterialDialog
-import com.benny.pxerstudio.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException

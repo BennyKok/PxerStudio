@@ -67,14 +67,17 @@ public class BorderFab extends FloatingActionButton {
         super.onDraw(canvas);
         colorPaint.setColor(Color.WHITE);
 
+        final int width = getWidth();
+        final int height = getHeight();
+
         canvas.save();
-        path.addCircle(getWidth() / 2f, getHeight() / 2f, getWidth() / 3f + one, Path.Direction.CCW);
+        path.addCircle(width / 2f, height / 2f, width / 3f + one, Path.Direction.CCW);
         canvas.clipPath(path);
         canvas.drawBitmap(bg, null, rect, colorPaint);
         canvas.restore();
 
         colorPaint.setColor(color);
-        canvas.drawCircle(getWidth() / 2f, getHeight() / 2f, getWidth() / 3f + one, colorPaint);
-        canvas.drawCircle(getWidth() / 2f, getHeight() / 2f, getWidth() / 3f + one, paint);
+        canvas.drawCircle(width / 2f, height / 2f, width / 3f + one, colorPaint);
+        canvas.drawCircle(width / 2f, height / 2f, width / 3f + one, paint);
     }
 }

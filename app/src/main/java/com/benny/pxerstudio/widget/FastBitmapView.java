@@ -126,42 +126,47 @@ public class FastBitmapView extends View {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        float w = getWidth() * Math.min(
-                bitmap.getWidth(),
-                bitmap.getHeight()) / Math.max(bitmap.getWidth(), bitmap.getHeight());
-        float h = getHeight() * Math.min(
-                bitmap.getWidth(),
-                bitmap.getHeight()) / Math.max(bitmap.getWidth(), bitmap.getHeight());
+        final int bitmapWidth = bitmap.getWidth();
+        final int bitmapHeight = bitmap.getHeight();
 
-        boundary.set(0, 0, getWidth(), getHeight());
+        final int bitmapDimensions =
+                Math.min(bitmapWidth, bitmapHeight) / Math.max(bitmapWidth, bitmapHeight);
+
+        final int width = getWidth();
+        final int height = getHeight();
+
+        final float w = width * bitmapDimensions;
+        final float h = height * bitmapDimensions;
+
+        boundary.set(0, 0, width, height);
         boundary.inset(strokeWidth / 2, strokeWidth / 2);
 
-        if (bitmap.getWidth() < bitmap.getHeight()) {
+        if (bitmapWidth < bitmapHeight) {
             boundary2.set(
-                    Math.abs(getWidth() - w) / 2,
+                    Math.abs(width - w) / 2,
                     0,
-                    getWidth() - Math.abs(getWidth() - w) / 2,
-                    getHeight());
+                    width - Math.abs(width - w) / 2,
+                    height);
         } else {
             boundary2.set(
                     0,
-                    Math.abs(getHeight() - h) / 2,
-                    getHeight(),
-                    getHeight() - Math.abs(getHeight() - h) / 2);
+                    Math.abs(height - h) / 2,
+                    height,
+                    height - Math.abs(height - h) / 2);
         }
         boundary2.inset(strokeWidth, strokeWidth);
 
         boundary3.set(
-                getWidth() / 2 - iconSize2,
-                getHeight() / 2 - iconSize2,
-                getWidth() / 2 + iconSize2,
-                getHeight() / 2 + iconSize2);
+                width / 2f - iconSize2,
+                height / 2f - iconSize2,
+                width / 2f + iconSize2,
+                height / 2f + iconSize2);
 
         visibilityBg.reset();
         visibilityBg.moveTo(strokeWidth, strokeWidth);
-        visibilityBg.lineTo(getWidth() - strokeWidth, getHeight() - strokeWidth);
+        visibilityBg.lineTo(width - strokeWidth, height - strokeWidth);
 
-        visibilityBg.moveTo(getWidth() - strokeWidth, strokeWidth);
-        visibilityBg.lineTo(strokeWidth, getHeight() - strokeWidth);
+        visibilityBg.moveTo(width - strokeWidth, strokeWidth);
+        visibilityBg.lineTo(strokeWidth, height - strokeWidth);
     }
 }

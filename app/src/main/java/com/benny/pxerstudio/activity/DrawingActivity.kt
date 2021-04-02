@@ -396,10 +396,14 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
                 layerAdapter.notifyAdapterDataSetChanged()
             }
-            R.id.menu_drawing_export_png -> PngExportable().runExport(this, binding!!.drawingPxerView)
-            R.id.menu_drawing_export_gif -> GifExportable().runExport(this, binding!!.drawingPxerView)
-            R.id.menu_drawing_export_folder -> FolderExportable().runExport(this, binding!!.drawingPxerView)
-            R.id.menu_drawing_export_atlas -> AtlasExportable().runExport(this, binding!!.drawingPxerView)
+            R.id.menu_drawing_export_png -> PngExportable()
+                .runExport(this, binding!!.drawingPxerView)
+            R.id.menu_drawing_export_gif -> GifExportable()
+                .runExport(this, binding!!.drawingPxerView)
+            R.id.menu_drawing_export_folder -> FolderExportable()
+                .runExport(this, binding!!.drawingPxerView)
+            R.id.menu_drawing_export_atlas -> AtlasExportable()
+                .runExport(this, binding!!.drawingPxerView)
             R.id.menu_drawing_project_save -> binding!!.drawingPxerView.save(true)
             R.id.menu_drawing_project_manager -> openProjectManager()
             R.id.menu_drawing_project_open ->
@@ -472,8 +476,11 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             }
             R.id.menu_popup_layer_remove -> run {
                 if (binding!!.drawingPxerView.pxerLayers.size <= 1) return@run
-                Tool.prompt(this).title(R.string.remove_layer).message(R.string.remove_layer_warning)
-                    .positiveButton(R.string.remove).positiveButton {
+                Tool.prompt(this)
+                    .title(R.string.remove_layer)
+                    .message(R.string.remove_layer_warning)
+                    .positiveButton(R.string.remove)
+                    .positiveButton {
                         if (!isEdited)
                             isEdited = true
 
@@ -515,7 +522,12 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                         layerItemAdapter.getAdapterItem(0).pressed()
                     }.show()
             }
-            R.id.menu_drawing_about -> startActivity(Intent(this@DrawingActivity, AboutActivity::class.java))
+            R.id.menu_drawing_about -> startActivity(
+                Intent(
+                    this@DrawingActivity,
+                    AboutActivity::class.java
+                )
+            )
             R.id.menu_popup_layer_toggleVisibility -> run {
                 if (onlyShowSelected) return@run
                 val layer =

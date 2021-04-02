@@ -3,7 +3,6 @@ package com.benny.pxerstudio.pxerexportable;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 
@@ -24,7 +23,6 @@ public class PngExportable extends Exportable {
         ExportingUtils.INSTANCE.showExportingDialog(context, pxerView, new ExportingUtils.OnExportConfirmedListener() {
             @Override
             public void onExportConfirmed(String fileName, int width, int height) {
-                Paint paint = new Paint();
                 final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
                 for (int i = 0; i < pxerView.getPxerLayers().size(); i++) {
