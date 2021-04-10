@@ -328,7 +328,6 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
         return if (projectName == null || projectName!!.isEmpty()) {
             if (force) MaterialDialog(context)
 //                .titleGravity(GravityEnum.CENTER)
-//                .typeface(Tool.myType, Tool.myType)
 //                .inputRange(0, 20)
                 .title(R.string.save_project)
                 .input(context.getString(R.string.name), inputType = InputType.TYPE_CLASS_TEXT)

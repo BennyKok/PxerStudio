@@ -25,7 +25,6 @@
                 android:id="@+id/drawing_toolbar_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
                 android:maxLines="2"
                 android:onClick="onProjectTitleClicked"
                 android:textAppearance="@style/TextTheme"

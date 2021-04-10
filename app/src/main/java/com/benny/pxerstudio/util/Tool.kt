@@ -2,7 +2,6 @@ package com.benny.pxerstudio.util
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.DisplayMetrics
@@ -20,8 +19,6 @@ import java.io.OutputStreamWriter
  * Created by BennyKok on 10/6/2016.
  */
 object Tool {
-    @JvmField
-    val myType = Typeface.create("sans-serif-light", Typeface.NORMAL)
     fun print(o: Any) {
         Log.d("Hey", "$o")
     }
@@ -105,7 +102,6 @@ object Tool {
         return MaterialDialog(c!!)
             .negativeButton(android.R.string.cancel)
 //            .titleGravity(GravityEnum.CENTER)
-//            .typeface(myType, myType)
 //            .positiveColor(Color.RED)
     }
 /*
@@ -117,7 +113,6 @@ object Tool {
             .inputType(InputType.TYPE_CLASS_TEXT)
             .inputRange(0, 20)
             .titleGravity(GravityEnum.CENTER)
-            .typeface(myType, myType)
             .positiveColor(Color.GREEN)
     }
 */

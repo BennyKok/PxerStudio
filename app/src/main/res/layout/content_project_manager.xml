@@ -14,7 +14,6 @@
         android:id="@+id/cM_noProjectFound"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/no_project_found"
         android:textColor="@android:color/white" />

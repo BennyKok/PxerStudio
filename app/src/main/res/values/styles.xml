@@ -1,7 +1,6 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="fontFamily">sans-serif-light</item>
         <item name="android:windowBackground">@null</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -10,17 +9,11 @@
 
     <style name="AppTheme.Splash" parent="AppTheme" />
 
-    <style name="TextTheme" parent="TextAppearance.AppCompat">
-        <item name="fontFamily">sans-serif-light</item>
-    </style>
+    <style name="TextTheme" parent="TextAppearance.AppCompat" />
 
-    <style name="TextThemeToolBar" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="fontFamily">sans-serif-light</item>
-    </style>
+    <style name="TextThemeToolBar" parent="TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
-    <style name="TextThemeSubToolBar" parent="TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
-        <item name="fontFamily">sans-serif-light</item>
-    </style>
+    <style name="TextThemeSubToolBar" parent="TextAppearance.Widget.AppCompat.Toolbar.Subtitle" />
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

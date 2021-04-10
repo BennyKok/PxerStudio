@@ -620,7 +620,6 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         })
 
         MaterialDialog(this)
-//            .typeface(Tool.myType, Tool.myType)
             .customView(view = layoutRoot)
             .title(R.string.new_project)
             .positiveButton(R.string.create)

@@ -61,7 +61,6 @@ object ExportingUtils {
 
     fun showProgressDialog(context: Context?) {
         currentProgressDialog = MaterialDialog(context!!)
-//            .typeface(Tool.myType, Tool.myType)
             .cancelable(false)
             .cancelOnTouchOutside(false)
             .title(null, "Painting...")
@@ -112,7 +111,6 @@ object ExportingUtils {
             })
         MaterialDialog(context!!)
 //            .titleGravity(GravityEnum.CENTER)
-//            .typeface(Tool.myType, Tool.myType)
             .customView(view = layoutRoot)
             .title(null, "Export")
             .positiveButton(null, "Export") {
