@@ -14,7 +14,8 @@ import com.benny.pxerstudio.R
 import com.benny.pxerstudio.databinding.ActivityProjectManagerBinding
 import com.benny.pxerstudio.databinding.ItemProjectBinding
 import com.benny.pxerstudio.pxerexportable.ExportingUtils
-import com.benny.pxerstudio.util.Tool
+import com.benny.pxerstudio.util.displayToast
+import com.benny.pxerstudio.util.prompt
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
@@ -101,7 +102,7 @@ class ProjectManagerActivity : AppCompatActivity() {
                                     positiveButton(android.R.string.ok)
                                 }
 
-                            R.id.menu_popup_project_delete -> Tool.prompt(this@ProjectManagerActivity)
+                            R.id.menu_popup_project_delete -> prompt()
                                 .title(R.string.delete_project)
                                 .message(R.string.delete_project_warning)
                                 .positiveButton(R.string.delete).positiveButton {
@@ -118,15 +119,9 @@ class ProjectManagerActivity : AppCompatActivity() {
 
                                         setResult(RESULT_OK, newIntent)
 
-                                        Tool.toast(
-                                            this@ProjectManagerActivity,
-                                            getString(R.string.project_deleted)
-                                        )
+                                        displayToast(R.string.project_deleted)
                                     } else
-                                        Tool.toast(
-                                            this@ProjectManagerActivity,
-                                            getString(R.string.error_deleting_project)
-                                        )
+                                        displayToast(R.string.error_deleting_project)
                                 }.show()
                         }
                         true

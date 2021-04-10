@@ -10,7 +10,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 
 import com.benny.pxerstudio.R;
-import com.benny.pxerstudio.util.Tool;
+import com.benny.pxerstudio.util.ContextKt;
 import com.github.clans.fab.FloatingActionButton;
 
 /**
@@ -54,12 +54,12 @@ public class BorderFab extends FloatingActionButton {
         bg.setPixel(0, 0, Color.GRAY);
         bg.setPixel(1, 1, Color.GRAY);
 
-        three = Tool.convertDpToPixel(2, getContext());
-        one = Tool.convertDpToPixel(1, getContext());
+        three = ContextKt.convertDpToPixel(getContext(), 2);
+        one = ContextKt.convertDpToPixel(getContext(), 1);
 
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(getContext().getResources().getColor(R.color.colorAccent));
-        paint.setStrokeWidth(Tool.convertDpToPixel(6, getContext()));
+        paint.setStrokeWidth(ContextKt.convertDpToPixel(getContext(), 6));
     }
 
     @Override

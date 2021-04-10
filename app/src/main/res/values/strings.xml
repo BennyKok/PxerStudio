@@ -67,6 +67,13 @@
     <string name="brought_to_you_by"><![CDATA[<b>Brought to you by these amazing open-source projects:</b>]]></string>
     <string name="opensource_libraries">Open-source libraries</string>
 
+    <!-- Toasts -->
+    <string name="storage_permission_denied">Sorry, this application requires storage permission for saving your project.</string>
+    <string name="file_name_cannot_be_empty">The file name cannot be empty!</string>
+    <string name="export_successful">Exported successfully</string>
+    <string name="no_more_redo">No more redo</string>
+    <string name="no_more_undo">No more undo</string>
+
     <!-- Errors -->
     <string name="error_something_went_wrong">Something went wrong!</string>
     <string name="error_loading_project">An error occurred while loading your project.</string>

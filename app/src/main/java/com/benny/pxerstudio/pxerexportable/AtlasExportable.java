@@ -8,7 +8,7 @@ import android.graphics.Rect;
 import android.os.AsyncTask;
 
 import com.benny.pxerstudio.pxerexportable.ExportingUtils.OnExportConfirmedListener;
-import com.benny.pxerstudio.util.Tool;
+import com.benny.pxerstudio.util.Utils;
 import com.benny.pxerstudio.widget.PxerView;
 
 import java.io.File;
@@ -80,7 +80,7 @@ public class AtlasExportable extends Exportable {
                     protected void onPostExecute(Void aVoid) {
                         ExportingUtils.INSTANCE.dismissAllDialogs();
                         ExportingUtils.INSTANCE.toastAndFinishExport(context, file.toString());
-                        Tool.freeMemory();
+                        Utils.freeMemory();
                         super.onPostExecute(aVoid);
                     }
                 }.execute();

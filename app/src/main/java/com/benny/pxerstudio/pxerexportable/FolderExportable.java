@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 
-import com.benny.pxerstudio.util.Tool;
+import com.benny.pxerstudio.util.Utils;
 import com.benny.pxerstudio.widget.PxerView;
 
 import java.io.File;
@@ -79,7 +79,7 @@ public class FolderExportable extends Exportable {
                         ExportingUtils.INSTANCE.dismissAllDialogs();
                         ExportingUtils.INSTANCE.toastAndFinishExport(context, null);
                         ExportingUtils.INSTANCE.scanAlotsOfFile(context, pngs);
-                        Tool.freeMemory();
+                        Utils.freeMemory();
                         super.onPostExecute(aVoid);
                     }
                 }.execute();

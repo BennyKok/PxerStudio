@@ -22,11 +22,7 @@ import com.benny.pxerstudio.activity.DrawingActivity
 import com.benny.pxerstudio.activity.DrawingActivity.Companion.UNTITLED
 import com.benny.pxerstudio.activity.DrawingActivity.Companion.currentProjectPath
 import com.benny.pxerstudio.shape.BaseShape
-import com.benny.pxerstudio.util.Tool.freeMemory
-import com.benny.pxerstudio.util.Tool.prompt
-import com.benny.pxerstudio.util.Tool.saveProject
-import com.benny.pxerstudio.util.Tool.stripExtension
-import com.benny.pxerstudio.util.Tool.toast
+import com.benny.pxerstudio.util.*
 import com.google.gson.Gson
 import com.google.gson.stream.JsonReader
 import java.io.File
@@ -231,7 +227,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
             reader.close()
         } catch (e: Exception) {
             e.printStackTrace()
-            prompt(context)
+            context.prompt()
                 .message(R.string.error_loading_project, null, null)
                 .title(R.string.error_something_went_wrong, null)
                 .negativeButton(null, null, null)
@@ -265,7 +261,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
             }
         }
         onLayerUpdate()
-        projectName = stripExtension(file.name)
+        projectName = file.name.stripExtension()
         mScaleFactor = 1f
         drawMatrix.reset()
         initPxerInfo()
@@ -278,7 +274,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
 
     fun undo() {
         if (historyIndex[currentLayer]!! <= 0) {
-            toast(context, "No more undo")
+            context.displayToast(R.string.no_more_undo)
             return
         }
         historyIndex[currentLayer] = historyIndex[currentLayer]!! - 1
@@ -302,7 +298,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
 
     fun redo() {
         if (redohistory[currentLayer]!!.size <= 0) {
-            toast(context, "No more redo")
+            context.displayToast(R.string.no_more_redo)
             return
         }
         for (i in redohistory[currentLayer]!![redohistory[currentLayer]!!.size - 1].pxers.indices) {
@@ -367,7 +363,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
                 projectName,
                 false
             )
-            saveProject(projectName + PXER_EXTENSION_NAME, gson.toJson(out), context)
+            context.saveProject(projectName + PXER_EXTENSION_NAME, gson.toJson(out))
             true
         }
     }

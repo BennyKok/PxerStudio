@@ -37,7 +37,8 @@ import com.benny.pxerstudio.pxerexportable.PngExportable
 import com.benny.pxerstudio.shape.EraserShape
 import com.benny.pxerstudio.shape.draw.LineShape
 import com.benny.pxerstudio.shape.draw.RectShape
-import com.benny.pxerstudio.util.Tool
+import com.benny.pxerstudio.util.prompt
+import com.benny.pxerstudio.util.stripExtension
 import com.benny.pxerstudio.widget.FastBitmapView
 import com.benny.pxerstudio.widget.PxerView
 import com.mikepenz.fastadapter.FastAdapter
@@ -118,7 +119,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             val file = File(currentProjectPath!!)
             if (file.exists()) {
                 binding!!.drawingPxerView.loadProject(file)
-                setTitle(Tool.stripExtension(file.name), false)
+                setTitle(file.name.stripExtension(), false)
             }
         }
         if (layerAdapter.itemCount == 0) {
@@ -417,7 +418,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                         context = context
                     ) { _, file ->
                         binding!!.drawingPxerView.loadProject(file)
-                        setTitle(Tool.stripExtension(file.name), false)
+                        setTitle(file.name.stripExtension(), false)
                         currentProjectPath = file.path
                     }
                 }
@@ -476,7 +477,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             }
             R.id.menu_popup_layer_remove -> run {
                 if (binding!!.drawingPxerView.pxerLayers.size <= 1) return@run
-                Tool.prompt(this)
+                prompt()
                     .title(R.string.remove_layer)
                     .message(R.string.remove_layer_warning)
                     .positiveButton(R.string.remove)
@@ -493,7 +494,8 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                         layerItemAdapter.getAdapterItem(binding!!.drawingPxerView.currentLayer)
                             .pressed()
                         layerAdapter.notifyAdapterDataSetChanged()
-                    }.show()
+                    }
+                    .show()
             }
             R.id.menu_popup_layer_duplicate -> {
                 binding!!.drawingPxerView.copyAndPasteCurrentLayer()
@@ -508,8 +510,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             }
             R.id.menu_drawing_layers_mergeAll -> run {
                 if (binding!!.drawingPxerView.pxerLayers.size <= 1) return@run
-                Tool.prompt(this).title(R.string.merge_all_layers)
-                    .message(R.string.merge_all_layers_warning).positiveButton(R.string.merge)
+                prompt()
+                    .title(R.string.merge_all_layers)
+                    .message(R.string.merge_all_layers_warning)
+                    .positiveButton(R.string.merge)
                     .positiveButton {
                         if (!isEdited)
                             isEdited = true
@@ -520,7 +524,8 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                         layerAdapter.getSelectExtension().deselect()
                         layerAdapter.getSelectExtension().select(0)
                         layerItemAdapter.getAdapterItem(0).pressed()
-                    }.show()
+                    }
+                    .show()
             }
             R.id.menu_drawing_about -> startActivity(
                 Intent(
@@ -536,14 +541,15 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 binding!!.drawingPxerView.invalidate()
                 layerAdapter.notifyAdapterItemChanged(binding!!.drawingPxerView.currentLayer)
             }
-            R.id.menu_popup_layer_clear -> Tool.prompt(this)
+            R.id.menu_popup_layer_clear -> prompt()
                 .title(R.string.clear_current_layer)
                 .message(R.string.clear_current_layer_warning)
                 .positiveButton(R.string.clear)
-                .positiveButton { binding!!.drawingPxerView.clearCurrentLayer() }.show()
+                .positiveButton { binding!!.drawingPxerView.clearCurrentLayer() }
+                .show()
             R.id.menu_popup_layer_mergeDown -> run {
                 if (binding!!.drawingPxerView.currentLayer == binding!!.drawingPxerView.pxerLayers.size - 1) return@run
-                Tool.prompt(this)
+                prompt()
                     .title(R.string.merge_down_layer)
                     .message(R.string.merge_down_layer_warning)
                     .positiveButton(R.string.merge)
@@ -554,7 +560,8 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                             .select(binding!!.drawingPxerView.currentLayer)
                         layerItemAdapter.getAdapterItem(binding!!.drawingPxerView.currentLayer)
                             .pressed()
-                    }.show()
+                    }
+                    .show()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -573,7 +580,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 val file = File(path)
                 if (file.exists()) {
                     binding!!.drawingPxerView.loadProject(file)
-                    setTitle(Tool.stripExtension(file.name), false)
+                    setTitle(file.name.stripExtension(), false)
                 }
             } else if (data.getBooleanExtra("fileNameChanged", false)) {
                 currentProjectPath = ""

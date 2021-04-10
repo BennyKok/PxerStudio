@@ -15,7 +15,8 @@ import android.view.View;
 import androidx.core.graphics.ColorUtils;
 
 import com.benny.pxerstudio.R;
-import com.benny.pxerstudio.util.Tool;
+import com.benny.pxerstudio.util.ContextKt;
+import com.benny.pxerstudio.util.Utils;
 
 /**
  * Created by BennyKok on 10/10/2016.
@@ -29,7 +30,7 @@ public class FastBitmapView extends View {
     private final RectF boundary2 = new RectF();
     private final RectF boundary3 = new RectF();
     private final Path visibilityBg = new Path();
-    private final float iconSize = Tool.convertDpToPixel(24, getContext());
+    private final float iconSize = ContextKt.convertDpToPixel(getContext(), 24);
     private final float iconSize2 = iconSize / 2;
     private PorterDuffColorFilter overlay;
     private boolean selected;
@@ -77,7 +78,7 @@ public class FastBitmapView extends View {
     public void init() {
         accentColor = getContext().getResources().getColor(R.color.colorAccent);
         bgPaint.setStyle(Paint.Style.STROKE);
-        bgPaint.setStrokeWidth(Tool.convertDpToPixel(2, getContext()));
+        bgPaint.setStrokeWidth(ContextKt.convertDpToPixel(getContext(), 2));
         bgPaint.setColor(Color.GRAY);
 
         iconPaint.setFilterBitmap(true);
@@ -87,9 +88,9 @@ public class FastBitmapView extends View {
         overlay = new PorterDuffColorFilter(
                 ColorUtils.setAlphaComponent(Color.DKGRAY, 100), PorterDuff.Mode.SRC_OVER);
 
-        strokeWidth = Tool.convertDpToPixel(strokeWidth, getContext());
+        strokeWidth = ContextKt.convertDpToPixel(getContext(), strokeWidth);
 
-        invisibleBitmap = Tool.drawableToBitmap(getResources().getDrawable(R.drawable.ic_visibility_off));
+        invisibleBitmap = Utils.drawableToBitmap(getResources().getDrawable(R.drawable.ic_visibility_off));
 
         setWillNotDraw(false);
     }

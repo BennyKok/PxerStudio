@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
 import com.benny.pxerstudio.databinding.ColorpickerPopupBinding;
-import com.benny.pxerstudio.util.Tool;
+import com.benny.pxerstudio.util.ContextKt;
 
 /**
  * Created by BennyKok on 10/14/2016.
@@ -36,10 +36,10 @@ public class ColorPicker {
         popupWindow = new PopupWindow(contentView);
         popupWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#424242")));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            popupWindow.setElevation(Tool.convertDpToPixel(8, c));
+            popupWindow.setElevation(ContextKt.convertDpToPixel(c, 8));
         }
-        popupWindow.setHeight((int) Tool.convertDpToPixel(292, c));
-        popupWindow.setWidth((int) Tool.convertDpToPixel(216, c));
+        popupWindow.setHeight((int) ContextKt.convertDpToPixel(c, 292));
+        popupWindow.setWidth((int) ContextKt.convertDpToPixel(c, 216));
     }
 
     public void show(View anchor) {

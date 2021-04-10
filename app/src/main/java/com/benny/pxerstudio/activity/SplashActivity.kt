@@ -8,8 +8,9 @@ import android.os.Handler
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.benny.pxerstudio.R
 import com.benny.pxerstudio.databinding.ActivitySplashBinding
-import com.benny.pxerstudio.util.Tool
+import com.benny.pxerstudio.util.displayToast
 
 class SplashActivity : AppCompatActivity() {
 
@@ -66,10 +67,7 @@ class SplashActivity : AppCompatActivity() {
         if (requestCode == 0x456) {
             for (i in grantResults.indices) {
                 if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                    Tool.toast(
-                        this,
-                        "Sorry this application require storage permission for saving your project"
-                    )
+                    displayToast(R.string.storage_permission_denied)
                     handler!!.postDelayed({ recreate() }, 1000)
                     return
                 }

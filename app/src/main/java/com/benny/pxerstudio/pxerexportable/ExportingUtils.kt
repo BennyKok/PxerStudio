@@ -7,8 +7,9 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
+import com.benny.pxerstudio.R
 import com.benny.pxerstudio.databinding.DialogActivityDrawingBinding
-import com.benny.pxerstudio.util.Tool.toast
+import com.benny.pxerstudio.util.displayToast
 import com.benny.pxerstudio.widget.PxerView
 import java.io.File
 
@@ -45,7 +46,7 @@ object ExportingUtils {
         if (fileName != null && fileName.isNotEmpty()) MediaScannerConnection.scanFile(
             context, arrayOf(fileName), null
         ) { _, _ -> }
-        toast(context, "Exported successfully")
+        context?.displayToast(R.string.export_successful)
     }
 
     fun scanAlotsOfFile(context: Context?, files: List<File>) {
@@ -115,7 +116,7 @@ object ExportingUtils {
             .title(null, "Export")
             .positiveButton(null, "Export") {
                 if (binding.dialogDrawingNameEdit.text.toString().isEmpty()) {
-                    toast(context, "The file name cannot be empty!")
+                    context.displayToast(R.string.file_name_cannot_be_empty)
                     return@positiveButton
                 }
                 listener.onExportConfirmed(
