@@ -14,6 +14,7 @@ jobs:
       - name: Copy Whatsnew
         run: |
           mkdir whatsNew
+          echo ls fastlane/metadata/android/en-US/changelogs/ -Art | tail -n 1
           cp fastlane/metadata/android/en-US/changelogs/`ls fastlane/metadata/android/en-US/changelogs/ -Art | tail -n 1` whatsNew/whatsnew-en-US
           cat whatsNew/whatsnew-en-US
       - name: Set up JDK 1.8
