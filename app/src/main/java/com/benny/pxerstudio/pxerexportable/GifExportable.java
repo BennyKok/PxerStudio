@@ -7,9 +7,9 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 
-import com.benny.pxerstudio.gifencoder.AnimatedGifEncoder;
 import com.benny.pxerstudio.util.Utils;
 import com.benny.pxerstudio.widget.PxerView;
+import com.bumptech.glide.gifencoder.AnimatedGifEncoder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
