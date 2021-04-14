@@ -224,9 +224,6 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         toolsItemAdapter.adapterItems.reverse()
         toolsAdapter.getSelectExtension().select(0)
 
-        binding!!.drawingFabColor.setColor(binding!!.drawingPxerView.selectedColor)
-        binding!!.drawingFabColor.colorNormal = binding!!.drawingPxerView.selectedColor
-        binding!!.drawingFabColor.colorPressed = binding!!.drawingPxerView.selectedColor
         cp = ColorPicker(
             this,
             binding!!.drawingPxerView.selectedColor
