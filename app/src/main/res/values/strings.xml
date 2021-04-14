@@ -74,6 +74,13 @@
     <string name="no_more_redo">No more redo</string>
     <string name="no_more_undo">No more undo</string>
 
+    <!-- Content descriptors -->
+    <string name="fab_undo">Undo</string>
+    <string name="fab_redo">Redo</string>
+    <string name="fab_selected_color">Currently selected color</string>
+    <string name="fab_eyedropper">Eyedropper</string>
+    <string name="fab_tools">Tools</string>
+
     <!-- Errors -->
     <string name="error_something_went_wrong">Something went wrong!</string>
     <string name="error_loading_project">An error occurred while loading your project.</string>
