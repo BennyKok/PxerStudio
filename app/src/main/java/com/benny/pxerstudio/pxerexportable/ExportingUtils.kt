@@ -110,23 +110,25 @@ object ExportingUtils {
                 override fun onStartTrackingTouch(seekBar: SeekBar) {}
                 override fun onStopTrackingTouch(seekBar: SeekBar) {}
             })
-        MaterialDialog(context!!)
-//            .titleGravity(GravityEnum.CENTER)
-            .customView(view = layoutRoot)
-            .title(null, "Export")
-            .positiveButton(null, "Export") {
-                if (binding.dialogDrawingNameEdit.text.toString().isEmpty()) {
-                    context.displayToast(R.string.file_name_cannot_be_empty)
-                    return@positiveButton
+        context?.let {
+            MaterialDialog(it)
+                //.titleGravity(GravityEnum.CENTER)
+                .customView(view = layoutRoot)
+                .title(null, "Export")
+                .positiveButton(null, "Export") {
+                    if (binding.dialogDrawingNameEdit.text.toString().isEmpty()) {
+                        context.displayToast(R.string.file_name_cannot_be_empty)
+                        return@positiveButton
+                    }
+                    listener.onExportConfirmed(
+                        binding.dialogDrawingNameEdit.text.toString(),
+                        binding.dialogDrawingSizeSeekBar.progress + pxerView.picWidth,
+                        binding.dialogDrawingSizeSeekBar.progress + pxerView.picHeight
+                    )
                 }
-                listener.onExportConfirmed(
-                    binding.dialogDrawingNameEdit.text.toString(),
-                    binding.dialogDrawingSizeSeekBar.progress + pxerView.picWidth,
-                    binding.dialogDrawingSizeSeekBar.progress + pxerView.picHeight
-                )
-            }
-            .negativeButton(null, "Cancel")
-            .show()
+                .negativeButton(null, "Cancel")
+                .show()
+        }
     }
 
     interface OnExportConfirmedListener {
