@@ -1,4 +1,4 @@
-package com.benny.pxerstudio.pxerexportable;
+package com.benny.pxerstudio.exportable;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 
-import com.benny.pxerstudio.pxerexportable.ExportingUtils.OnExportConfirmedListener;
+import com.benny.pxerstudio.exportable.ExportingUtils.OnExportConfirmedListener;
 import com.benny.pxerstudio.util.Utils;
 import com.benny.pxerstudio.widget.PxerView;
 

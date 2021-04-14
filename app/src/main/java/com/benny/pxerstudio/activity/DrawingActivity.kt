@@ -30,10 +30,10 @@ import com.benny.pxerstudio.R
 import com.benny.pxerstudio.colorpicker.ColorPicker
 import com.benny.pxerstudio.databinding.ActivityDrawingBinding
 import com.benny.pxerstudio.databinding.DialogActivityDrawingNewprojectBinding
-import com.benny.pxerstudio.pxerexportable.AtlasExportable
-import com.benny.pxerstudio.pxerexportable.FolderExportable
-import com.benny.pxerstudio.pxerexportable.GifExportable
-import com.benny.pxerstudio.pxerexportable.PngExportable
+import com.benny.pxerstudio.exportable.AtlasExportable
+import com.benny.pxerstudio.exportable.FolderExportable
+import com.benny.pxerstudio.exportable.GifExportable
+import com.benny.pxerstudio.exportable.PngExportable
 import com.benny.pxerstudio.shape.EraserShape
 import com.benny.pxerstudio.shape.draw.LineShape
 import com.benny.pxerstudio.shape.draw.RectShape

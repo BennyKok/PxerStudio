@@ -1,4 +1,4 @@
-package com.benny.pxerstudio.pxerexportable;
+package com.benny.pxerstudio.exportable;
 
 import android.content.Context;
 

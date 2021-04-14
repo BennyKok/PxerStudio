@@ -1,4 +1,4 @@
-package com.benny.pxerstudio.pxerexportable;
+package com.benny.pxerstudio.exportable;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,17 +9,18 @@ import android.os.AsyncTask;
 
 import com.benny.pxerstudio.util.Utils;
 import com.benny.pxerstudio.widget.PxerView;
+import com.bumptech.glide.gifencoder.AnimatedGifEncoder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 /**
  * Created by BennyKok on 10/17/2016.
  */
 
-public class FolderExportable extends Exportable {
+public class GifExportable extends Exportable {
     @Override
     public void runExport(final Context context, final PxerView pxerView) {
         ExportingUtils.INSTANCE.showExportingDialog(context, pxerView, new ExportingUtils.OnExportConfirmedListener() {
@@ -28,9 +29,10 @@ public class FolderExportable extends Exportable {
                 Paint paint = new Paint();
                 Canvas canvas = new Canvas();
 
-                final ArrayList<File> pngs = new ArrayList<>();
-                final ArrayList<Bitmap> bitmaps = new ArrayList<>();
-
+                //Make gif
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+                encoder.start(bos);
                 for (int i = 0; i < pxerView.getPxerLayers().size(); i++) {
                     final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                     canvas.setBitmap(bitmap);
@@ -39,26 +41,25 @@ public class FolderExportable extends Exportable {
                             null,
                             new Rect(0, 0, width, height),
                             paint);
-                    final File file = new File(
-                            ExportingUtils.INSTANCE.checkAndCreateProjectDirs(fileName, context),
-                            fileName + "_Frame_" + (i + 1) + ".png");
-                    pngs.add(file);
-                    bitmaps.add(bitmap);
+                    encoder.addFrame(bitmap);
                 }
+                encoder.finish();
+                final byte[] finalgif = bos.toByteArray();
+                //Finish giffing
+
+                final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context), fileName + ".gif");
 
                 ExportingUtils.INSTANCE.showProgressDialog(context);
-                new AsyncTask<Void, Integer, Void>() {
+
+                new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... params) {
                         try {
-                            for (int i = 0; i < pngs.size(); i++) {
-                                publishProgress(i);
-                                pngs.get(i).createNewFile();
-                                final OutputStream out = new FileOutputStream(pngs.get(i));
-                                bitmaps.get(i).compress(Bitmap.CompressFormat.PNG, 100, out);
-                                out.flush();
-                                out.close();
-                            }
+                            file.createNewFile();
+                            final OutputStream out = new FileOutputStream(file);
+                            out.write(finalgif);
+                            out.flush();
+                            out.close();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -66,19 +67,9 @@ public class FolderExportable extends Exportable {
                     }
 
                     @Override
-                    protected void onProgressUpdate(Integer... values) {
-                        if (ExportingUtils.currentProgressDialog != null) {
-                            ExportingUtils.currentProgressDialog.setTitle(
-                                    "Working on frame " + (values[0] + 1));
-                        }
-                        super.onProgressUpdate(values);
-                    }
-
-                    @Override
                     protected void onPostExecute(Void aVoid) {
                         ExportingUtils.INSTANCE.dismissAllDialogs();
-                        ExportingUtils.INSTANCE.toastAndFinishExport(context, null);
-                        ExportingUtils.INSTANCE.scanAlotsOfFile(context, pngs);
+                        ExportingUtils.INSTANCE.toastAndFinishExport(context, file.toString());
                         Utils.freeMemory();
                         super.onPostExecute(aVoid);
                     }

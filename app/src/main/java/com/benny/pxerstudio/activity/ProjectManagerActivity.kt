@@ -13,7 +13,7 @@ import com.afollestad.materialdialogs.input.input
 import com.benny.pxerstudio.R
 import com.benny.pxerstudio.databinding.ActivityProjectManagerBinding
 import com.benny.pxerstudio.databinding.ItemProjectBinding
-import com.benny.pxerstudio.pxerexportable.ExportingUtils
+import com.benny.pxerstudio.exportable.ExportingUtils
 import com.benny.pxerstudio.util.displayToast
 import com.benny.pxerstudio.util.prompt
 import com.mikepenz.fastadapter.FastAdapter
