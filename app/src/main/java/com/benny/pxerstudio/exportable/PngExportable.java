@@ -25,7 +25,7 @@ public class PngExportable extends Exportable {
             public void onExportConfirmed(String fileName, int width, int height) {
                 final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
-                for (int i = 0; i < pxerView.getPxerLayers().size(); i++) {
+                for (int i = pxerView.getPxerLayers().size()-1; i >=0 ; i--) {
                     if (pxerView.getPxerLayers().get(i).visible)
                         canvas.drawBitmap(
                                 pxerView.getPxerLayers().get(i).bitmap,
