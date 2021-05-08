@@ -9,7 +9,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.benny.pxerstudio.R
 import com.benny.pxerstudio.databinding.DialogActivityDrawingBinding
-import com.benny.pxerstudio.databinding.DialogActivityDrawingGifBinding
 import com.benny.pxerstudio.util.displayToast
 import com.benny.pxerstudio.widget.PxerView
 import java.io.File
