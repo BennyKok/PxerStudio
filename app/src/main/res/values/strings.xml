@@ -62,10 +62,11 @@
     <string name="about">About</string>
     <!-- About activity -->
     <string name="app_creator">Created by BennyKok</string>
-    <string name="get_more_apps">Get more apps</string>
-    <string name="find_on_github">Find on GitHub</string>
+    <string name="get_more_apps"><u>Get more apps</u></string>
+    <string name="find_on_github"><u>Find on GitHub</u></string>
     <string name="brought_to_you_by"><![CDATA[<b>Brought to you by these amazing open-source projects:</b>]]></string>
     <string name="opensource_libraries">Open-source libraries</string>
+    <string name="opensource_contributors"><u>All Contributors</u></string>
 
     <!-- Toasts -->
     <string name="storage_permission_denied">Sorry, this application requires storage permission for saving your project.</string>
