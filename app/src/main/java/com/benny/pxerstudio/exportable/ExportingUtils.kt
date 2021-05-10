@@ -92,9 +92,9 @@ object ExportingUtils {
 
         binding.dialogDrawingNameEdit.setText(pxerView.projectName)
         if (maxSize == -1) {
-            binding.dialogDrawingSizeSeekBar.max = 4096 - pxerView.picWidth
+            binding.dialogDrawingSizeSeekBar.max = 4096 / pxerView.picHeight.coerceAtLeast(pxerView.picWidth)
         } else {
-            binding.dialogDrawingSizeSeekBar.max = maxSize - pxerView.picWidth
+            binding.dialogDrawingSizeSeekBar.max = maxSize / pxerView.picHeight.coerceAtLeast(pxerView.picWidth)
         }
         binding.dialogDrawingSize.text =
             "Size : " + java.lang.String.valueOf(pxerView.picWidth) +
@@ -103,8 +103,8 @@ object ExportingUtils {
             .setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                     binding.dialogDrawingSize.text =
-                        "Size : " + (i + pxerView.picWidth).toString() +
-                                " x " + (i + pxerView.picHeight).toString()
+                        "Size : " + (i * pxerView.picWidth).toString() +
+                                " x " + (i * pxerView.picHeight).toString()
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -122,8 +122,8 @@ object ExportingUtils {
                     }
                     listener.onExportConfirmed(
                         binding.dialogDrawingNameEdit.text.toString(),
-                        binding.dialogDrawingSizeSeekBar.progress + pxerView.picWidth,
-                        binding.dialogDrawingSizeSeekBar.progress + pxerView.picHeight
+                        binding.dialogDrawingSizeSeekBar.progress * pxerView.picWidth,
+                        binding.dialogDrawingSizeSeekBar.progress *  pxerView.picHeight
                     )
                 }
                 .negativeButton(null, "Cancel")
