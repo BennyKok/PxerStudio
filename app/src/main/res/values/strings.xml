@@ -70,6 +70,7 @@
     <!-- Toasts -->
     <string name="storage_permission_denied">Sorry, this application requires storage permission for saving your project.</string>
     <string name="file_name_cannot_be_empty">The file name cannot be empty!</string>
+    <string name="frame_time_cannot_be_empty">Frame time cannot be empty!</string>
     <string name="export_successful">Exported successfully</string>
     <string name="no_more_redo">No more redo</string>
     <string name="no_more_undo">No more undo</string>

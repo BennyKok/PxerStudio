@@ -2,7 +2,9 @@ package com.benny.pxerstudio.exportable
 
 import android.content.Context
 import android.media.MediaScannerConnection
+import android.transition.Visibility
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import com.afollestad.materialdialogs.MaterialDialog
@@ -12,6 +14,7 @@ import com.benny.pxerstudio.databinding.DialogActivityDrawingBinding
 import com.benny.pxerstudio.util.displayToast
 import com.benny.pxerstudio.widget.PxerView
 import java.io.File
+import java.lang.Integer.parseInt
 
 /**
  * Created by BennyKok on 10/17/2016.
@@ -90,6 +93,14 @@ object ExportingUtils {
         val binding = DialogActivityDrawingBinding.inflate(LayoutInflater.from(context))
         val layoutRoot = binding.root
 
+        if (listener !is OnGifExportConfirmedListener){
+            binding.dialogFrameDelay.visibility = View.GONE;
+            binding.dialogFrameDelayEdit.visibility = View.GONE;
+        } else{
+            binding.dialogFrameDelay.visibility = View.VISIBLE;
+            binding.dialogFrameDelayEdit.visibility = View.VISIBLE;
+        }
+
         binding.dialogDrawingNameEdit.setText(pxerView.projectName)
         if (maxSize == -1) {
             binding.dialogDrawingSizeSeekBar.max = 4096 / pxerView.picHeight.coerceAtLeast(pxerView.picWidth)
@@ -120,11 +131,25 @@ object ExportingUtils {
                         context.displayToast(R.string.file_name_cannot_be_empty)
                         return@positiveButton
                     }
-                    listener.onExportConfirmed(
-                        binding.dialogDrawingNameEdit.text.toString(),
-                        binding.dialogDrawingSizeSeekBar.progress * pxerView.picWidth,
-                        binding.dialogDrawingSizeSeekBar.progress *  pxerView.picHeight
-                    )
+
+                    if (listener !is OnGifExportConfirmedListener) {
+                        listener.onExportConfirmed(
+                            binding.dialogDrawingNameEdit.text.toString(),
+                            binding.dialogDrawingSizeSeekBar.progress * pxerView.picWidth,
+                            binding.dialogDrawingSizeSeekBar.progress * pxerView.picHeight
+                        )
+                    } else {
+                        if (binding.dialogFrameDelayEdit.text.toString().isEmpty()) {
+                            context.displayToast(R.string.frame_time_cannot_be_empty)
+                            return@positiveButton
+                        }
+                        listener.onExportConfirmed(
+                            binding.dialogDrawingNameEdit.text.toString(),
+                            binding.dialogDrawingSizeSeekBar.progress * pxerView.picWidth,
+                            binding.dialogDrawingSizeSeekBar.progress * pxerView.picHeight,
+                            parseInt(binding.dialogFrameDelayEdit.text.toString())
+                        )
+                    }
                 }
                 .negativeButton(null, "Cancel")
                 .show()
@@ -133,6 +158,10 @@ object ExportingUtils {
 
     interface OnExportConfirmedListener {
         fun onExportConfirmed(fileName: String?, width: Int, height: Int)
+    }
+
+    interface OnGifExportConfirmedListener : OnExportConfirmedListener {
+        fun onExportConfirmed(fileName: String?, width: Int, height: Int, frameTime: Int)
     }
 
     fun getExportPath(context: Context): String {
