@@ -11,6 +11,8 @@ import com.benny.pxerstudio.util.Utils;
 import com.benny.pxerstudio.widget.PxerView;
 import com.bumptech.glide.gifencoder.AnimatedGifEncoder;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,9 +25,12 @@ import java.io.OutputStream;
 public class GifExportable extends Exportable {
     @Override
     public void runExport(final Context context, final PxerView pxerView) {
-        ExportingUtils.INSTANCE.showExportingDialog(context, pxerView, new ExportingUtils.OnExportConfirmedListener() {
+        ExportingUtils.INSTANCE.showExportingDialog(context, pxerView, new ExportingUtils.OnGifExportConfirmedListener() {
             @Override
-            public void onExportConfirmed(String fileName, int width, int height) {
+            public void onExportConfirmed(@Nullable String fileName, int width, int height) {}
+
+            @Override
+            public void onExportConfirmed(String fileName, int width, int height, int frameTime) {
                 Paint paint = new Paint();
                 Canvas canvas = new Canvas();
 
@@ -33,7 +38,7 @@ public class GifExportable extends Exportable {
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 AnimatedGifEncoder encoder = new AnimatedGifEncoder();
                 encoder.start(bos);
-                for (int i = 0; i < pxerView.getPxerLayers().size(); i++) {
+                for (int i = pxerView.getPxerLayers().size() - 1; i >= 0; i--) {
                     final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                     canvas.setBitmap(bitmap);
                     canvas.drawBitmap(
@@ -42,6 +47,7 @@ public class GifExportable extends Exportable {
                             new Rect(0, 0, width, height),
                             paint);
                     encoder.addFrame(bitmap);
+                    encoder.setDelay(frameTime);
                 }
                 encoder.finish();
                 final byte[] finalgif = bos.toByteArray();

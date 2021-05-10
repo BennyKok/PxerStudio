@@ -34,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="Size :"
         android:textColor="?android:textColorPrimary"
@@ -61,31 +62,27 @@
         tools:layout_conversion_absoluteX="60dp"
         tools:layout_conversion_absoluteY="52dp" />
 
-    <EditText
-        android:id="@+id/dialog_frame_delay_edit"
-        android:layout_width="92dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="16dp"
-        android:inputType="numberDecimal"
-        android:numeric="integer"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/dialog_frame_delay"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_drawing_name_edit" />
-
     <TextView
         android:id="@+id/dialog_frame_delay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Frame time(ms):"
+        android:text="Speed: "
         android:textColor="?android:attr/textColorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/dialog_frame_delay_edit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_drawing_name_edit"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/dialog_drawing_name_edit" />
+
+    <EditText
+        android:id="@+id/dialog_frame_delay_edit"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/dialog_frame_delay"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_drawing_name_edit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -74,38 +74,88 @@ class AboutActivity : AppCompatActivity() {
         binding.aboutLibinfo.movementMethod = LinkMovementMethod.getInstance()
         binding.aboutLibinfo.text = "$sb".parseAsHtml()
 
+        binding.aboutAppIcon.setOnClickListener { v ->
+            if (v.animation == null || v.animation != null && v.animation.hasEnded())
+                v.animate()
+                        .scaleX(1.1f)
+                        .scaleY(1.1f)
+                        .rotationBy(-20f)
+                        .withEndAction {
+                            v.animate()
+                                    .scaleX(1f)
+                                    .scaleY(1f)
+                                    .rotation(0f)
+                        }
+        }
+
+        setupLibDialog()
+        setupContributorsDialog()
+    }
+
+    private fun setupContributorsDialog() {
+        val notices = Notices()
+
+        val n1 = Notice()
+        n1.name = "BennyKok"
+        n1.url = "https://github.com/BennyKok"
+        notices.addNotice(n1)
+
+        val n2 = Notice()
+        n2.name = "TacoTheDank"
+        n2.url = "https://github.com/TacoTheDank"
+        notices.addNotice(n2)
+
+        val n3 = Notice()
+        n3.name = "mihajlo0743"
+        n3.url = "https://github.com/mihajlo0743"
+        notices.addNotice(n3)
+
+        val n4 = Notice()
+        n4.name = "factorial52"
+        n4.url = "https://github.com/factorial52"
+        notices.addNotice(n4)
+
+        val builder = LicensesDialog.Builder(this@AboutActivity)
+        builder.setNotices(notices)
+        builder.setTitle(getString(R.string.opensource_contributors))
+        val dialog = builder.build()
+
+        binding.aboutCreator.setOnClickListener { dialog.show() }
+    }
+
+    private fun setupLibDialog() {
         val notices = Notices()
         notices.addNotice(
-            Notice(
-                "Material Dialogs",
-                "https://github.com/afollestad/material-dialogs",
-                "Copyright (c) 2014-2016 Aidan Michael Follestad",
-                MITLicense()
-            )
+                Notice(
+                        "Material Dialogs",
+                        "https://github.com/afollestad/material-dialogs",
+                        "Copyright (c) 2014-2016 Aidan Michael Follestad",
+                        MITLicense()
+                )
         )
         notices.addNotice(
-            Notice(
-                "FastAdapter",
-                "https://github.com/mikepenz/FastAdapter",
-                "Copyright 2021 Mike Penz",
-                ApacheSoftwareLicense20()
-            )
+                Notice(
+                        "FastAdapter",
+                        "https://github.com/mikepenz/FastAdapter",
+                        "Copyright 2021 Mike Penz",
+                        ApacheSoftwareLicense20()
+                )
         )
         notices.addNotice(
-            Notice(
-                "FloatingActionButton",
-                "https://github.com/Clans/FloatingActionButton",
-                "Copyright 2015 Dmytro Tarianyk",
-                ApacheSoftwareLicense20()
-            )
+                Notice(
+                        "FloatingActionButton",
+                        "https://github.com/Clans/FloatingActionButton",
+                        "Copyright 2015 Dmytro Tarianyk",
+                        ApacheSoftwareLicense20()
+                )
         )
         notices.addNotice(
-            Notice(
-                "Gson",
-                "https://github.com/google/gson",
-                "Copyright 2008 Google Inc.",
-                ApacheSoftwareLicense20()
-            )
+                Notice(
+                        "Gson",
+                        "https://github.com/google/gson",
+                        "Copyright 2008 Google Inc.",
+                        ApacheSoftwareLicense20()
+                )
         )
 
         val builder = LicensesDialog.Builder(this@AboutActivity)
@@ -115,20 +165,6 @@ class AboutActivity : AppCompatActivity() {
         val dialog = builder.build()
 
         binding.aboutLibinfo.setOnClickListener { dialog.show() }
-
-        binding.aboutAppIcon.setOnClickListener { v ->
-            if (v.animation == null || v.animation != null && v.animation.hasEnded())
-                v.animate()
-                    .scaleX(1.1f)
-                    .scaleY(1.1f)
-                    .rotationBy(-20f)
-                    .withEndAction {
-                        v.animate()
-                            .scaleX(1f)
-                            .scaleY(1f)
-                            .rotation(0f)
-                    }
-        }
     }
 
     private fun TextView.startIntent(activity: Activity, uri: String) {

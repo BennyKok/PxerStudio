@@ -90,7 +90,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="@string/app_creator"
+        android:text="@string/opensource_contributors"
         android:textColor="?android:textColorPrimaryInverse"
         android:textColorLink="?android:textColorPrimaryInverse"
         android:textSize="14sp"
