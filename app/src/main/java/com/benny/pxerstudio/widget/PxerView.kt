@@ -21,7 +21,6 @@ import com.benny.pxerstudio.R
 import com.benny.pxerstudio.activity.DrawingActivity
 import com.benny.pxerstudio.activity.DrawingActivity.Companion.UNTITLED
 import com.benny.pxerstudio.activity.DrawingActivity.Companion.currentProjectPath
-import com.benny.pxerstudio.exportable.PngExportable
 import com.benny.pxerstudio.shape.BaseShape
 import com.benny.pxerstudio.util.*
 import com.google.gson.Gson
