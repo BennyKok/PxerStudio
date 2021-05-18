@@ -90,7 +90,11 @@ class ProjectManagerActivity : AppCompatActivity() {
                                         val fromFile = File(projects[position].path)
                                         val newFile = File(projects[position].parent, mInput)
 
+                                        val oldPrev = File(fromFile.path.substring(0, fromFile.path.lastIndexOf('.')) + ".png")
+                                        val newPrev = File(newFile.parent, mInput.substring(0, mInput.lastIndexOf('.')) + ".png")
+
                                         if (fromFile.renameTo(newFile)) {
+                                            oldPrev.renameTo(newPrev);
                                             projects[position] = newFile
                                             ia[position] = Item(newFile.name, newFile.path, parent.path + newFile.name + ".png")
                                             fa.notifyAdapterItemChanged(position)
@@ -108,7 +112,9 @@ class ProjectManagerActivity : AppCompatActivity() {
                                 .title(R.string.delete_project)
                                 .message(R.string.delete_project_warning)
                                 .positiveButton(R.string.delete).positiveButton {
+                                    var filePath = projects[position].absolutePath
                                     if (projects[position].delete()) {
+                                        File(filePath.substring(0, filePath.lastIndexOf('.')) + ".png").delete() // remove project preview
                                         ia.remove(position)
                                         projects.removeAt(position)
 
