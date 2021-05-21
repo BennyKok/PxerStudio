@@ -364,6 +364,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
                 false
             )
             context.saveProject(projectName + PXER_EXTENSION_NAME, gson.toJson(out))
+            PreviewSaver.saveTo(File(context.getExternalFilesDir("/")!!.path + "/PxerStudio/Project", projectName + ".png"), picWidth, picHeight, this)
             true
         }
     }
