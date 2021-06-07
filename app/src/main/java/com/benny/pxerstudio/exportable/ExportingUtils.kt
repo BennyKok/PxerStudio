@@ -164,7 +164,7 @@ object ExportingUtils {
         fun onExportConfirmed(fileName: String?, width: Int, height: Int, frameTime: Int)
     }
 
-    fun getExportPath(context: Context): String {
+    fun getExportPath(): String {
         return context.getExternalFilesDir("/")!!.path + "/PxerStudio/Export"
     }
 
