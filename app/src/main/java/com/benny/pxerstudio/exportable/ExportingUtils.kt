@@ -1,9 +1,10 @@
 package com.benny.pxerstudio.exportable
 
+import android.content.ContentValues
 import android.content.Context
 import android.media.MediaScannerConnection
 import android.os.Environment
-import android.transition.Visibility
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.SeekBar
@@ -176,5 +177,16 @@ object ExportingUtils {
     @Suppress("DEPRECATION")
     fun getAbsoluteExportablePath(relPath: String): String{
         return Environment.getExternalStorageDirectory().absolutePath + "/" + getExportPath() + relPath
+    }
+
+    fun getExportContVals(fileName: String, mime: String): ContentValues = getExportContVals(fileName, mime, "")
+
+
+    fun getExportContVals(fileName: String, mime: String, parentDir: String = ""): ContentValues{
+        return ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
+            put(MediaStore.Images.Media.MIME_TYPE, mime);
+            put(MediaStore.Images.Media.RELATIVE_PATH, getExportPath() + parentDir)
+        }
     }
 }

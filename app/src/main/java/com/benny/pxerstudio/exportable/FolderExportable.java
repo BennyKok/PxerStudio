@@ -71,10 +71,7 @@ public class FolderExportable extends Exportable {
                                         new Rect(0, 0, width, height),
                                         paint);
 
-                                    ContentValues values = new ContentValues();
-                                    values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName + "_Frame_" + (i + 1) + ".png");
-                                    values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
-                                    values.put(MediaStore.Images.Media.RELATIVE_PATH, ExportingUtils.INSTANCE.getExportPath() + fileName);
+                                    ContentValues values = ExportingUtils.INSTANCE.getExportContVals(fileName  + "_Frame_" + (i + 1)+ ".png", "image/png", fileName);
 
                                     uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                                     if (uri == null)

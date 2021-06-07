@@ -10,7 +10,6 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
 
 import com.benny.pxerstudio.util.Utils;
@@ -69,10 +68,7 @@ public class GifExportable extends Exportable {
                     @Override
                     protected Void doInBackground(Void... params) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            ContentValues values = new ContentValues();
-                            values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName + ".gif");
-                            values.put(MediaStore.Images.Media.MIME_TYPE, "image/gif");
-                            values.put(MediaStore.Images.Media.RELATIVE_PATH, ExportingUtils.INSTANCE.getExportPath());
+                            ContentValues values =ExportingUtils.INSTANCE.getExportContVals(fileName + ".gif", "image/gif");
 
                             final ContentResolver resolver = context.getContentResolver();
                             try {

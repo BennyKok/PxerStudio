@@ -9,13 +9,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.webkit.MimeTypeMap;
-import android.widget.Toast;
-
-import androidx.core.content.MimeTypeFilter;
 
 import com.benny.pxerstudio.util.Utils;
 import com.benny.pxerstudio.widget.PxerView;
@@ -53,10 +47,7 @@ public class PngExportable extends Exportable {
                     @Override
                     protected Void doInBackground (Void...params){
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            ContentValues values = new ContentValues();
-                            values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName + ".png");
-                            values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
-                            values.put(MediaStore.Images.Media.RELATIVE_PATH, ExportingUtils.INSTANCE.getExportPath());
+                            ContentValues values = ExportingUtils.INSTANCE.getExportContVals(fileName + ".png", "image/png");
 
                             final ContentResolver resolver = context.getContentResolver();
                             try {
