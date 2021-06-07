@@ -1,11 +1,19 @@
 package com.benny.pxerstudio.exportable;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Debug;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 
 import com.benny.pxerstudio.exportable.ExportingUtils.OnExportConfirmedListener;
 import com.benny.pxerstudio.util.Utils;
@@ -13,6 +21,7 @@ import com.benny.pxerstudio.widget.PxerView;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
 /**
@@ -56,22 +65,44 @@ public class AtlasExportable extends Exportable {
                     }
                 }
 
-                final File file = new File(
-                        ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context),
-                        fileName + "_Atlas" + ".png");
-
                 ExportingUtils.INSTANCE.showProgressDialog(context);
                 new AsyncTask<Void, Void, Void>() {
+                    Uri uri = null;
+
                     @Override
                     protected Void doInBackground(Void... params) {
-                        try {
-                            file.createNewFile();
-                            final OutputStream out = new FileOutputStream(file);
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                            out.flush();
-                            out.close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            ContentValues values = new ContentValues();
+                            values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName + "_Atlas" + ".png");
+                            values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+                            values.put(MediaStore.Images.Media.RELATIVE_PATH, ExportingUtils.INSTANCE.getExportPath());
+
+                            final ContentResolver resolver = context.getContentResolver();
+
+                            try {
+                                uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+                                if (uri == null) throw new IOException("Failed to create new MediaStore record.");
+                                OutputStream out = resolver.openOutputStream(uri);
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                                out.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                if (uri != null)
+                                    resolver.delete(uri, null, null);
+                            }
+                        } else {
+                            try {
+                                final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context), fileName + "_Atlas" + ".png");
+                                uri = Uri.parse(file.getAbsolutePath());
+                                file.createNewFile();
+                                final OutputStream out = new FileOutputStream(file);
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                                out.flush();
+                                out.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                         return null;
                     }
@@ -79,7 +110,7 @@ public class AtlasExportable extends Exportable {
                     @Override
                     protected void onPostExecute(Void aVoid) {
                         ExportingUtils.INSTANCE.dismissAllDialogs();
-                        ExportingUtils.INSTANCE.toastAndFinishExport(context, file.toString());
+                        ExportingUtils.INSTANCE.toastAndFinishExport(context, ExportingUtils.INSTANCE.getAbsoluteExportablePath(fileName + "_Atlas" + ".png"));
                         Utils.freeMemory();
                         super.onPostExecute(aVoid);
                     }

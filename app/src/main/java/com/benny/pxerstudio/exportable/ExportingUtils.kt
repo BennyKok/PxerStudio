@@ -166,10 +166,15 @@ object ExportingUtils {
     }
 
     fun getExportPath(): String {
-        return Environment.DIRECTORY_PICTURES + "/PxerStudio/Export"
+        return Environment.DIRECTORY_PICTURES + "/PxerStudio/"
     }
 
     fun getProjectPath(context: Context): String {
         return context.getExternalFilesDir("/")!!.path + "/PxerStudio/Project"
+    }
+
+    @Suppress("DEPRECATION")
+    fun getAbsoluteExportablePath(relPath: String): String{
+        return Environment.getExternalStorageDirectory().absolutePath + "/" + getExportPath() + relPath
     }
 }

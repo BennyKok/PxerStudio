@@ -59,12 +59,11 @@ public class PngExportable extends Exportable {
                             values.put(MediaStore.Images.Media.RELATIVE_PATH, ExportingUtils.INSTANCE.getExportPath());
 
                             final ContentResolver resolver = context.getContentResolver();
-
                             try {
                                 uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
                                 if (uri == null) throw new IOException("Failed to create new MediaStore record.");
-                                OutputStream out = resolver.openOutputStream(Uri.parse(uri.toString()));
+                                OutputStream out = resolver.openOutputStream(uri);
                                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                                 out.close();
                             } catch (Exception e) {
@@ -89,7 +88,7 @@ public class PngExportable extends Exportable {
                         @Override
                         protected void onPostExecute(Void aVoid) {
                             ExportingUtils.INSTANCE.dismissAllDialogs();
-                            ExportingUtils.INSTANCE.toastAndFinishExport(context, Environment.DIRECTORY_PICTURES + fileName + ".png");
+                            ExportingUtils.INSTANCE.toastAndFinishExport(context, ExportingUtils.INSTANCE.getAbsoluteExportablePath(fileName + ".png"));
                             Utils.freeMemory();
                             super.onPostExecute(aVoid);
                         }

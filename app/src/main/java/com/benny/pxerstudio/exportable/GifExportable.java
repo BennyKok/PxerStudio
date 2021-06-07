@@ -79,7 +79,7 @@ public class GifExportable extends Exportable {
                                 uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                                 if (uri == null)
                                     throw new IOException("Failed to create new MediaStore record.");
-                                    OutputStream out = resolver.openOutputStream(Uri.parse(uri.toString()));
+                                    OutputStream out = resolver.openOutputStream(uri);
                                     out.write(finalgif);
                                     out.flush();
                                     out.close();
@@ -107,7 +107,7 @@ public class GifExportable extends Exportable {
                     @Override
                     protected void onPostExecute(Void aVoid) {
                         ExportingUtils.INSTANCE.dismissAllDialogs();
-                        ExportingUtils.INSTANCE.toastAndFinishExport(context, Environment.DIRECTORY_PICTURES + fileName + ".gif");
+                        ExportingUtils.INSTANCE.toastAndFinishExport(context, ExportingUtils.INSTANCE.getAbsoluteExportablePath(fileName + ".gif"));
                         Utils.freeMemory();
                         super.onPostExecute(aVoid);
                     }
