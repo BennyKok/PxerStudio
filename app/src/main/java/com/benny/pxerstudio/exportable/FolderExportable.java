@@ -35,22 +35,6 @@ public class FolderExportable extends Exportable {
                 Canvas canvas = new Canvas();
 
                 final ArrayList<File> pngs = new ArrayList<>();
-                final ArrayList<Bitmap> bitmaps = new ArrayList<>();
-
-                for (int i = 0; i < pxerView.getPxerLayers().size(); i++) {
-                    final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                    canvas.setBitmap(bitmap);
-                    canvas.drawBitmap(
-                            pxerView.getPxerLayers().get(i).bitmap,
-                            null,
-                            new Rect(0, 0, width, height),
-                            paint);
-                    final File file = new File(
-                            ExportingUtils.INSTANCE.checkAndCreateProjectDirs(fileName, context),
-                            fileName + "_Frame_" + (i + 1) + ".png");
-                    pngs.add(file);
-                    bitmaps.add(bitmap);
-                }
 
                 ExportingUtils.INSTANCE.showProgressDialog(context);
                 new AsyncTask<Void, Integer, Void>() {
@@ -80,6 +64,7 @@ public class FolderExportable extends Exportable {
                                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                                     out.flush();
                                     out.close();
+                                    pngs.add(new File(uri.getPath()));
                                 }
                             }
                             catch (Exception e) {
@@ -98,7 +83,7 @@ public class FolderExportable extends Exportable {
                                             new Rect(0, 0, width, height),
                                             paint);
                                     final File file = new File(
-                                            ExportingUtils.INSTANCE.checkAndCreateProjectDirs(fileName, context),
+                                            ExportingUtils.INSTANCE.checkAndCreateProjectDirs(fileName),
                                             fileName + "_Frame_" + (i + 1) + ".png");
                                     publishProgress(i);
 
@@ -107,6 +92,7 @@ public class FolderExportable extends Exportable {
                                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                                     out.flush();
                                     out.close();
+                                    pngs.add(file);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();

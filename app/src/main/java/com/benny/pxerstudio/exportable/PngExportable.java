@@ -63,7 +63,7 @@ public class PngExportable extends Exportable {
                                     resolver.delete(uri, null, null);
                             }
                         } else {
-                            final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context), fileName + ".png");
+                            final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(), fileName + ".png");
                             try {
                                 file.createNewFile();
                                 final OutputStream out = new FileOutputStream(file);

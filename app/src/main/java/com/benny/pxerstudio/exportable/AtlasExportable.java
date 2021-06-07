@@ -87,7 +87,7 @@ public class AtlasExportable extends Exportable {
                             }
                         } else {
                             try {
-                                final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context), fileName + "_Atlas" + ".png");
+                                final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(), fileName + "_Atlas" + ".png");
                                 uri = Uri.parse(file.getAbsolutePath());
                                 file.createNewFile();
                                 final OutputStream out = new FileOutputStream(file);

@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.benny.pxerstudio.util.Utils;
 import com.benny.pxerstudio.widget.PxerView;
@@ -87,7 +88,7 @@ public class GifExportable extends Exportable {
                             }
                         } else {
                             try {
-                                final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context), fileName + ".gif");
+                                final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(), fileName + ".gif");
                                 file.createNewFile();
                                 final OutputStream out = new FileOutputStream(file);
                                 out.write(finalgif);

@@ -28,8 +28,8 @@ object ExportingUtils {
         if (currentProgressDialog != null) currentProgressDialog!!.dismiss()
     }
 
-    fun checkAndCreateProjectDirs(context: Context): File {
-        val path = context.getExternalFilesDir("/")!!.path + "/PxerStudio/Export"
+    fun checkAndCreateProjectDirs(): File {
+        val path = Environment.getExternalStorageDirectory().path + "/" + getExportPath()
         val dirs = File(path)
         if (!dirs.exists()) {
             dirs.mkdirs()
@@ -37,9 +37,9 @@ object ExportingUtils {
         return dirs
     }
 
-    fun checkAndCreateProjectDirs(extraFolder: String?, context: Context): File {
-        if (extraFolder == null || extraFolder.isEmpty()) return checkAndCreateProjectDirs(context)
-        val path = context.getExternalFilesDir("/")!!.path + "/PxerStudio/Export/" + extraFolder
+    fun checkAndCreateProjectDirs(extraFolder: String?): File {
+        if (extraFolder == null || extraFolder.isEmpty()) return checkAndCreateProjectDirs()
+        val path = Environment.getExternalStorageDirectory().path + "/" + getExportPath() + extraFolder
         val dirs = File(path)
         if (!dirs.exists()) {
             dirs.mkdirs()
