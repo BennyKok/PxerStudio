@@ -59,18 +59,20 @@ public class PngExportable extends Exportable {
                             values.put(MediaStore.Images.Media.RELATIVE_PATH, ExportingUtils.INSTANCE.getExportPath());
 
                             final ContentResolver resolver = context.getContentResolver();
-                        try {
-                            uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                            if (uri == null)
-                                throw new IOException("Failed to create new MediaStore record.");
-                                Log.println(Log.INFO, "Log", "Uri: " + uri.getPath());
+
+                            try {
+                                uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+                                if (uri == null) throw new IOException("Failed to create new MediaStore record.");
                                 OutputStream out = resolver.openOutputStream(Uri.parse(uri.toString()));
                                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            if (uri != null)
-                                resolver.delete(uri, null, null);
-                        }} else {
+                                out.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                if (uri != null)
+                                    resolver.delete(uri, null, null);
+                            }
+                        } else {
                             final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context), fileName + ".png");
                             try {
                                 file.createNewFile();
@@ -87,7 +89,7 @@ public class PngExportable extends Exportable {
                         @Override
                         protected void onPostExecute(Void aVoid) {
                             ExportingUtils.INSTANCE.dismissAllDialogs();
-                            ExportingUtils.INSTANCE.toastAndFinishExport(context, fileName + ".png");
+                            ExportingUtils.INSTANCE.toastAndFinishExport(context, Environment.DIRECTORY_PICTURES + fileName + ".png");
                             Utils.freeMemory();
                             super.onPostExecute(aVoid);
                         }
