@@ -2,6 +2,7 @@ package com.benny.pxerstudio.exportable
 
 import android.content.Context
 import android.media.MediaScannerConnection
+import android.os.Environment
 import android.transition.Visibility
 import android.view.LayoutInflater
 import android.view.View
@@ -165,7 +166,7 @@ object ExportingUtils {
     }
 
     fun getExportPath(): String {
-        return context.getExternalFilesDir("/")!!.path + "/PxerStudio/Export"
+        return Environment.DIRECTORY_PICTURES + "/PxerStudio/Export"
     }
 
     fun getProjectPath(context: Context): String {
