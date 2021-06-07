@@ -45,37 +45,45 @@ public class PngExportable extends Exportable {
                                 new Rect(0, 0, width, height),
                                 null);
                 }
+                ExportingUtils.INSTANCE.showProgressDialog(context);
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    ContentValues values = new ContentValues();
-                    values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName + ".png");
-                    values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
-                    values.put(MediaStore.Images.Media.RELATIVE_PATH, ExportingUtils.INSTANCE.getExportPath());
+                new AsyncTask<Void, Void, Void>() {
 
-                    final ContentResolver resolver = context.getContentResolver();
+                    Uri uri = null;
+                    @Override
+                    protected Void doInBackground (Void...params){
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            ContentValues values = new ContentValues();
+                            values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName + ".png");
+                            values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+                            values.put(MediaStore.Images.Media.RELATIVE_PATH, ExportingUtils.INSTANCE.getExportPath());
 
-                    ExportingUtils.INSTANCE.showProgressDialog(context);
-
-                    new AsyncTask<Void, Void, Void>() {
-
-                        Uri uri = null;
-                        @Override
-                        protected Void doInBackground(Void... params) {
-                            try {
-                                uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                                if (uri == null)
-                                    throw new IOException("Failed to create new MediaStore record.");
-                                Log.println(Log.INFO, "Log" ,"Uri: " + uri.getPath());
+                            final ContentResolver resolver = context.getContentResolver();
+                        try {
+                            uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                            if (uri == null)
+                                throw new IOException("Failed to create new MediaStore record.");
+                                Log.println(Log.INFO, "Log", "Uri: " + uri.getPath());
                                 OutputStream out = resolver.openOutputStream(Uri.parse(uri.toString()));
                                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            if (uri != null)
+                                resolver.delete(uri, null, null);
+                        }} else {
+                            final File file = new File(ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context), fileName + ".png");
+                            try {
+                                file.createNewFile();
+                                final OutputStream out = new FileOutputStream(file);
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                                out.flush();
+                                out.close();
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                if (uri != null)
-                                    resolver.delete(uri, null, null);
                             }
-                            return null;
                         }
-
+                        return null;
+                        }
                         @Override
                         protected void onPostExecute(Void aVoid) {
                             ExportingUtils.INSTANCE.dismissAllDialogs();
@@ -84,17 +92,7 @@ public class PngExportable extends Exportable {
                             super.onPostExecute(aVoid);
                         }
                     }.execute();
-                } else {
-                    Toast.makeText(context, "NYI: Remind me to implement this for old API!", Toast.LENGTH_LONG).show();
-                    /*file.createNewFile();
-                    final OutputStream out = new FileOutputStream(file);
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                    out.flush();
-                    out.close();*/
-                    /*final File file = new File(
-                    ExportingUtils.INSTANCE.checkAndCreateProjectDirs(context), fileName + ".png");*/
                 }
-            }
         });
     }
 }
