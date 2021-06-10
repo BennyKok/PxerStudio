@@ -108,13 +108,13 @@ object ExportingUtils {
             binding.dialogDrawingSizeSeekBar.max = maxSize / pxerView.picHeight.coerceAtLeast(pxerView.picWidth)
         }
         binding.dialogDrawingSize.text =
-            "Size : " + java.lang.String.valueOf(pxerView.picWidth) +
+            R.string.exportSize.toString() + java.lang.String.valueOf(pxerView.picWidth) +
                     " x " + java.lang.String.valueOf(pxerView.picHeight)
         binding.dialogDrawingSizeSeekBar
             .setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                     binding.dialogDrawingSize.text =
-                        "Size : " + (i * pxerView.picWidth).toString() +
+                        R.string.exportSize.toString() + (i * pxerView.picWidth).toString() +
                                 " x " + (i * pxerView.picHeight).toString()
                 }
 

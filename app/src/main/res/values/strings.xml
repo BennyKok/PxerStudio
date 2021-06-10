@@ -87,4 +87,14 @@
     <string name="error_something_went_wrong">Something went wrong!</string>
     <string name="error_loading_project">An error occurred while loading your project.</string>
     <string name="error_deleting_project">Unable to delete project!</string>
+
+    <!-- Export dialog -->
+    <string name="gifSpeed">Speed(ms): </string>
+    <string name="exportSize">Size: </string>
+
+    <string name="exportName">Name: </string>
+
+    <!-- Project creation -->
+    <string name="width">Width: </string>
+    <string name="height">Height: </string>
 </resources>

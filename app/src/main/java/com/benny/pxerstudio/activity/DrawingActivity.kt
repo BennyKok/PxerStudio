@@ -600,10 +600,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
         widthSeekBar.max = 127
         widthSeekBar.progress = 39
-        widthText.text = "Width : " + 40
+        widthText.text = R.string.width.toString() + 40
         widthSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                widthText.text = "Width : " + (i + 1).toString()
+                widthText.text = R.string.width.toString() + (i + 1).toString()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -612,10 +612,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         })
         heightSeekBar.max = 127
         heightSeekBar.progress = 39
-        heightText.text = "Height : " + 40
+        heightText.text = R.string.height.toString() + 40
         heightSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                heightText.text = "Height : " + (i + 1).toString()
+                heightText.text = R.string.height.toString() + (i + 1).toString()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
