@@ -95,6 +95,6 @@
     <string name="exportName">Имя: </string>
 
     <!-- Project creation -->
-    <string name="width">Шиоина: </string>
+    <string name="width">Ширина: </string>
     <string name="height">Высота: </string>
 </resources>
