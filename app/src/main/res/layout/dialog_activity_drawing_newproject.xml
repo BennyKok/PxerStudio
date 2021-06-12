@@ -13,7 +13,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:gravity="center_vertical"
-        android:text="Name :"
+        android:text="@string/exportName"
         android:textColor="?android:textColorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/dialog_drawing_np_name_edit"
         app:layout_constraintLeft_toLeftOf="parent"

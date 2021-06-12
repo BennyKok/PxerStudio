@@ -60,6 +60,13 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         val lineShapeFactory = LineShape()
         val eraserShapeFactory = EraserShape()
         var currentProjectPath: String? = null
+        // Used to access resources outside of activities
+        lateinit var appContext: Context;
+        var mContext: Context
+            get() : Context = appContext
+            private set(value) {
+                appContext = value
+            }
     }
 
     var isEdited = false
@@ -97,6 +104,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mContext = this;
         binding = ActivityDrawingBinding.inflate(layoutInflater)
         val view = binding!!.root
         setContentView(view)
@@ -600,10 +608,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
         widthSeekBar.max = 127
         widthSeekBar.progress = 39
-        widthText.text = "Width : " + 40
+        widthText.text = resources.getText(R.string.width).toString() + 40
         widthSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                widthText.text = "Width : " + (i + 1).toString()
+                widthText.text = resources.getText(R.string.width).toString() + (i + 1).toString()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -612,10 +620,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         })
         heightSeekBar.max = 127
         heightSeekBar.progress = 39
-        heightText.text = "Height : " + 40
+        heightText.text = resources.getText(R.string.width).toString() + 40
         heightSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                heightText.text = "Height : " + (i + 1).toString()
+                heightText.text = resources.getText(R.string.width).toString() + (i + 1).toString()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}

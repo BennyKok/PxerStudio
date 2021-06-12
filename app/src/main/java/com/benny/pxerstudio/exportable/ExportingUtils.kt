@@ -12,6 +12,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.benny.pxerstudio.R
+import com.benny.pxerstudio.activity.DrawingActivity
 import com.benny.pxerstudio.databinding.DialogActivityDrawingBinding
 import com.benny.pxerstudio.util.displayToast
 import com.benny.pxerstudio.widget.PxerView
@@ -109,14 +110,15 @@ object ExportingUtils {
         } else {
             binding.dialogDrawingSizeSeekBar.max = maxSize / pxerView.picHeight.coerceAtLeast(pxerView.picWidth)
         }
+        val res = DrawingActivity.mContext.resources;
         binding.dialogDrawingSize.text =
-            "Size : " + java.lang.String.valueOf(pxerView.picWidth) +
+            res.getText(R.string.exportSize).toString() + java.lang.String.valueOf(pxerView.picWidth) +
                     " x " + java.lang.String.valueOf(pxerView.picHeight)
         binding.dialogDrawingSizeSeekBar
             .setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                     binding.dialogDrawingSize.text =
-                        "Size : " + (i * pxerView.picWidth).toString() +
+                        res.getText(R.string.exportSize).toString() + (i * pxerView.picWidth).toString() +
                                 " x " + (i * pxerView.picHeight).toString()
                 }
 

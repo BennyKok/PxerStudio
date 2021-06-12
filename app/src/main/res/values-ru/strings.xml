@@ -1,0 +1,100 @@
+<resources>
+    <!-- Toolbar menu (always shown) -->
+    <string name="grid_on_off">Вкл./выкл. сетку</string>
+    <string name="reset_view_port">Сбросить масштаб</string>
+
+    <!-- menu_popup_layer -->
+    <string name="toggle_visibility">Показать/скрыть</string>
+    <string name="duplicate_layer">Дублировать</string>
+    <string name="remove">Удалить</string>
+    <string name="clear">Очистить</string>
+    <string name="merge_down">Объединить со слоем ниже</string>
+
+    <!-- Layers menu -->
+    <string name="layers">Слои</string>
+    <string name="only_show_selected_layer">Показывать только выбранный слой</string>
+    <string name="show_all_layers">Показать все слои</string>
+    <string name="hide_all_layers">Скрыть все слои</string>
+    <string name="merge_all_layers">Объединить все слои</string>
+
+    <!-- Export menu -->
+    <string name="export">Экспорт</string>
+    <string name="png">PNG</string>
+    <string name="gif">GIF</string>
+    <string name="sprite_atlas">Sprite Atlas</string>
+    <string name="folder">Папка</string>
+
+    <!-- Project menu -->
+    <string name="project">Проект</string>
+    <string name="project_manager">Управление проектами</string>
+    <string name="save">Сохранить</string>
+    <string name="open">Открыть</string>
+    <string name="new_new">Создать</string>
+
+    <!-- Dialogs -->
+    <string name="merge">Объединить</string>
+    <string name="merge_all_layers_warning">Объединить все слои?</string>
+
+    <string name="remove_layer">Удаление слоя</string>
+    <string name="remove_layer_warning">Удалить этот слой?</string>
+
+    <string name="clear_current_layer">Очистка слоя</string>
+    <string name="clear_current_layer_warning">Очистить текущий слой?</string>
+
+    <string name="merge_down_layer">Объединение слоёв</string>
+    <string name="merge_down_layer_warning">Объединить слой со слоем ниже?</string>
+
+    <string name="new_project">Новый проект</string>
+    <string name="create">Создать</string>
+
+    <string name="save_project">Сохранить проект</string>
+    <string name="name">Имя</string>
+
+    <!-- ProjectManagerActivity -->
+    <string name="rename">Переименовать</string>
+    <string name="delete">Удалить</string>
+    <string name="delete_project">Удаление проекта</string>
+    <string name="delete_project_warning">Удалить этот проект?</string>
+    <string name="project_deleted">Проект удалён</string>
+    <string name="no_project_found">Не найдено ни одного проекта</string>
+
+    <!-- About -->
+    <string name="about">О программе</string>
+    <!-- About activity -->
+    <string name="app_creator">Создано BennyKok</string>
+    <string name="get_more_apps"><u>Больше приложений</u></string>
+    <string name="find_on_github"><u>Исходный код на GitHub</u></string>
+    <string name="brought_to_you_by"><![CDATA[<b>При разработке использовались следующие замечательные проекты с открытым исходным кодом:</b>]]></string>
+    <string name="opensource_libraries">Библиотеки с открытым исходным кодом</string>
+    <string name="opensource_contributors"><u>Все авторы</u></string>
+
+    <!-- Toasts -->
+    <string name="storage_permission_denied">Приложению требуется доступ к внутренней памяти для работы с файлами проектов.</string>
+    <string name="file_name_cannot_be_empty">Имя файла не может быть пустым!</string>
+    <string name="frame_time_cannot_be_empty">Скорость не может быть пустой!</string>
+    <string name="export_successful">Проект успешно экспортирован</string>
+    <string name="no_more_redo">Нет действий для повтора</string>
+    <string name="no_more_undo">Нет действий для отмены</string>
+
+    <!-- Content descriptors -->
+    <string name="fab_undo">Отменить</string>
+    <string name="fab_redo">Повторить</string>
+    <string name="fab_selected_color">Текущий цвет</string>
+    <string name="fab_eyedropper">Пипетка</string>
+    <string name="fab_tools">Инструменты</string>
+
+    <!-- Errors -->
+    <string name="error_something_went_wrong">Что-то пошло не так!</string>
+    <string name="error_loading_project">При загрузке проекта произошла ошибка.</string>
+    <string name="error_deleting_project">Не удалось удалить проект!</string>
+
+    <!-- Export dialog -->
+    <string name="gifSpeed">Скорость(ms): </string>
+    <string name="exportSize">Размер: </string>
+
+    <string name="exportName">Имя: </string>
+
+    <!-- Project creation -->
+    <string name="width">Ширина: </string>
+    <string name="height">Высота: </string>
+</resources>
