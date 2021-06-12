@@ -1,0 +1,13 @@
+1.2.0:
+- (Translation) Added russian translation (@mihajlo0743)
+- (ProjectManager) Added project preview (@mihajlo0743)
+- (Export) Fixed default export to external storage (visible to Photos/File Browser app) (@mihajlo0743)
+- (Export) Added Gif frame speed option (@mihajlo0743)
+- (Export) Fixed crash on minimal export size (@mihajlo0743)
+- (Export) Fixed export layers order (@mihajlo0743)
+- (Export) Fixed exporting for non-square images (@mihajlo0743)
+- (Export) Replaced internal gif encoder with glide.gifencoder (@TacoTheDank)
+- (AboutPage) Added contributors dialog (@BennyKok)
+
+Big thanks to @mihajlo0743 on GitHub!
+
