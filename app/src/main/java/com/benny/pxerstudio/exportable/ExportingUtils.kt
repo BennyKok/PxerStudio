@@ -1,8 +1,10 @@
 package com.benny.pxerstudio.exportable
 
+import android.content.ContentValues
 import android.content.Context
 import android.media.MediaScannerConnection
-import android.transition.Visibility
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.SeekBar
@@ -26,8 +28,8 @@ object ExportingUtils {
         if (currentProgressDialog != null) currentProgressDialog!!.dismiss()
     }
 
-    fun checkAndCreateProjectDirs(context: Context): File {
-        val path = context.getExternalFilesDir("/")!!.path + "/PxerStudio/Export"
+    fun checkAndCreateProjectDirs(): File {
+        val path = Environment.getExternalStorageDirectory().path + "/" + getExportPath()
         val dirs = File(path)
         if (!dirs.exists()) {
             dirs.mkdirs()
@@ -35,9 +37,9 @@ object ExportingUtils {
         return dirs
     }
 
-    fun checkAndCreateProjectDirs(extraFolder: String?, context: Context): File {
-        if (extraFolder == null || extraFolder.isEmpty()) return checkAndCreateProjectDirs(context)
-        val path = context.getExternalFilesDir("/")!!.path + "/PxerStudio/Export/" + extraFolder
+    fun checkAndCreateProjectDirs(extraFolder: String?): File {
+        if (extraFolder == null || extraFolder.isEmpty()) return checkAndCreateProjectDirs()
+        val path = Environment.getExternalStorageDirectory().path + "/" + getExportPath() + extraFolder
         val dirs = File(path)
         if (!dirs.exists()) {
             dirs.mkdirs()
@@ -164,11 +166,27 @@ object ExportingUtils {
         fun onExportConfirmed(fileName: String?, width: Int, height: Int, frameTime: Int)
     }
 
-    fun getExportPath(context: Context): String {
-        return context.getExternalFilesDir("/")!!.path + "/PxerStudio/Export"
+    fun getExportPath(): String {
+        return Environment.DIRECTORY_PICTURES + "/PxerStudio/"
     }
 
     fun getProjectPath(context: Context): String {
         return context.getExternalFilesDir("/")!!.path + "/PxerStudio/Project"
+    }
+
+    @Suppress("DEPRECATION")
+    fun getAbsoluteExportablePath(relPath: String): String{
+        return Environment.getExternalStorageDirectory().absolutePath + "/" + getExportPath() + relPath
+    }
+
+    fun getExportContVals(fileName: String, mime: String): ContentValues = getExportContVals(fileName, mime, "")
+
+
+    fun getExportContVals(fileName: String, mime: String, parentDir: String = ""): ContentValues{
+        return ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
+            put(MediaStore.Images.Media.MIME_TYPE, mime);
+            put(MediaStore.Images.Media.RELATIVE_PATH, getExportPath() + parentDir)
+        }
     }
 }
