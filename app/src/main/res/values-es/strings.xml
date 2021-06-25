@@ -1,0 +1,100 @@
+<resources>
+    <!-- Toolbar menu (always shown) -->
+    <string name="grid_on_off">Activar/desactivar cuadrícula</string>
+    <string name="reset_view_port">Restablecer</string>
+
+    <!-- menu_popup_layer -->
+    <string name="toggle_visibility">Alternar visibilidad</string>
+    <string name="duplicate_layer">Duplicar</string>
+    <string name="remove">Remover</string>
+    <string name="clear">Limpiar</string>
+    <string name="merge_down">Combinar hacia abajo</string>
+
+    <!-- Layers menu -->
+    <string name="layers">Capas</string>
+    <string name="only_show_selected_layer">Mostrar solo la capa seleccionada</string>
+    <string name="show_all_layers">Mostrar capas</string>
+    <string name="hide_all_layers">Ocultar capas</string>
+    <string name="merge_all_layers">Combinar todas las capas</string>
+
+    <!-- Export menu -->
+    <string name="export">Exportar</string>
+    <string name="png">PNG</string>
+    <string name="gif">GIF</string>
+    <string name="sprite_atlas">Sprite Atlas</string>
+    <string name="folder">Carpeta</string>
+
+    <!-- Project menu -->
+    <string name="project">Proyecto</string>
+    <string name="project_manager">Gestor de Proyecto</string>
+    <string name="save">Guardar</string>
+    <string name="open">Abrir</string>
+    <string name="new_new">Nuevo</string>
+
+    <!-- Dialogs -->
+    <string name="merge">Combinar</string>
+    <string name="merge_all_layers_warning">¿Combinar todas las capas?</string>
+
+    <string name="remove_layer">Eliminar capa</string>
+    <string name="remove_layer_warning">¿Eliminar esta capa?</string>
+
+    <string name="clear_current_layer">Limpiar capa actual</string>
+    <string name="clear_current_layer_warning">¿Limpiar la capa actual?</string>
+
+    <string name="merge_down_layer">Fusionar capa</string>
+    <string name="merge_down_layer_warning">¿Fusionar capa?</string>
+
+    <string name="new_project">Proyecto nuevo</string>
+    <string name="create">Crear</string>
+
+    <string name="save_project">Guardar proyecto</string>
+    <string name="name">Nombre</string>
+
+    <!-- ProjectManagerActivity -->
+    <string name="rename">Renombrar</string>
+    <string name="delete">Eliminar</string>
+    <string name="delete_project">Eliminar proyecto</string>
+    <string name="delete_project_warning">¿Eliminar proyecto?</string>
+    <string name="project_deleted">Proyecto eliminado</string>
+    <string name="no_project_found">Proyecto no encontrado</string>
+
+    <!-- About -->
+    <string name="about">Acerca de</string>
+    <!-- About activity -->
+    <string name="app_creator">Creado por BennyKok</string>
+    <string name="get_more_apps"><u>Obtener más apps</u></string>
+    <string name="find_on_github"><u>Encontrar en GitHub</u></string>
+    <string name="brought_to_you_by"><![CDATA[<b>Traído a usted por estos increíbles proyectos de código abierto:</b>]]></string>
+    <string name="opensource_libraries">Librerias de código abierto</string>
+    <string name="opensource_contributors"><u>Contribuyentes</u></string>
+
+    <!-- Toasts -->
+    <string name="storage_permission_denied">Lo siento, esta aplicación requiere permisos de almacenamiento para guardar su proyecto.</string>
+    <string name="file_name_cannot_be_empty">¡El nombre de archivo no puede ser vacío!</string>
+    <string name="frame_time_cannot_be_empty">¡El tiempo de fotograma no puede ser vacía!</string>
+    <string name="export_successful">Exportado exitosamente</string>
+    <string name="no_more_redo">No más rehacer</string>
+    <string name="no_more_undo">No mas deshacer</string>
+
+    <!-- Content descriptors -->
+    <string name="fab_undo">Deshacer</string>
+    <string name="fab_redo">Rehacer</string>
+    <string name="fab_selected_color">Color actual seleccionado</string>
+    <string name="fab_eyedropper">Cuentagotas</string>
+    <string name="fab_tools">Herramientas</string>
+
+    <!-- Errors -->
+    <string name="error_something_went_wrong">¡Algo salió mal!</string>
+    <string name="error_loading_project">Un error ha ocurrido mientras se cagaba el proyecto.</string>
+    <string name="error_deleting_project">¡No fue posible eliminar el proyecto!</string>
+
+    <!-- Export dialog -->
+    <string name="gifSpeed">Velocidad(ms): </string>
+    <string name="exportSize">Tamaño: </string>
+
+    <string name="exportName">Nombre: </string>
+
+    <!-- Project creation -->
+    <string name="width">Ancho: </string>
+    <string name="height">Alto: </string>
+</resources>
