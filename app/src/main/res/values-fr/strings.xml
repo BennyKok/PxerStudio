@@ -73,8 +73,8 @@
     <string name="file_name_cannot_be_empty">Nom de fichier ne peut pas être vide !</string>
     <string name="frame_time_cannot_be_empty">Frame time ne peut pas être vide !</string>
     <string name="export_successful">Réussite de l’export</string>
-    <string name="no_more_redo">Il n'y a plus de refaires de la frappe</string>
-    <string name="no_more_undo">Il n'y a plus d’annulations de la frappe</string>
+    <string name="no_more_redo">Il n\'y a plus de refaires de la frappe</string>
+    <string name="no_more_undo">Il n\'y a plus d’annulations de la frappe</string>
 
     <!-- Content descriptors -->
     <string name="fab_undo">Annulation</string>
@@ -84,8 +84,8 @@
     <string name="fab_tools">Outils</string>
 
     <!-- Errors -->
-    <string name="error_something_went_wrong">Quelque chose s'est mal passé.</string>
-    <string name="error_loading_project">Une erreur s'est produite lors du chargement de votre projet.</string>
+    <string name="error_something_went_wrong">Quelque chose s\'est mal passé.</string>
+    <string name="error_loading_project">Une erreur s\'est produite lors du chargement de votre projet.</string>
     <string name="error_deleting_project">Impossible de supprimer le projet !</string>
 
     <!-- Export dialog -->
