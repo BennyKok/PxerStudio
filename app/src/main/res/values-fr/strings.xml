@@ -1,0 +1,100 @@
+<resources>
+    <!-- Toolbar menu (always shown) -->
+    <string name="grid_on_off">La grille allumé/éteint</string>
+    <string name="reset_view_port">Réinitialiser vue de port informatique</string>
+
+    <!-- menu_popup_layer -->
+    <string name="toggle_visibility">Basculer visibilité</string>
+    <string name="duplicate_layer">Couche en double</string>
+    <string name="remove">Suprimer</string>
+    <string name="clear">Dégager</string>
+    <string name="merge_down">Fusionner vers le bas</string>
+
+    <!-- Layers menu -->
+    <string name="layers">Couches</string>
+    <string name="only_show_selected_layer">Afficher uniquement écalque sélectionné</string>
+    <string name="show_all_layers">Montrer tous les calques</string>
+    <string name="hide_all_layers">Masquer tous les calques</string>
+    <string name="merge_all_layers">Fusionner tous les calques</string>
+
+    <!-- Export menu -->
+    <string name="export">Exporter</string>
+    <string name="png">PNG</string>
+    <string name="gif">GIF</string>
+    <string name="sprite_atlas">Sprite Atlas des textures</string>
+    <string name="folder">Dossier</string>
+
+    <!-- Project menu -->
+    <string name="project">Projet</string>
+    <string name="project_manager">Chef du projet</string>
+    <string name="save">Sauvegarder</string>
+    <string name="open">Ouvrir</string>
+    <string name="new_new">Nouveau</string>
+
+    <!-- Dialogs -->
+    <string name="merge">Fusionner</string>
+    <string name="merge_all_layers_warning">Fusionner tous les calques?</string>
+
+    <string name="remove_layer">Supprimer calque</string>
+    <string name="remove_layer_warning">Supprimer ce calque ?</string>
+
+    <string name="clear_current_layer">Dégager calque courant</string>
+    <string name="clear_current_layer_warning">Dégager calque courant ?</string>
+
+    <string name="merge_down_layer">Fusionner calque vers le bas</string>
+    <string name="merge_down_layer_warning">Fusionner calque vers le bas ?</string>
+
+    <string name="new_project">Nouveau projet</string>
+    <string name="create">Créer</string>
+
+    <string name="save_project">Sauvegarder projet</string>
+    <string name="name">Nommer</string>
+
+    <!-- ProjectManagerActivity -->
+    <string name="rename">Renommer</string>
+    <string name="delete">Supprimer</string>
+    <string name="delete_project">Supprimer projet</string>
+    <string name="delete_project_warning">Supprimer ce projet ?</string>
+    <string name="project_deleted">Projet supprimé</string>
+    <string name="no_project_found">Aucun projet trouvé</string>
+
+    <!-- About -->
+    <string name="about">À propos</string>
+    <!-- About activity -->
+    <string name="app_creator">Le créateur est BennyKok</string>
+    <string name="get_more_apps"><u>Obtenir plus d’applications</u></string>
+    <string name="find_on_github"><u>Accessible sur GitHub</u></string>
+    <string name="brought_to_you_by"><![CDATA[<b>Ces projets incroyables open-source sont vous présentés par :</b>]]></string>
+    <string name="opensource_libraries">Bibliothèques open-source</string>
+    <string name="opensource_contributors"><u>Tous les créateurs</u></string>
+
+    <!-- Toasts -->
+    <string name="storage_permission_denied">Désolé, cette application nécessite une autorisation de stockage pour enregistrer votre projet.</string>
+    <string name="file_name_cannot_be_empty">Nom de fichier ne peut pas être vide !</string>
+    <string name="frame_time_cannot_be_empty">Frame time ne peut pas être vide !</string>
+    <string name="export_successful">Réussite de l’export</string>
+    <string name="no_more_redo">Il n\'y a plus de refaires de la frappe</string>
+    <string name="no_more_undo">Il n\'y a plus d’annulations de la frappe</string>
+
+    <!-- Content descriptors -->
+    <string name="fab_undo">Annulation</string>
+    <string name="fab_redo">Refaire</string>
+    <string name="fab_selected_color">Couleur actuellement sélectionnée</string>
+    <string name="fab_eyedropper">Pipette</string>
+    <string name="fab_tools">Outils</string>
+
+    <!-- Errors -->
+    <string name="error_something_went_wrong">Quelque chose s\'est mal passé.</string>
+    <string name="error_loading_project">Une erreur s\'est produite lors du chargement de votre projet.</string>
+    <string name="error_deleting_project">Impossible de supprimer le projet !</string>
+
+    <!-- Export dialog -->
+    <string name="gifSpeed">Vitesse (ms): </string>
+    <string name="exportSize">Taille : </string>
+
+    <string name="exportName">Nom : </string>
+
+    <!-- Project creation -->
+    <string name="width">Largeur : </string>
+    <string name="height">Hauteur : </string>
+</resources>
