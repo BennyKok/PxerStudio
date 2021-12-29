@@ -68,7 +68,7 @@ class SplashActivity : AppCompatActivity() {
             for (i in grantResults.indices) {
                 if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                     displayToast(R.string.storage_permission_denied)
-                    handler!!.postDelayed({ recreate() }, 1000)
+                    handler!!.postDelayed({ ActivityCompat.recreate(this) }, 1000)
                     return
                 }
             }

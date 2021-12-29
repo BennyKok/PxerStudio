@@ -15,6 +15,7 @@ import android.view.ScaleGestureDetector.OnScaleGestureListener
 import android.view.View
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.withSave
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.benny.pxerstudio.R
@@ -321,7 +322,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
     }
 
     fun save(force: Boolean): Boolean {
-        return if (projectName == null || projectName!!.isEmpty()) {
+        return if (projectName.isNullOrEmpty()) {
             if (force) MaterialDialog(context)
 //                .titleGravity(GravityEnum.CENTER)
 //                .inputRange(0, 20)
@@ -376,11 +377,12 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
         mScaleDetector = ScaleGestureDetector(context, this)
         mGestureDetector = GestureDetector(context, this)
         setWillNotDraw(false)
-        borderPaint = Paint()
-        borderPaint!!.isAntiAlias = true
-        borderPaint!!.style = Paint.Style.STROKE
-        borderPaint!!.strokeWidth = 1f
-        borderPaint!!.color = Color.DKGRAY
+        borderPaint = Paint().apply {
+            isAntiAlias = true
+            style = Paint.Style.STROKE
+            strokeWidth = 1f
+            color = Color.DKGRAY
+        }
         pxerPaint = Paint()
         pxerPaint!!.isAntiAlias = true
         picBoundary = RectF(0f, 0f, 0f, 0f)
@@ -507,15 +509,11 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
                         val pixel = pxerLayers[i]!!.bitmap!!.getPixel(x, y)
                         if (pixel != Color.TRANSPARENT) {
                             selectedColor = pxerLayers[i]!!.bitmap!!.getPixel(x, y)
-                            if (dropperCallBack != null) {
-                                dropperCallBack!!.onColorDropped(selectedColor)
-                            }
+                            dropperCallBack?.onColorDropped(selectedColor)
                             break
                         }
                         if (i == pxerLayers.size - 1) {
-                            if (dropperCallBack != null) {
-                                dropperCallBack!!.onColorDropped(Color.TRANSPARENT)
-                            }
+                            dropperCallBack?.onColorDropped(Color.TRANSPARENT)
                         }
                         i++
                     }
@@ -529,7 +527,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
                     val toExplore: Queue<Point?> = LinkedList()
                     val explored = HashSet<Point?>()
                     toExplore.add(Point(x, y))
-                    while (!toExplore.isEmpty()) {
+                    while (toExplore.isNotEmpty()) {
                         val p = toExplore.remove()
                         //Color it
                         currentHistory.add(Pxer(p!!.x, p.y, targetColor))
@@ -611,20 +609,23 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawColor(Color.DKGRAY)
-        canvas.save()
-        canvas.concat(drawMatrix)
-        canvas.drawBitmap(bgbitmap!!, null, picBoundary!!, null)
-        for (i in pxerLayers.size - 1 downTo -1 + 1) {
-            if (pxerLayers[i]!!.visible) canvas.drawBitmap(
-                pxerLayers[i]!!.bitmap!!,
-                null,
-                picBoundary!!,
-                null
-            )
+        canvas.apply {
+            drawColor(Color.DKGRAY)
+            withSave {
+                concat(drawMatrix)
+                drawBitmap(bgbitmap!!, null, picBoundary!!, null)
+                for (i in pxerLayers.size - 1 downTo -1 + 1) {
+                    if (pxerLayers[i]!!.visible) {
+                        drawBitmap(
+                            pxerLayers[i]!!.bitmap!!, null, picBoundary!!, null
+                        )
+                    }
+                }
+                if (showGrid) {
+                    drawPath(grid, borderPaint!!)
+                }
+            }
         }
-        if (showGrid) canvas.drawPath(grid, borderPaint!!)
-        canvas.restore()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -686,16 +687,16 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
     override fun onScale(scaleGestureDetector: ScaleGestureDetector): Boolean {
         val scale = scaleGestureDetector.scaleFactor
         mScaleFactor *= scale
-        val transformationMatrix = Matrix()
-        val focusX = scaleGestureDetector.focusX
-        val focusY = scaleGestureDetector.focusY
-        transformationMatrix.postTranslate(-focusX, -focusY)
-        transformationMatrix.postScale(
-            scaleGestureDetector.scaleFactor,
-            scaleGestureDetector.scaleFactor
-        )
-        transformationMatrix.postTranslate(focusX, focusY)
-        drawMatrix.postConcat(transformationMatrix)
+        Matrix().apply {
+            val focusX = scaleGestureDetector.focusX
+            val focusY = scaleGestureDetector.focusY
+            postTranslate(-focusX, -focusY)
+            postScale(
+                scaleGestureDetector.scaleFactor,
+                scaleGestureDetector.scaleFactor
+            )
+            postTranslate(focusX, focusY)
+        }.also(drawMatrix::postConcat)
         invalidate()
         return true
     }
@@ -706,17 +707,17 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
         drawMatrix.reset()
         val scale = 0.98f
         mScaleFactor = scale
-        val transformationMatrix = Matrix()
-        transformationMatrix.postTranslate(
-            (width - picBoundary!!.width()) / 2,
-            (height - picBoundary!!.height()) / 3
-        )
-        val focusX = (width / 2).toFloat()
-        val focusY = (height / 2).toFloat()
-        transformationMatrix.postTranslate(-focusX, -focusY)
-        transformationMatrix.postScale(scale, scale)
-        transformationMatrix.postTranslate(focusX, focusY)
-        drawMatrix.postConcat(transformationMatrix)
+        Matrix().apply {
+            postTranslate(
+                (width - picBoundary!!.width()) / 2,
+                (height - picBoundary!!.height()) / 3
+            )
+            val focusX = (width / 2).toFloat()
+            val focusY = (height / 2).toFloat()
+            postTranslate(-focusX, -focusY)
+            postScale(scale, scale)
+            postTranslate(focusX, focusY)
+        }.also(drawMatrix::postConcat)
         invalidate()
     }
 
@@ -736,8 +737,10 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
     override fun onScaleEnd(scaleGestureDetector: ScaleGestureDetector) {}
     fun setUnrecordedChanges(unrecordedChanges: Boolean) {
         isUnrecordedChanges = unrecordedChanges
-        if (!(context as DrawingActivity).isEdited) (context as DrawingActivity).isEdited =
-            isUnrecordedChanges
+        if (!(context as DrawingActivity).isEdited) {
+            (context as DrawingActivity).isEdited =
+                isUnrecordedChanges
+        }
     }
 
     enum class Mode {

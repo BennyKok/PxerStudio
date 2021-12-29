@@ -15,6 +15,7 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.app.ActivityCompat
 import androidx.core.content.edit
 import androidx.core.text.parseAsHtml
 import androidx.core.view.isInvisible
@@ -65,9 +66,9 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     var isEdited = false
         set(value) {
             field = value
-            binding!!.drawingToolbarTextView.text =
+            binding.drawingToolbarTextView.text =
                 ("PxerStudio<br><small><small>"
-                        + binding!!.drawingPxerView.projectName
+                        + binding.drawingPxerView.projectName
                         + (if (value) "*" else "") + "</small></small>"
                         ).parseAsHtml()
         }
@@ -83,7 +84,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     private var onlyShowSelected: Boolean = false
 
     fun setTitle(subtitle: String?, edited: Boolean) {
-        binding!!.drawingToolbarTextView.text =
+        binding.drawingToolbarTextView.text =
             ("PxerStudio<br><small><small>" +
                     if (subtitle.isNullOrEmpty()) UNTITLED
                     else subtitle + (if (edited) "*" else "") + "</small></small>"
@@ -93,22 +94,23 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
     private lateinit var previousMode: PxerView.Mode
 
-    private var binding: ActivityDrawingBinding? = null
+    private lateinit var _binding: ActivityDrawingBinding
+    private val binding get() = _binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDrawingBinding.inflate(layoutInflater)
-        val view = binding!!.root
+        _binding = ActivityDrawingBinding.inflate(layoutInflater)
+        val view = binding.root
         setContentView(view)
 
         setTitle(UNTITLED, false)
-        binding!!.drawingToolbar.title = ""
-        setSupportActionBar(binding!!.drawingToolbar)
-        binding!!.drawingToolbarTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+        binding.drawingToolbar.title = ""
+        setSupportActionBar(binding.drawingToolbar)
+        binding.drawingToolbarTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
 
         val pxerPref = getSharedPreferences("pxerPref", Context.MODE_PRIVATE)
-        binding!!.drawingPxerView.selectedColor = pxerPref.getInt("lastUsedColor", Color.YELLOW)
-        binding!!.drawingPxerView.setDropperCallBack(this)
+        binding.drawingPxerView.selectedColor = pxerPref.getInt("lastUsedColor", Color.YELLOW)
+        binding.drawingPxerView.setDropperCallBack(this)
 
         setUpLayersView()
         setupControl()
@@ -118,7 +120,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         if (!currentProjectPath.isNullOrEmpty()) {
             val file = File(currentProjectPath!!)
             if (file.exists()) {
-                binding!!.drawingPxerView.loadProject(file)
+                binding.drawingPxerView.loadProject(file)
                 setTitle(file.name.stripExtension(), false)
             }
         }
@@ -131,10 +133,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     }
 
     override fun onColorDropped(newColor: Int) {
-        binding!!.drawingFabColor.setColor(newColor)
+        binding.drawingFabColor.setColor(newColor)
         cp.setColor(newColor)
 
-        binding!!.drawingFabDropper.callOnClick()
+        binding.drawingFabDropper.callOnClick()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -151,39 +153,39 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     // Needed for onClick in layout
     @Suppress("UNUSED_PARAMETER")
     fun onToggleToolsPanel(view: View) {
-        if (binding!!.drawingToolsCardView.isInvisible) {
-            binding!!.drawingToolsCardView.isVisible = true
-            binding!!.drawingToolsCardView
+        if (binding.drawingToolsCardView.isInvisible) {
+            binding.drawingToolsCardView.isVisible = true
+            binding.drawingToolsCardView
                 .animate()
                 .setDuration(100)
                 .setInterpolator(AccelerateDecelerateInterpolator())
                 .translationX(0f)
         } else {
-            binding!!.drawingToolsCardView
+            binding.drawingToolsCardView
                 .animate()
                 .setDuration(100)
                 .setInterpolator(AccelerateDecelerateInterpolator())
-                .translationX((+binding!!.drawingToolsCardView.width).toFloat())
+                .translationX((+binding.drawingToolsCardView.width).toFloat())
                 .withEndAction {
-                    binding!!.drawingToolsCardView.isInvisible = true
+                    binding.drawingToolsCardView.isInvisible = true
                 }
         }
     }
 
     private fun setupControl() {
-        binding!!.drawingToolsCardView.post {
-            binding!!.drawingToolsCardView.translationX =
-                (binding!!.drawingToolsCardView.width).toFloat()
+        binding.drawingToolsCardView.post {
+            binding.drawingToolsCardView.translationX =
+                (binding.drawingToolsCardView.width).toFloat()
         }
 
         toolsItemAdapter = ItemAdapter()
         toolsAdapter = FastAdapter.with(toolsItemAdapter)
 
-        binding!!.drawingToolsRecyclerView.layoutManager =
+        binding.drawingToolsRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
-        binding!!.drawingToolsRecyclerView.adapter = toolsAdapter
+        binding.drawingToolsRecyclerView.adapter = toolsAdapter
 
-        binding!!.drawingToolsRecyclerView.itemAnimator = DefaultItemAnimator()
+        binding.drawingToolsRecyclerView.itemAnimator = DefaultItemAnimator()
 
         val selectExtension = toolsAdapter.getSelectExtension()
         selectExtension.isSelectable = true
@@ -191,25 +193,25 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         selectExtension.allowDeselection = true
 
         toolsAdapter.onClickListener = { _, _, item, _ ->
-            binding!!.drawingToolsFab.setImageResource(item.icon)
+            binding.drawingToolsFab.setImageResource(item.icon)
             when (item.icon) {
                 R.drawable.ic_check_box_outline_blank -> {
-                    binding!!.drawingPxerView.mode = PxerView.Mode.ShapeTool
-                    binding!!.drawingPxerView.shapeTool = rectShapeFactory
+                    binding.drawingPxerView.mode = PxerView.Mode.ShapeTool
+                    binding.drawingPxerView.shapeTool = rectShapeFactory
                 }
                 R.drawable.ic_remove -> {
-                    binding!!.drawingPxerView.mode = PxerView.Mode.ShapeTool
-                    binding!!.drawingPxerView.shapeTool = lineShapeFactory
+                    binding.drawingPxerView.mode = PxerView.Mode.ShapeTool
+                    binding.drawingPxerView.shapeTool = lineShapeFactory
                 }
                 R.drawable.ic_format_color_fill -> {
-                    binding!!.drawingPxerView.mode = PxerView.Mode.Fill
+                    binding.drawingPxerView.mode = PxerView.Mode.Fill
                 }
                 R.drawable.ic_eraser -> {
-                    binding!!.drawingPxerView.mode = PxerView.Mode.ShapeTool
-                    binding!!.drawingPxerView.shapeTool = eraserShapeFactory
+                    binding.drawingPxerView.mode = PxerView.Mode.ShapeTool
+                    binding.drawingPxerView.shapeTool = eraserShapeFactory
                 }
                 R.drawable.ic_edit -> {
-                    binding!!.drawingPxerView.mode = PxerView.Mode.Normal
+                    binding.drawingPxerView.mode = PxerView.Mode.Normal
                 }
             }
             false
@@ -226,65 +228,65 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
         cp = ColorPicker(
             this,
-            binding!!.drawingPxerView.selectedColor
+            binding.drawingPxerView.selectedColor
         ) { newColor ->
-            binding!!.drawingPxerView.selectedColor = newColor
-            binding!!.drawingFabColor.setColor(newColor)
+            binding.drawingPxerView.selectedColor = newColor
+            binding.drawingFabColor.setColor(newColor)
         }
-        binding!!.drawingFabColor.setOnClickListener(cp::show)
-        binding!!.drawingFabUndo.setOnClickListener { binding!!.drawingPxerView.undo() }
-        binding!!.drawingFabRedo.setOnClickListener { binding!!.drawingPxerView.redo() }
-        binding!!.drawingFabDropper.setOnClickListener {
-            if (binding!!.drawingPxerView.mode == PxerView.Mode.Dropper) {
-                binding!!.drawingFabUndo.show(true)
-                binding!!.drawingFabRedo.show(true)
+        binding.drawingFabColor.setOnClickListener(cp::show)
+        binding.drawingFabUndo.setOnClickListener { binding.drawingPxerView.undo() }
+        binding.drawingFabRedo.setOnClickListener { binding.drawingPxerView.redo() }
+        binding.drawingFabDropper.setOnClickListener {
+            if (binding.drawingPxerView.mode == PxerView.Mode.Dropper) {
+                binding.drawingFabUndo.show(true)
+                binding.drawingFabRedo.show(true)
 
-                binding!!.drawingToolsFab.show(true)
+                binding.drawingToolsFab.show(true)
 
-                binding!!.drawingPxerView.mode = previousMode
+                binding.drawingPxerView.mode = previousMode
 
-                binding!!.drawingFabDropper.setImageResource(R.drawable.ic_colorize)
+                binding.drawingFabDropper.setImageResource(R.drawable.ic_colorize)
             } else {
-                binding!!.drawingFabUndo.hide(true)
-                binding!!.drawingFabRedo.hide(true)
+                binding.drawingFabUndo.hide(true)
+                binding.drawingFabRedo.hide(true)
 
-                binding!!.drawingToolsFab.hide(true)
-                if (binding!!.drawingToolsCardView.isVisible)
-                    binding!!.drawingToolsFab.callOnClick()
+                binding.drawingToolsFab.hide(true)
+                if (binding.drawingToolsCardView.isVisible)
+                    binding.drawingToolsFab.callOnClick()
 
-                previousMode = binding!!.drawingPxerView.mode
-                binding!!.drawingPxerView.mode = PxerView.Mode.Dropper
+                previousMode = binding.drawingPxerView.mode
+                binding.drawingPxerView.mode = PxerView.Mode.Dropper
 
-                binding!!.drawingFabDropper.setImageResource(R.drawable.ic_close)
+                binding.drawingFabDropper.setImageResource(R.drawable.ic_close)
             }
         }
     }
 
     private fun setUpLayersView() {
-        binding!!.drawingLayerAddCardView.setOnClickListener {
-            binding!!.drawingPxerView.addLayer()
-            layerItemAdapter.add(max(binding!!.drawingPxerView.currentLayer, 0), LayerThumbItem())
+        binding.drawingLayerAddCardView.setOnClickListener {
+            binding.drawingPxerView.addLayer()
+            layerItemAdapter.add(max(binding.drawingPxerView.currentLayer, 0), LayerThumbItem())
             layerAdapter.getSelectExtension().deselect()
-            layerAdapter.getSelectExtension().select(binding!!.drawingPxerView.currentLayer)
-            layerItemAdapter.getAdapterItem(binding!!.drawingPxerView.currentLayer).pressed()
-            binding!!.drawingLayerRecyclerView.invalidate()
+            layerAdapter.getSelectExtension().select(binding.drawingPxerView.currentLayer)
+            layerItemAdapter.getAdapterItem(binding.drawingPxerView.currentLayer).pressed()
+            binding.drawingLayerRecyclerView.invalidate()
         }
 
         layerItemAdapter = ItemAdapter()
         layerAdapter = FastAdapter.with(layerItemAdapter)
 
-        binding!!.drawingLayerRecyclerView.layoutManager =
+        binding.drawingLayerRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding!!.drawingLayerRecyclerView.adapter = layerAdapter
+        binding.drawingLayerRecyclerView.adapter = layerAdapter
 
-        binding!!.drawingLayerRecyclerView.itemAnimator = DefaultItemAnimator()
-        (binding!!.drawingLayerRecyclerView.itemAnimator as DefaultItemAnimator).changeDuration = 0
-        (binding!!.drawingLayerRecyclerView.itemAnimator as DefaultItemAnimator).addDuration = 0
-        (binding!!.drawingLayerRecyclerView.itemAnimator as DefaultItemAnimator).removeDuration = 0
+        binding.drawingLayerRecyclerView.itemAnimator = DefaultItemAnimator()
+        (binding.drawingLayerRecyclerView.itemAnimator as DefaultItemAnimator).changeDuration = 0
+        (binding.drawingLayerRecyclerView.itemAnimator as DefaultItemAnimator).addDuration = 0
+        (binding.drawingLayerRecyclerView.itemAnimator as DefaultItemAnimator).removeDuration = 0
 
         val touchCallback = SimpleDragCallback(this)
         val touchHelper = ItemTouchHelper(touchCallback)
-        touchHelper.attachToRecyclerView(binding!!.drawingLayerRecyclerView)
+        touchHelper.attachToRecyclerView(binding.drawingLayerRecyclerView)
 
         val selectExtension = layerAdapter.getSelectExtension()
         selectExtension.isSelectable = true
@@ -305,20 +307,20 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
             if (onlyShowSelected) {
                 val layer =
-                    binding!!.drawingPxerView.pxerLayers[binding!!.drawingPxerView.currentLayer]
+                    binding.drawingPxerView.pxerLayers[binding.drawingPxerView.currentLayer]
                 layer!!.visible = false
-                binding!!.drawingPxerView.invalidate()
+                binding.drawingPxerView.invalidate()
 
-                layerAdapter.notifyAdapterItemChanged(binding!!.drawingPxerView.currentLayer)
+                layerAdapter.notifyAdapterItemChanged(binding.drawingPxerView.currentLayer)
             }
-            binding!!.drawingPxerView.currentLayer = position
+            binding.drawingPxerView.currentLayer = position
             if (onlyShowSelected) {
                 val layer =
-                    binding!!.drawingPxerView.pxerLayers[binding!!.drawingPxerView.currentLayer]
+                    binding.drawingPxerView.pxerLayers[binding.drawingPxerView.currentLayer]
                 layer!!.visible = true
-                binding!!.drawingPxerView.invalidate()
+                binding.drawingPxerView.invalidate()
 
-                layerAdapter.notifyAdapterItemChanged(binding!!.drawingPxerView.currentLayer)
+                layerAdapter.notifyAdapterItemChanged(binding.drawingPxerView.currentLayer)
             }
             item.pressed()
             if (item.isPressSecondTime) {
@@ -338,7 +340,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         if (!isEdited)
             isEdited = true
 
-        binding!!.drawingPxerView.moveLayer(oldPosition, newPosition)
+        binding.drawingPxerView.moveLayer(oldPosition, newPosition)
 
         if (oldPosition < newPosition) {
             for (i in oldPosition + 1..newPosition) {
@@ -356,12 +358,12 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     }
 
     override fun itemTouchDropped(oldPosition: Int, newPosition: Int) {
-        binding!!.drawingPxerView.currentLayer = newPosition
+        binding.drawingPxerView.currentLayer = newPosition
     }
 
     fun onLayerUpdate() {
         layerItemAdapter.clear()
-        for (i in 0 until binding!!.drawingPxerView.pxerLayers.size) {
+        for (i in 0 until binding.drawingPxerView.pxerLayers.size) {
             layerItemAdapter.add(LayerThumbItem())
         }
         layerAdapter.getSelectExtension().select(0)
@@ -369,8 +371,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     }
 
     fun onLayerRefresh() {
-        if (binding != null)
-            binding!!.drawingLayerRecyclerView.invalidate()
+        binding.drawingLayerRecyclerView.invalidate()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -385,24 +386,24 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         when (item.itemId) {
             R.id.menu_drawing_layers_onlyShowSelected -> {
                 onlyShowSelected = true
-                binding!!.drawingPxerView.visibilityAllLayer(false)
+                binding.drawingPxerView.visibilityAllLayer(false)
 
                 val layer2 =
-                    binding!!.drawingPxerView.pxerLayers[binding!!.drawingPxerView.currentLayer]
+                    binding.drawingPxerView.pxerLayers[binding.drawingPxerView.currentLayer]
                 layer2!!.visible = true
-                binding!!.drawingPxerView.invalidate()
+                binding.drawingPxerView.invalidate()
 
                 layerAdapter.notifyAdapterDataSetChanged()
             }
             R.id.menu_drawing_export_png -> PngExportable()
-                .runExport(this, binding!!.drawingPxerView)
+                .runExport(this, binding.drawingPxerView)
             R.id.menu_drawing_export_gif -> GifExportable()
-                .runExport(this, binding!!.drawingPxerView)
+                .runExport(this, binding.drawingPxerView)
             R.id.menu_drawing_export_folder -> FolderExportable()
-                .runExport(this, binding!!.drawingPxerView)
+                .runExport(this, binding.drawingPxerView)
             R.id.menu_drawing_export_atlas -> AtlasExportable()
-                .runExport(this, binding!!.drawingPxerView)
-            R.id.menu_drawing_project_save -> binding!!.drawingPxerView.save(true)
+                .runExport(this, binding.drawingPxerView)
+            R.id.menu_drawing_project_save -> binding.drawingPxerView.save(true)
             R.id.menu_drawing_project_manager -> openProjectManager()
             R.id.menu_drawing_project_open ->
                 MaterialDialog(this).show {
@@ -414,36 +415,36 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                         ),
                         context = context
                     ) { _, file ->
-                        binding!!.drawingPxerView.loadProject(file)
+                        binding.drawingPxerView.loadProject(file)
                         setTitle(file.name.stripExtension(), false)
                         currentProjectPath = file.path
                     }
                 }
             R.id.menu_drawing_project_new -> createNewProject()
-            R.id.menu_drawing_resetViewPort -> binding!!.drawingPxerView.resetViewPort()
+            R.id.menu_drawing_resetViewPort -> binding.drawingPxerView.resetViewPort()
             R.id.menu_drawing_layers_hideAll -> run {
                 if (onlyShowSelected) return@run
-                binding!!.drawingPxerView.visibilityAllLayer(false)
+                binding.drawingPxerView.visibilityAllLayer(false)
                 layerAdapter.notifyAdapterDataSetChanged()
             }
             R.id.menu_drawing_layers_showAll -> {
                 onlyShowSelected = false
-                binding!!.drawingPxerView.visibilityAllLayer(true)
+                binding.drawingPxerView.visibilityAllLayer(true)
                 layerAdapter.notifyAdapterDataSetChanged()
             }
             R.id.menu_drawing_gridOnOff -> {
-                if (binding!!.drawingPxerView.showGrid)
+                if (binding.drawingPxerView.showGrid)
                     item.setIcon(R.drawable.ic_grid_on)
                 else
                     item.setIcon(R.drawable.ic_grid_off)
-                binding!!.drawingPxerView.showGrid = !binding!!.drawingPxerView.showGrid
+                binding.drawingPxerView.showGrid = !binding.drawingPxerView.showGrid
             }
             R.id.menu_drawing_layers -> {
-                binding!!.drawingLayerCardView.pivotX =
-                    (binding!!.drawingLayerCardView.width / 2).toFloat()
-                binding!!.drawingLayerCardView.pivotY = 0f
-                if (binding!!.drawingLayerCardView.isVisible) {
-                    binding!!.drawingLayerCardView
+                binding.drawingLayerCardView.pivotX =
+                    (binding.drawingLayerCardView.width / 2).toFloat()
+                binding.drawingLayerCardView.pivotY = 0f
+                if (binding.drawingLayerCardView.isVisible) {
+                    binding.drawingLayerCardView
                         .animate()
                         .setDuration(100)
                         .setInterpolator(AccelerateDecelerateInterpolator())
@@ -451,11 +452,11 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                         .scaleX(0.85f)
                         .scaleY(0.85f)
                         .withEndAction {
-                            binding!!.drawingLayerCardView.isInvisible = true
+                            binding.drawingLayerCardView.isInvisible = true
                         }
                 } else {
-                    binding!!.drawingLayerCardView.isVisible = true
-                    binding!!.drawingLayerCardView
+                    binding.drawingLayerCardView.isVisible = true
+                    binding.drawingLayerCardView
                         .animate()
                         .setDuration(100)
                         .setInterpolator(AccelerateDecelerateInterpolator())
@@ -473,7 +474,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 //                    layer_view.visibility = View.VISIBLE
             }
             R.id.menu_popup_layer_remove -> run {
-                if (binding!!.drawingPxerView.pxerLayers.size <= 1) return@run
+                if (binding.drawingPxerView.pxerLayers.size <= 1) return@run
                 prompt()
                     .title(R.string.remove_layer)
                     .message(R.string.remove_layer_warning)
@@ -482,31 +483,31 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                         if (!isEdited)
                             isEdited = true
 
-                        layerItemAdapter.remove(binding!!.drawingPxerView.currentLayer)
-                        binding!!.drawingPxerView.removeCurrentLayer()
+                        layerItemAdapter.remove(binding.drawingPxerView.currentLayer)
+                        binding.drawingPxerView.removeCurrentLayer()
 
                         layerAdapter.getSelectExtension().deselect()
                         layerAdapter.getSelectExtension()
-                            .select(binding!!.drawingPxerView.currentLayer)
-                        layerItemAdapter.getAdapterItem(binding!!.drawingPxerView.currentLayer)
+                            .select(binding.drawingPxerView.currentLayer)
+                        layerItemAdapter.getAdapterItem(binding.drawingPxerView.currentLayer)
                             .pressed()
                         layerAdapter.notifyAdapterDataSetChanged()
                     }
                     .show()
             }
             R.id.menu_popup_layer_duplicate -> {
-                binding!!.drawingPxerView.copyAndPasteCurrentLayer()
+                binding.drawingPxerView.copyAndPasteCurrentLayer()
                 layerItemAdapter.add(
-                    max(binding!!.drawingPxerView.currentLayer, 0),
+                    max(binding.drawingPxerView.currentLayer, 0),
                     LayerThumbItem()
                 )
                 layerAdapter.getSelectExtension().deselect()
-                layerAdapter.getSelectExtension().select(binding!!.drawingPxerView.currentLayer)
-                layerItemAdapter.getAdapterItem(binding!!.drawingPxerView.currentLayer).pressed()
-                binding!!.drawingLayerRecyclerView.invalidate()
+                layerAdapter.getSelectExtension().select(binding.drawingPxerView.currentLayer)
+                layerItemAdapter.getAdapterItem(binding.drawingPxerView.currentLayer).pressed()
+                binding.drawingLayerRecyclerView.invalidate()
             }
             R.id.menu_drawing_layers_mergeAll -> run {
-                if (binding!!.drawingPxerView.pxerLayers.size <= 1) return@run
+                if (binding.drawingPxerView.pxerLayers.size <= 1) return@run
                 prompt()
                     .title(R.string.merge_all_layers)
                     .message(R.string.merge_all_layers_warning)
@@ -515,7 +516,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                         if (!isEdited)
                             isEdited = true
 
-                        binding!!.drawingPxerView.mergeAllLayers()
+                        binding.drawingPxerView.mergeAllLayers()
                         layerItemAdapter.clear()
                         layerItemAdapter.add(LayerThumbItem())
                         layerAdapter.getSelectExtension().deselect()
@@ -533,29 +534,29 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             R.id.menu_popup_layer_toggleVisibility -> run {
                 if (onlyShowSelected) return@run
                 val layer =
-                    binding!!.drawingPxerView.pxerLayers[binding!!.drawingPxerView.currentLayer]
+                    binding.drawingPxerView.pxerLayers[binding.drawingPxerView.currentLayer]
                 layer!!.visible = !layer.visible
-                binding!!.drawingPxerView.invalidate()
-                layerAdapter.notifyAdapterItemChanged(binding!!.drawingPxerView.currentLayer)
+                binding.drawingPxerView.invalidate()
+                layerAdapter.notifyAdapterItemChanged(binding.drawingPxerView.currentLayer)
             }
             R.id.menu_popup_layer_clear -> prompt()
                 .title(R.string.clear_current_layer)
                 .message(R.string.clear_current_layer_warning)
                 .positiveButton(R.string.clear)
-                .positiveButton { binding!!.drawingPxerView.clearCurrentLayer() }
+                .positiveButton { binding.drawingPxerView.clearCurrentLayer() }
                 .show()
             R.id.menu_popup_layer_mergeDown -> run {
-                if (binding!!.drawingPxerView.currentLayer == binding!!.drawingPxerView.pxerLayers.size - 1) return@run
+                if (binding.drawingPxerView.currentLayer == binding.drawingPxerView.pxerLayers.size - 1) return@run
                 prompt()
                     .title(R.string.merge_down_layer)
                     .message(R.string.merge_down_layer_warning)
                     .positiveButton(R.string.merge)
                     .positiveButton {
-                        binding!!.drawingPxerView.mergeDownLayer()
-                        layerItemAdapter.remove(binding!!.drawingPxerView.currentLayer + 1)
+                        binding.drawingPxerView.mergeDownLayer()
+                        layerItemAdapter.remove(binding.drawingPxerView.currentLayer + 1)
                         layerAdapter.getSelectExtension()
-                            .select(binding!!.drawingPxerView.currentLayer)
-                        layerItemAdapter.getAdapterItem(binding!!.drawingPxerView.currentLayer)
+                            .select(binding.drawingPxerView.currentLayer)
+                        layerItemAdapter.getAdapterItem(binding.drawingPxerView.currentLayer)
                             .pressed()
                     }
                     .show()
@@ -565,7 +566,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     }
 
     private fun openProjectManager() {
-        binding!!.drawingPxerView.save(false)
+        binding.drawingPxerView.save(false)
         startActivityForResult(Intent(this, ProjectManagerActivity::class.java), 659)
     }
 
@@ -576,13 +577,13 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 currentProjectPath = path
                 val file = File(path)
                 if (file.exists()) {
-                    binding!!.drawingPxerView.loadProject(file)
+                    binding.drawingPxerView.loadProject(file)
                     setTitle(file.name.stripExtension(), false)
                 }
             } else if (data.getBooleanExtra("fileNameChanged", false)) {
                 currentProjectPath = ""
-                binding!!.drawingPxerView.projectName = ""
-                recreate()
+                binding.drawingPxerView.projectName = ""
+                ActivityCompat.recreate(this)
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
@@ -631,7 +632,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             .positiveButton {
                 if (projectNameEdit.text.toString().isNotEmpty()) {
                     setTitle(projectNameEdit.text.toString(), true)
-                    binding!!.drawingPxerView.createBlankProject(
+                    binding.drawingPxerView.createBlankProject(
                         projectNameEdit.text.toString(),
                         widthSeekBar.progress + 1,
                         heightSeekBar.progress + 1
@@ -639,7 +640,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 }
             }
             .show()
-        binding!!.drawingPxerView.save(false)
+        binding.drawingPxerView.save(false)
     }
 
 
@@ -652,12 +653,12 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         val pxerPref = getSharedPreferences("pxerPref", Context.MODE_PRIVATE)
         pxerPref.edit {
             putString("lastOpenedProject", currentProjectPath)
-            putInt("lastUsedColor", binding!!.drawingPxerView.selectedColor)
+            putInt("lastUsedColor", binding.drawingPxerView.selectedColor)
         }
-        if (!binding!!.drawingPxerView.projectName.isNullOrEmpty() || binding!!.drawingPxerView.projectName != UNTITLED)
-            binding!!.drawingPxerView.save(false)
+        if (!binding.drawingPxerView.projectName.isNullOrEmpty() || binding.drawingPxerView.projectName != UNTITLED)
+            binding.drawingPxerView.save(false)
         else
-            binding!!.drawingPxerView.save(true)
+            binding.drawingPxerView.save(true)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -699,7 +700,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             override fun bindView(item: LayerThumbItem, payloads: List<Any>) {
                 iv.isSelected = item.isSelected
 
-                val layer = binding!!.drawingPxerView.pxerLayers[layoutPosition]
+                val layer = binding.drawingPxerView.pxerLayers[layoutPosition]
                 iv.setVisible(layer!!.visible)
                 iv.bitmap = layer.bitmap
             }
@@ -739,7 +740,6 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             }
 
             override fun unbindView(item: ToolItem) {
-
             }
         }
     }

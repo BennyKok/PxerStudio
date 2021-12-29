@@ -64,9 +64,9 @@ dependencies {
     implementation "com.afollestad.material-dialogs:files:$dialogsVersion"
     implementation "com.afollestad.material-dialogs:input:$dialogsVersion"
 
-    def fastadapterVersion = "5.3.5"
-    implementation "com.mikepenz:fastadapter-extensions-drag:$fastadapterVersion" // drag support
+    def fastadapterVersion = "5.4.1"
     implementation "com.mikepenz:fastadapter:$fastadapterVersion"
+    implementation "com.mikepenz:fastadapter-extensions-drag:$fastadapterVersion" // drag support
 
     implementation 'com.github.bumptech.glide:gifencoder-integration:4.12.0'
     implementation 'de.psdev.licensesdialog:licensesdialog:2.1.0'

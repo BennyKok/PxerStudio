@@ -74,44 +74,46 @@ class AboutActivity : AppCompatActivity() {
         binding.aboutLibinfo.movementMethod = LinkMovementMethod.getInstance()
         binding.aboutLibinfo.text = "$sb".parseAsHtml()
 
-        val notices = Notices()
-        notices.addNotice(
-            Notice(
-                "Material Dialogs",
-                "https://github.com/afollestad/material-dialogs",
-                "Copyright (c) 2014-2016 Aidan Michael Follestad",
-                MITLicense()
+        val notices = Notices().apply {
+            addNotice(
+                Notice(
+                    "Material Dialogs",
+                    "https://github.com/afollestad/material-dialogs",
+                    "Copyright (c) 2014-2016 Aidan Michael Follestad",
+                    MITLicense()
+                )
             )
-        )
-        notices.addNotice(
-            Notice(
-                "FastAdapter",
-                "https://github.com/mikepenz/FastAdapter",
-                "Copyright 2021 Mike Penz",
-                ApacheSoftwareLicense20()
+            addNotice(
+                Notice(
+                    "FastAdapter",
+                    "https://github.com/mikepenz/FastAdapter",
+                    "Copyright 2021 Mike Penz",
+                    ApacheSoftwareLicense20()
+                )
             )
-        )
-        notices.addNotice(
-            Notice(
-                "FloatingActionButton",
-                "https://github.com/Clans/FloatingActionButton",
-                "Copyright 2015 Dmytro Tarianyk",
-                ApacheSoftwareLicense20()
+            addNotice(
+                Notice(
+                    "FloatingActionButton",
+                    "https://github.com/Clans/FloatingActionButton",
+                    "Copyright 2015 Dmytro Tarianyk",
+                    ApacheSoftwareLicense20()
+                )
             )
-        )
-        notices.addNotice(
-            Notice(
-                "Gson",
-                "https://github.com/google/gson",
-                "Copyright 2008 Google Inc.",
-                ApacheSoftwareLicense20()
+            addNotice(
+                Notice(
+                    "Gson",
+                    "https://github.com/google/gson",
+                    "Copyright 2008 Google Inc.",
+                    ApacheSoftwareLicense20()
+                )
             )
-        )
+        }
 
-        val builder = LicensesDialog.Builder(this@AboutActivity)
-        builder.setIncludeOwnLicense(true)
-        builder.setNotices(notices)
-        builder.setTitle(getString(R.string.opensource_libraries))
+        val builder = LicensesDialog.Builder(this@AboutActivity).apply {
+            setIncludeOwnLicense(true)
+            setNotices(notices)
+            setTitle(getString(R.string.opensource_libraries))
+        }
         val dialog = builder.build()
 
         binding.aboutLibinfo.setOnClickListener { dialog.show() }

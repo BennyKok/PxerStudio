@@ -7,25 +7,29 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.drawable.updateBounds
 
 /**
  * Created by BennyKok on 10/6/2016.
  */
 
-fun drawableToBitmap(drawable: Drawable): Bitmap? {
-    var bitmap: Bitmap? = null
+fun drawableToBitmap(drawable: Drawable): Bitmap {
     if (drawable is BitmapDrawable) {
-        if (drawable.bitmap != null) {
-            return drawable.bitmap
+        drawable.bitmap?.let {
+            return it
         }
     }
-    bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
-        createBitmap(1, 1) // Single color bitmap will be created of 1x1 pixel
-    } else {
-        createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight)
-    }
+    val bitmap: Bitmap =
+        if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            createBitmap(1, 1) // Single color bitmap will be created of 1x1 pixel
+        } else {
+            createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight)
+        }
     return bitmap.applyCanvas {
-        drawable.setBounds(0, 0, width, height)
+        drawable.updateBounds(
+            right = width,
+            bottom = height
+        )
         drawable.draw(this)
     }
 }
