@@ -2,7 +2,6 @@ package com.benny.pxerstudio.shape
 
 import com.benny.pxerstudio.widget.PxerView
 import com.benny.pxerstudio.widget.PxerView.Pxer
-import java.util.*
 
 /**
  * Created by BennyKok on 10/12/2016.

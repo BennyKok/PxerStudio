@@ -23,7 +23,6 @@ import com.mikepenz.fastadapter.items.AbstractItem
 import com.mikepenz.fastadapter.select.getSelectExtension
 import java.io.File
 import java.io.FileFilter
-import java.util.*
 
 class ProjectManagerActivity : AppCompatActivity() {
 

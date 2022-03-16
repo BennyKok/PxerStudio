@@ -8,7 +8,6 @@ import com.benny.pxerstudio.activity.DrawingActivity
 import com.benny.pxerstudio.shape.BaseShape
 import com.benny.pxerstudio.widget.PxerView
 import com.benny.pxerstudio.widget.PxerView.Pxer
-import java.util.*
 
 /**
  * Created by BennyKok on 10/15/2016.
