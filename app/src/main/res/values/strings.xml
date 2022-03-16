@@ -52,6 +52,7 @@
 
     <string name="eraser_width">Eraser width</string>
     <string name="line_width">Line width</string>
+    <string name="brush_width">Brush width</string>
 
     <!-- ProjectManagerActivity -->
     <string name="rename">Rename</string>

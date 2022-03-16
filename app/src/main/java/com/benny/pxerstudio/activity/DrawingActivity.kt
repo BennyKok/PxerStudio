@@ -38,6 +38,7 @@ import com.benny.pxerstudio.exportable.FolderExportable
 import com.benny.pxerstudio.exportable.GifExportable
 import com.benny.pxerstudio.exportable.PngExportable
 import com.benny.pxerstudio.shape.EraserShape
+import com.benny.pxerstudio.shape.draw.BrushShape
 import com.benny.pxerstudio.shape.draw.LineShape
 import com.benny.pxerstudio.shape.draw.RectShape
 import com.benny.pxerstudio.util.prompt
@@ -62,6 +63,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         val rectShapeFactory = RectShape()
         val lineShapeFactory = LineShape()
         val eraserShapeFactory = EraserShape()
+        val brushShapeFactory = BrushShape()
         var currentProjectPath: String? = null
         // Used to access resources outside of activities
         lateinit var appContext: Context;
@@ -220,6 +222,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                     binding!!.drawingPxerView.mode = PxerView.Mode.ShapeTool
                     binding!!.drawingPxerView.shapeTool = eraserShapeFactory
                 }
+                R.drawable.ic_brush -> {
+                    binding!!.drawingPxerView.mode = PxerView.Mode.ShapeTool
+                    binding!!.drawingPxerView.shapeTool = brushShapeFactory
+                }
                 R.drawable.ic_edit -> {
                     binding!!.drawingPxerView.mode = PxerView.Mode.Normal
                 }
@@ -233,9 +239,19 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 R.drawable.ic_eraser -> {
                     MaterialDialog(this).show {
                         title(R.string.eraser_width)
-                        input(getString(R.string.width), prefill = eraserShapeFactory.width.toString(), inputType = InputType.TYPE_CLASS_NUMBER) { _, data ->
+                        input(getString(R.string.width), prefill = eraserShapeFactory.width.toInt().toString(), inputType = InputType.TYPE_CLASS_NUMBER) { _, data ->
                             eraserShapeFactory.width = data.toString().toFloat()
                             binding!!.drawingPxerView.shapeTool = eraserShapeFactory
+                        }
+
+                    }
+                }
+                R.drawable.ic_brush -> {
+                    MaterialDialog(this).show {
+                        title(R.string.brush_width)
+                        input(getString(R.string.width), prefill = brushShapeFactory.width.toInt().toString(), inputType = InputType.TYPE_CLASS_NUMBER) { _, data ->
+                            brushShapeFactory.width = data.toString().toFloat()
+                            binding!!.drawingPxerView.shapeTool = brushShapeFactory
                         }
 
                     }
@@ -243,7 +259,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 R.drawable.ic_remove -> {
                     MaterialDialog(this).show {
                         title(R.string.line_width)
-                        input(getString(R.string.width), prefill = lineShapeFactory.width.toString(), inputType = InputType.TYPE_CLASS_NUMBER) { _, data ->
+                        input(getString(R.string.width), prefill = lineShapeFactory.width.toInt().toString(), inputType = InputType.TYPE_CLASS_NUMBER) { _, data ->
                             lineShapeFactory.width = data.toString().toFloat()
                             binding!!.drawingPxerView.shapeTool = lineShapeFactory
                         }
@@ -258,6 +274,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         with(toolsItemAdapter) {
             add(ToolItem(R.drawable.ic_check_box_outline_blank))
             add(ToolItem(R.drawable.ic_remove))
+            add(ToolItem(R.drawable.ic_brush))
             add(ToolItem(R.drawable.ic_format_color_fill))
             add(ToolItem(R.drawable.ic_eraser))
             add(ToolItem(R.drawable.ic_edit))
