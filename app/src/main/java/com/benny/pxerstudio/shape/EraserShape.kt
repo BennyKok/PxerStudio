@@ -67,11 +67,6 @@ class EraserShape : BaseShape() {
         pxerView.endDraw(previousPxer)
     }
 
-    fun setWidth() {
-        val pxerPref = DrawingActivity.mContext.getSharedPreferences("pxerPref", Context.MODE_PRIVATE)
-        p.strokeWidth = pxerPref.getFloat("eraser_width", 1f);
-    }
-
     init {
         p.style = Paint.Style.STROKE
         p.strokeWidth = 1f;
