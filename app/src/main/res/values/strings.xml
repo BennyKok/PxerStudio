@@ -50,6 +50,9 @@
     <string name="save_project">Save project</string>
     <string name="name">Name</string>
 
+    <string name="eraser_width">Eraser width</string>
+    <string name="line_width">Line width</string>
+
     <!-- ProjectManagerActivity -->
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>

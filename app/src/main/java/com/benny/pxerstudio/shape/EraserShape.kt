@@ -1,8 +1,10 @@
 package com.benny.pxerstudio.shape
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
+import com.benny.pxerstudio.activity.DrawingActivity
 import com.benny.pxerstudio.widget.PxerView
 import com.benny.pxerstudio.widget.PxerView.Pxer
 import java.util.*
@@ -15,6 +17,10 @@ class EraserShape : BaseShape() {
     private val previousPxer = ArrayList<Pxer>()
     private var hasInit = false
     private var path: Path? = null
+
+    var width: Float
+        get() { return p.strokeWidth   }
+        set(value) { p.strokeWidth = value }
 
     override fun onDraw(
         pxerView: PxerView,
@@ -61,8 +67,13 @@ class EraserShape : BaseShape() {
         pxerView.endDraw(previousPxer)
     }
 
+    fun setWidth() {
+        val pxerPref = DrawingActivity.mContext.getSharedPreferences("pxerPref", Context.MODE_PRIVATE)
+        p.strokeWidth = pxerPref.getFloat("eraser_width", 1f);
+    }
+
     init {
         p.style = Paint.Style.STROKE
-        p.strokeWidth = 3f
+        p.strokeWidth = 1f;
     }
 }
