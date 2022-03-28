@@ -1,15 +1,18 @@
-package com.benny.pxerstudio.shape
+package com.benny.pxerstudio.shape.draw
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
+import com.benny.pxerstudio.activity.DrawingActivity
+import com.benny.pxerstudio.shape.BaseShape
 import com.benny.pxerstudio.widget.PxerView
 import com.benny.pxerstudio.widget.PxerView.Pxer
 
 /**
  * Created by BennyKok on 10/15/2016.
  */
-class EraserShape : BaseShape() {
+class BrushShape : BaseShape() {
     private val p = Paint()
     private val previousPxer = ArrayList<Pxer>()
     private var hasInit = false
@@ -50,7 +53,7 @@ class EraserShape : BaseShape() {
                     if (!previousPxer.contains(history)) {
                         previousPxer.add(history)
                     }
-                    layerToDraw.setPixel(i, y, Color.TRANSPARENT)
+                    layerToDraw.setPixel(i, y, pxerView.selectedColor)
                 }
             }
         }
@@ -64,8 +67,13 @@ class EraserShape : BaseShape() {
         pxerView.endDraw(previousPxer)
     }
 
+    fun setWidth() {
+        val pxerPref = DrawingActivity.mContext.getSharedPreferences("pxerPref", Context.MODE_PRIVATE)
+        p.strokeWidth = pxerPref.getFloat("eraser_width", 1f);
+    }
+
     init {
         p.style = Paint.Style.STROKE
-        p.strokeWidth = 1f;
+        p.strokeWidth = 3f;
     }
 }

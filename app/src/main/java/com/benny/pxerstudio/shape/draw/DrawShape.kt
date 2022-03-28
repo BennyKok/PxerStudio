@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import androidx.core.graphics.ColorUtils
 import com.benny.pxerstudio.shape.BaseShape
 import com.benny.pxerstudio.widget.PxerView
-import java.util.*
 
 open class DrawShape : BaseShape() {
     protected fun drawOnLayer(layerToDraw: Bitmap, pxerView: PxerView, x: Int, y: Int) {

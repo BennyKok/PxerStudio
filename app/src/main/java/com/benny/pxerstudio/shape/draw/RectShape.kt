@@ -2,7 +2,6 @@ package com.benny.pxerstudio.shape.draw
 
 import com.benny.pxerstudio.widget.PxerView
 import com.benny.pxerstudio.widget.PxerView.Pxer
-import java.util.*
 import kotlin.math.abs
 
 /**
