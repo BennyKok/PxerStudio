@@ -14,6 +14,10 @@ class LineShape : DrawShape() {
     private val previousPxer = ArrayList<Pxer>()
     private var hasInit = false
 
+    var width: Float
+        get() { return p.strokeWidth   }
+        set(value) { p.strokeWidth = value }
+
     override fun onDraw(
         pxerView: PxerView,
         startX: Int,

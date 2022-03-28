@@ -1,11 +1,13 @@
 package com.benny.pxerstudio.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
+import android.text.InputType
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -26,6 +28,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.files.FileFilter
 import com.afollestad.materialdialogs.files.fileChooser
+import com.afollestad.materialdialogs.input.input
 import com.benny.pxerstudio.R
 import com.benny.pxerstudio.colorpicker.ColorPicker
 import com.benny.pxerstudio.databinding.ActivityDrawingBinding
@@ -178,6 +181,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         }
     }
 
+    @SuppressLint("CheckResult")
     private fun setupControl() {
         binding!!.drawingToolsCardView.post {
             binding!!.drawingToolsCardView.translationX =
@@ -222,6 +226,35 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             }
             false
         }
+
+        toolsAdapter.onLongClickListener = { _, _, item, _ ->
+            binding!!.drawingToolsFab.setImageResource(item.icon)
+            when (item.icon) {
+                R.drawable.ic_eraser -> {
+                    MaterialDialog(this).show {
+                        title(R.string.eraser_width)
+                        input(getString(R.string.width), prefill = eraserShapeFactory.width.toString(), inputType = InputType.TYPE_CLASS_NUMBER) { _, data ->
+                            eraserShapeFactory.width = data.toString().toFloat()
+                            binding!!.drawingPxerView.shapeTool = eraserShapeFactory
+                        }
+
+                    }
+                }
+                R.drawable.ic_remove -> {
+                    MaterialDialog(this).show {
+                        title(R.string.line_width)
+                        input(getString(R.string.width), prefill = lineShapeFactory.width.toString(), inputType = InputType.TYPE_CLASS_NUMBER) { _, data ->
+                            lineShapeFactory.width = data.toString().toFloat()
+                            binding!!.drawingPxerView.shapeTool = lineShapeFactory
+                        }
+
+                    }
+                }
+                // R.drawable.ic_edit -> { }
+            }
+            false
+        }
+
         with(toolsItemAdapter) {
             add(ToolItem(R.drawable.ic_check_box_outline_blank))
             add(ToolItem(R.drawable.ic_remove))
