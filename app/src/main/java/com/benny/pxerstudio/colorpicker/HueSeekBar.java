@@ -91,8 +91,7 @@ public class HueSeekBar extends AppCompatSeekBar {
 
             @Override
             public void draw(Canvas canvas) {
-                if (hueBitmap != null)
-                    canvas.drawBitmap(hueBitmap, null, getBounds(), null);
+                canvas.drawBitmap(hueBitmap, null, getBounds(), null);
             }
 
             @Override
@@ -113,22 +112,25 @@ public class HueSeekBar extends AppCompatSeekBar {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-
-        hueBitmap = getHueBitmap();
+        computeHueBitmap();
         invalidate();
     }
 
-    public Bitmap getHueBitmap() {
+    /**
+     * Computes a bitmap with a gradient of hues from 0 to 360 degrees.
+     */
+    public void computeHueBitmap() {
         int width = getWidth();
         int height = getHeight();
 
-        Bitmap hueBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        hueBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
 
         for (int x = 0; x < width; x++) {
             float hue = 0;
             if (width > height) {
                 hue = x * 360f / width;
             }
+
             for (int y = 0; y < height; y++) {
                 if (width <= height) {
                     hue = y * 360f / height;
@@ -139,7 +141,5 @@ public class HueSeekBar extends AppCompatSeekBar {
                 hueBitmap.setPixel(x, y, Color.HSVToColor(hsv));
             }
         }
-
-        return hueBitmap;
     }
 }

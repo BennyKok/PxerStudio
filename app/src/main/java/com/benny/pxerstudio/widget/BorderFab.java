@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 
 import com.benny.pxerstudio.R;
 import com.benny.pxerstudio.util.ContextKt;
+import androidx.core.graphics.ColorUtils;
 import com.github.clans.fab.FloatingActionButton;
 
 /**
@@ -18,15 +19,14 @@ import com.github.clans.fab.FloatingActionButton;
  */
 
 public class BorderFab extends FloatingActionButton {
-    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    Paint colorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    float three, one;
-    Path path = new Path();
-    Rect rect = new Rect(0, 0, getWidth(), getHeight());
+    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint colorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Bitmap backgroundBitmap;
 
-    Bitmap bg;
+    private float three, one;
+    private Path path = new Path();
 
-    int color;
+    private int color;
 
     public BorderFab(Context context) {
         super(context);
@@ -49,11 +49,6 @@ public class BorderFab extends FloatingActionButton {
     }
 
     private void init() {
-        bg = Bitmap.createBitmap(2, 2, Bitmap.Config.ARGB_8888);
-        bg.eraseColor(Color.WHITE);
-        bg.setPixel(0, 0, Color.GRAY);
-        bg.setPixel(1, 1, Color.GRAY);
-
         three = ContextKt.convertDpToPixel(getContext(), 2);
         one = ContextKt.convertDpToPixel(getContext(), 1);
 
@@ -65,7 +60,6 @@ public class BorderFab extends FloatingActionButton {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        colorPaint.setColor(Color.WHITE);
 
         final int width = getWidth();
         final int height = getHeight();
@@ -73,11 +67,39 @@ public class BorderFab extends FloatingActionButton {
         canvas.save();
         path.addCircle(width / 2f, height / 2f, width / 3f + one, Path.Direction.CCW);
         canvas.clipPath(path);
-        canvas.drawBitmap(bg, null, rect, colorPaint);
+        canvas.drawBitmap(backgroundBitmap, null, new Rect(0, 0, getWidth(), getHeight()), null);
         canvas.restore();
 
         colorPaint.setColor(color);
         canvas.drawCircle(width / 2f, height / 2f, width / 3f + one, colorPaint);
         canvas.drawCircle(width / 2f, height / 2f, width / 3f + one, paint);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        computeBackgroundBitmap();
+        invalidate();
+    }
+
+    /**
+     * Computes a bitmap with a checkerboard pattern of gray squares.
+     */
+    public void computeBackgroundBitmap() {
+        int width = getWidth() / 10;
+        int height = getHeight() / 10;
+
+        backgroundBitmap = Bitmap.createBitmap(width * 2, height * 2, Bitmap.Config.ARGB_8888);
+        backgroundBitmap.eraseColor(ColorUtils.setAlphaComponent(Color.GRAY, 200));
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height * 2; j++) {
+                if (j % 2 == 0) {
+                    backgroundBitmap.setPixel(i * 2, j, Color.argb(200, 220, 220, 220));
+                } else {
+                    backgroundBitmap.setPixel(i * 2 + 1, j, Color.argb(200, 220, 220, 220));
+                }
+            }
+        }
     }
 }

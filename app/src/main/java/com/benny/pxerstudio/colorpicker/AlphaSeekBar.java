@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
+import androidx.core.graphics.ColorUtils;
 import androidx.appcompat.widget.AppCompatSeekBar;
 
 /**
@@ -20,8 +21,10 @@ import androidx.appcompat.widget.AppCompatSeekBar;
 public class AlphaSeekBar extends AppCompatSeekBar {
 
     private final Paint thumbPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private final Paint huePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Bitmap hueBitmap;
+    private Bitmap alphaBitmap;
+    private Bitmap backgroundBitmap;
+
+    public int selectedColor, oldSelectedColor;
 
     public AlphaSeekBar(Context context) {
         super(context);
@@ -57,10 +60,19 @@ public class AlphaSeekBar extends AppCompatSeekBar {
 
             @Override
             public void draw(Canvas canvas) {
-                thumbPaint.setColor(Color.argb(getProgress(), 0, 0, 0));
+                // Draw a grid background, to see alpha area
+                canvas.save();
+                canvas.clipRect(getBounds());
+                canvas.drawBitmap(backgroundBitmap, null, new Rect(0, 0, getWidth(), getHeight()), null);
+                canvas.restore();
+
+                // Use the selected color with the alpha of the current seek bar
+                int color = ColorUtils.setAlphaComponent(selectedColor, getProgress());
+                thumbPaint.setColor(color);
                 thumbPaint.setStyle(Paint.Style.FILL_AND_STROKE);
                 canvas.drawRect(getBounds(), thumbPaint);
 
+                // Draw the stroke of the thumb
                 thumbPaint.setColor(Color.WHITE);
                 thumbPaint.setStyle(Paint.Style.STROKE);
                 canvas.drawRect(getBounds(), thumbPaint);
@@ -93,8 +105,11 @@ public class AlphaSeekBar extends AppCompatSeekBar {
 
             @Override
             public void draw(Canvas canvas) {
-                if (hueBitmap != null)
-                    canvas.drawBitmap(hueBitmap, null, new Rect(0, 0, getWidth(), getHeight()), huePaint);
+                // Draw a grid background, to see alpha area
+                canvas.drawBitmap(backgroundBitmap, null, new Rect(0, 0, getWidth(), getHeight()), null);
+
+                // Draw an alpha gradient of the selected color
+                canvas.drawBitmap(alphaBitmap, null, new Rect(0, 0, getWidth(), getHeight()), null);
             }
 
             @Override
@@ -115,29 +130,49 @@ public class AlphaSeekBar extends AppCompatSeekBar {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-
-        hueBitmap = getHueBitmap();
+        computeBackgroundBitmap();
+        computeAlphaBitmap();
         invalidate();
     }
 
-    public Bitmap getHueBitmap() {
-        int width = getWidth() / 20;
-        int height = getHeight() / 20;
+    /**
+     * Computes an alpha gradient of the selected color.
+     */
+    public void computeAlphaBitmap() {
+        int width = getWidth();
+        int height = getHeight();
 
-        Bitmap hueBitmap = Bitmap.createBitmap(width * 2, height * 2, Bitmap.Config.ARGB_8888);
+        alphaBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        for (int i = 0; i < width; i++) {
+            int alpha = (int) ((float) 255 * ((float) i / (float) width));
+
+            int color = ColorUtils.setAlphaComponent(selectedColor, alpha);
+
+            for (int j = 0; j < height; j++) {
+                alphaBitmap.setPixel(i, j, color);
+            }
+        }
+    }
+
+    /**
+     * Computes a bitmap with a checkerboard pattern of gray squares.
+     */
+    public void computeBackgroundBitmap() {
+        int width = getWidth() / 10;
+        int height = getHeight() / 10;
+
+        backgroundBitmap = Bitmap.createBitmap(width * 2, height * 2, Bitmap.Config.ARGB_8888);
+        backgroundBitmap.eraseColor(ColorUtils.setAlphaComponent(Color.GRAY, 200));
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height * 2; j++) {
-                int alpha = (int) ((float) 255 * ((float) i / (float) width));
                 if (j % 2 == 0) {
-                    hueBitmap.setPixel(i * 2, j, Color.argb(alpha, 100, 100, 100));
+                    backgroundBitmap.setPixel(i * 2, j, Color.argb(200, 220, 220, 220));
                 } else {
-                    hueBitmap.setPixel(i * 2 + 1, j, Color.argb(alpha, 100, 100, 100));
+                    backgroundBitmap.setPixel(i * 2 + 1, j, Color.argb(200, 220, 220, 220));
                 }
             }
         }
-
-        return hueBitmap;
-
     }
 }

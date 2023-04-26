@@ -18,12 +18,9 @@ import androidx.core.graphics.ColorUtils;
  */
 
 public class SatValView extends View {
-    Paint satPaint = new Paint();
-    Paint thumbPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    Paint bgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-    Bitmap satBitmap;
-    Rect satBound = new Rect();
+    private final Paint satPaint = new Paint();
+    private final Paint thumbPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Bitmap satBitmap;
 
     HueSeekBar hsb;
     AlphaSeekBar asb;
@@ -36,7 +33,6 @@ public class SatValView extends View {
     OnColorChangeListener listener;
 
     float fingerX, fingerY;
-    private Bitmap bgbitmap;
 
     public SatValView(Context context) {
         super(context);
@@ -57,7 +53,7 @@ public class SatValView extends View {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 hue = progress;
                 if (getWidth() > 0)
-                    satBitmap = getSatValBitmap(hue);
+                    computeHSVBitmapFromHue(hue);
                 onColorRetrieved(alpha, hue, sat, val);
                 invalidate();
             }
@@ -79,7 +75,8 @@ public class SatValView extends View {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 alpha = progress;
                 onColorRetrieved(alpha, hue, sat, val);
-                invalidate();
+                // No need to invalidate here
+                // invalidate();
             }
 
             @Override
@@ -94,9 +91,8 @@ public class SatValView extends View {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        satBitmap = getSatValBitmap(hue);
-        reCalBackground();
-        satBound.set(0, 0, getRight(), getBottom());
+        super.onLayout(changed, left, top, right, bottom);
+        computeHSVBitmapFromHue(hue);
         placePointer(sat * getWidth(), getHeight() - val * getHeight(), false);
     }
 
@@ -117,67 +113,28 @@ public class SatValView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        satPaint.setAlpha(alpha);
-        if (bgbitmap != null && !isInEditMode())
-            canvas.drawBitmap(bgbitmap, null, canvas.getClipBounds(), bgPaint);
         canvas.drawBitmap(satBitmap, null, canvas.getClipBounds(), satPaint);
         canvas.drawCircle(fingerX, fingerY, 20, thumbPaint);
     }
 
-    public Bitmap getSatValBitmap(float hue) {
-        int skipCount = 1;
+    /**
+     * Computes a bitmap representing a spectrum of all possible saturation, and value, values for the given hue.
+     *
+     * @param hue the hue value to use when calculating the bitmap
+     */
+    public void computeHSVBitmapFromHue(float hue) {
         int width = 100;
         int height = 100;
-        Bitmap hueBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
 
-        int[] colors = new int[width * height];
-        int pix = 0;
-        for (int y = 0; y < height; y += skipCount) {
-            for (int x = 0; x < width; x += skipCount) {
+        satBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
-                if (pix >= width * height)
-                    break;
-
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
                 float sat = x / (float) width;
                 float val = (height - y) / (float) height;
 
                 float[] hsv = {hue, sat, val};
-
-                int color = Color.HSVToColor(hsv);
-                for (int m = 0; m < skipCount; m++) {
-                    if (pix >= width * height)
-                        break;
-                    if (x + m < width) {
-                        colors[pix] = color;
-                        pix++;
-                    }
-                }
-            }
-
-            for (int n = 0; n < skipCount; n++) {
-                if (pix >= width * height)
-                    break;
-                for (int x = 0; x < width; x++) {
-                    colors[pix] = colors[pix - width];
-                    pix++;
-                }
-            }
-        }
-        hueBitmap.setPixels(colors, 0, width, 0, 0, width, height);
-        return hueBitmap;
-    }
-
-    public void reCalBackground() {
-        bgbitmap = Bitmap.createBitmap(10 * 2, 10 * 2, Bitmap.Config.ARGB_8888);
-        bgbitmap.eraseColor(ColorUtils.setAlphaComponent(Color.GRAY, 200));
-
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10 * 2; j++) {
-                if (j % 2 == 0) {
-                    bgbitmap.setPixel(i * 2, j, Color.argb(200, 220, 220, 220));
-                } else {
-                    bgbitmap.setPixel(i * 2 + 1, j, Color.argb(200, 220, 220, 220));
-                }
+                satBitmap.setPixel(x, y, Color.HSVToColor(hsv));
             }
         }
     }
@@ -229,6 +186,18 @@ public class SatValView extends View {
 
     private void onColorRetrieved(int alpha, float hue, float sat, float val) {
         int color = ColorUtils.setAlphaComponent(Color.HSVToColor(new float[]{hue, sat, val}), alpha);
+
+        if (asb != null) {
+            asb.selectedColor = color;
+            // Update the gradient if the selected color has changed
+            if (asb.selectedColor != asb.oldSelectedColor) {
+                if (asb.getWidth() > 0) {
+                    asb.computeAlphaBitmap();
+                    asb.invalidate();
+                }
+                asb.oldSelectedColor = asb.selectedColor;
+            }
+        }
 
         if (listener != null) {
             listener.onColorChanged(color);
