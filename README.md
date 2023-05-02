@@ -29,6 +29,24 @@ If you want to do translation for this project, please go [here](https://github.
 grab the raw file, then copy it to your desktop and replace the string between each XML starting tag and closing tag to the language you want to translate to.
 Send it back to me through email, or start a new issue with the file attached and mention the language you are translating.
 
+## Developement
+
+### Gradle Setup
+
+This project is using Gradle Version Catalog to manage dependencies. There are centralized inside the [`libs.versions.toml`](gradle/libs.versions.toml) file, in the `gradle` folder.
+
+### Static Analysis
+
+This project is using [`detekt`](https://github.com/detekt/detekt) to analyze the source code, with the configuration that is stored in the [`detekt.yml`](gradle/detekt.yml) file. It also uses the `detekt-formatting` plugin which includes the `ktlint` rules.
+
+### Continuous Integration
+
+This project is using [GitHub Actions](https://github.com/cortinico/kotlin-android-template/actions).
+
+There are currently the following workflows available:
+- [Validate Gradle Wrapper](.github/workflows/gradle-wrapper-validation.yml) - Will check that the gradle wrapper has a valid checksum
+- [Check and Lint](.github/workflows/check-and-lint.yml) - Will run `detekt`, `ktlint` and tests
+- [Publish Release](.github/workflows/publish-release.yml) - Will publish a new release version of the libraries to Play Store on tag creation
 
 ## License
 This app is under the [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt) license.

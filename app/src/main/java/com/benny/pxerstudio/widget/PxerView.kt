@@ -522,7 +522,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
                     }
                 }
             }
-            Mode.Fill ->
+            Mode.Fill -> run {
                 //The fill tool is brought to us with aid by some open source project online :( I forgot the name
                 if (event.action == MotionEvent.ACTION_UP && x == downX && downY == y) {
                     freeMemory()
@@ -592,6 +592,13 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
                     setUnrecordedChanges(true)
                     finishAddHistory()
                 }
+            }
+            Mode.Eraser -> run {
+
+            }
+            Mode.ShapeTool -> run {
+
+            }
         }
         invalidate()
         return true
