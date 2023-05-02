@@ -1,39 +1,42 @@
-name: Build
+name: Publish Release
 on:
   workflow_dispatch:
   create:
     tags:
       - 'v*'
+
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout the code
-        uses: actions/checkout@v2
-      - uses: gradle/wrapper-validation-action@v1
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
       - name: Copy Whatsnew
         run: |
           mkdir whatsNew
           ls fastlane/metadata/android/en-US/changelogs/ -Art | head -n 1
           cp fastlane/metadata/android/en-US/changelogs/`ls fastlane/metadata/android/en-US/changelogs/ -Art | head -n 1` whatsNew/whatsnew-en-US
           cat whatsNew/whatsnew-en-US
-      - name: Set up JDK 8
-        uses: actions/setup-java@v2
+      
+      - name: Setup JDK environment
+        uses: actions/setup-java@v3
         with:
-          distribution: "zulu"
-          java-version: 8
-#      - name: Build with Gradle
-#        id: build
-#        run: ./gradlew build
+          distribution: 'zulu'
+          java-version: 17
+      
       - uses: eskatos/gradle-command-action@v1
         with:
           arguments: build
           wrapper-cache-enabled: true
           dependencies-cache-enabled: true
           configuration-cache-enabled: true
+      
       - name: Assemble Release Bundle
         run: |
           ./gradlew bundleRelease
+      
       - name: Sign Release
         uses: r0adkll/sign-android-release@v1
         with:
@@ -42,6 +45,7 @@ jobs:
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
+      
       - name: Upload to Play Store
         uses: r0adkll/upload-google-play@v1
         with:

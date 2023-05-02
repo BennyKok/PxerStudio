@@ -1,0 +1,50 @@
+[versions]
+# plugins
+android-gradle                      = "8.0.0"
+detekt                              = "1.22.0"
+detekt-compose-rules                = "0.1.5"
+ktlint                              = "3.14.0"
+kotlin                              = "1.8.20"
+
+# libraries
+appcompat                           = "1.6.1"
+cardview                            = "1.0.0"
+constraintlayout                    = "2.1.4"
+ktx                                 = "1.3.2"
+material                            = "1.8.0"
+material-dialogs                    = "3.3.0"
+fastadapter                         = "5.7.0"
+gifencoder-integration              = "4.15.1"
+licensesdialog                      = "2.2.0"
+fab                                 = "1.6.4"
+gson                                = "2.10.1"
+
+[plugins]
+android-application                 = { id = "com.android.application", version.ref = "android-gradle" }
+detekt                              = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+kotlin                              = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt                         = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+ktlint                              = { id = "org.jmailen.kotlinter", version.ref = "ktlint" }
+
+
+[libraries]
+# AndroidX
+appcompat                           = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+cardview                            = { module = "androidx.cardview:cardview", version.ref = "cardview" }
+constraintlayout                    = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-ktx                        = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
+material                            = { module = "com.google.android.material:material", version.ref = "material" }
+
+# Third-party
+material-dialogs-core               = { module = "com.afollestad.material-dialogs:core", version.ref = "material-dialogs" }
+material-dialogs-files              = { module = "com.afollestad.material-dialogs:files", version.ref = "material-dialogs" }
+material-dialogs-input              = { module = "com.afollestad.material-dialogs:input", version.ref = "material-dialogs" }
+fastadapter                         = { module = "com.mikepenz:fastadapter", version.ref = "fastadapter" }
+fastadapter-extensions-drag         = { module = "com.mikepenz:fastadapter-extensions-drag", version.ref = "fastadapter" }
+gifencoder-integration              = { module = "com.github.bumptech.glide:gifencoder-integration", version.ref = "gifencoder-integration" }
+licensesdialog                      = { module = "de.psdev.licensesdialog:licensesdialog", version.ref = "licensesdialog" }
+fab                                 = { module = "com.github.clans:fab", version.ref = "fab" }
+gson                                = { module = "com.google.code.gson:gson", version.ref = "gson" }
+
+# dev
+detekt-formatting                   = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
