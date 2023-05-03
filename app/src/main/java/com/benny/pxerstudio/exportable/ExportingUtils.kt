@@ -49,9 +49,13 @@ object ExportingUtils {
     }
 
     fun toastAndFinishExport(context: Context?, fileName: String?) {
-        if (fileName != null && fileName.isNotEmpty()) MediaScannerConnection.scanFile(
-            context, arrayOf(fileName), null
-        ) { _, _ -> }
+        if (fileName != null && fileName.isNotEmpty()) {
+            MediaScannerConnection.scanFile(
+                context,
+                arrayOf(fileName),
+                null,
+            ) { _, _ -> }
+        }
         context?.displayToast(R.string.export_successful)
     }
 
@@ -62,7 +66,8 @@ object ExportingUtils {
         }
         MediaScannerConnection.scanFile(
             context,
-            paths, null
+            paths,
+            null,
         ) { _, _ -> }
     }
 
@@ -82,7 +87,7 @@ object ExportingUtils {
     fun showExportingDialog(
         context: Context?,
         pxerView: PxerView,
-        listener: OnExportConfirmedListener
+        listener: OnExportConfirmedListener,
     ) {
         showExportingDialog(context, -1, pxerView, listener)
     }
@@ -91,17 +96,17 @@ object ExportingUtils {
         context: Context?,
         maxSize: Int,
         pxerView: PxerView,
-        listener: OnExportConfirmedListener
+        listener: OnExportConfirmedListener,
     ) {
         val binding = DialogActivityDrawingBinding.inflate(LayoutInflater.from(context))
         val layoutRoot = binding.root
 
-        if (listener !is OnGifExportConfirmedListener){
-            binding.dialogFrameDelay.visibility = View.GONE;
-            binding.dialogFrameDelayEdit.visibility = View.GONE;
-        } else{
-            binding.dialogFrameDelay.visibility = View.VISIBLE;
-            binding.dialogFrameDelayEdit.visibility = View.VISIBLE;
+        if (listener !is OnGifExportConfirmedListener) {
+            binding.dialogFrameDelay.visibility = View.GONE
+            binding.dialogFrameDelayEdit.visibility = View.GONE
+        } else {
+            binding.dialogFrameDelay.visibility = View.VISIBLE
+            binding.dialogFrameDelayEdit.visibility = View.VISIBLE
         }
 
         binding.dialogDrawingNameEdit.setText(pxerView.projectName)
@@ -110,16 +115,16 @@ object ExportingUtils {
         } else {
             binding.dialogDrawingSizeSeekBar.max = maxSize / pxerView.picHeight.coerceAtLeast(pxerView.picWidth)
         }
-        val res = DrawingActivity.mContext.resources;
+        val res = DrawingActivity.mContext.resources
         binding.dialogDrawingSize.text =
             res.getText(R.string.exportSize).toString() + java.lang.String.valueOf(pxerView.picWidth) +
-                    " x " + java.lang.String.valueOf(pxerView.picHeight)
+            " x " + java.lang.String.valueOf(pxerView.picHeight)
         binding.dialogDrawingSizeSeekBar
             .setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                     binding.dialogDrawingSize.text =
                         res.getText(R.string.exportSize).toString() + (i * pxerView.picWidth).toString() +
-                                " x " + (i * pxerView.picHeight).toString()
+                        " x " + (i * pxerView.picHeight).toString()
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -127,7 +132,7 @@ object ExportingUtils {
             })
         context?.let {
             MaterialDialog(it)
-                //.titleGravity(GravityEnum.CENTER)
+                // .titleGravity(GravityEnum.CENTER)
                 .customView(view = layoutRoot)
                 .title(null, "Export")
                 .positiveButton(null, "Export") {
@@ -140,7 +145,7 @@ object ExportingUtils {
                         listener.onExportConfirmed(
                             binding.dialogDrawingNameEdit.text.toString(),
                             binding.dialogDrawingSizeSeekBar.progress * pxerView.picWidth,
-                            binding.dialogDrawingSizeSeekBar.progress * pxerView.picHeight
+                            binding.dialogDrawingSizeSeekBar.progress * pxerView.picHeight,
                         )
                     } else {
                         if (binding.dialogFrameDelayEdit.text.toString().isEmpty()) {
@@ -151,7 +156,7 @@ object ExportingUtils {
                             binding.dialogDrawingNameEdit.text.toString(),
                             binding.dialogDrawingSizeSeekBar.progress * pxerView.picWidth,
                             binding.dialogDrawingSizeSeekBar.progress * pxerView.picHeight,
-                            parseInt(binding.dialogFrameDelayEdit.text.toString())
+                            parseInt(binding.dialogFrameDelayEdit.text.toString()),
                         )
                     }
                 }
@@ -177,17 +182,16 @@ object ExportingUtils {
     }
 
     @Suppress("DEPRECATION")
-    fun getAbsoluteExportablePath(relPath: String): String{
+    fun getAbsoluteExportablePath(relPath: String): String {
         return Environment.getExternalStorageDirectory().absolutePath + "/" + getExportPath() + relPath
     }
 
     fun getExportContVals(fileName: String, mime: String): ContentValues = getExportContVals(fileName, mime, "")
 
-
-    fun getExportContVals(fileName: String, mime: String, parentDir: String = ""): ContentValues{
+    fun getExportContVals(fileName: String, mime: String, parentDir: String = ""): ContentValues {
         return ContentValues().apply {
-            put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
-            put(MediaStore.Images.Media.MIME_TYPE, mime);
+            put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
+            put(MediaStore.Images.Media.MIME_TYPE, mime)
             put(MediaStore.Images.Media.RELATIVE_PATH, getExportPath() + parentDir)
         }
     }

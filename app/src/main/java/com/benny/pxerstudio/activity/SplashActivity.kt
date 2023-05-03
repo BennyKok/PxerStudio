@@ -41,28 +41,29 @@ class SplashActivity : AppCompatActivity() {
         handler = Handler()
         if (ActivityCompat.checkSelfPermission(
                 this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.READ_EXTERNAL_STORAGE,
             ) == PackageManager.PERMISSION_GRANTED
-        )
+        ) {
             handler!!.postDelayed({
                 startActivity(Intent(this@SplashActivity, DrawingActivity::class.java))
                 finish()
             }, 2000L)
-        else
+        } else {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(
                     Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 ),
-                0x456
+                0x456,
             )
+        }
     }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         if (requestCode == 0x456) {
             for (i in grantResults.indices) {

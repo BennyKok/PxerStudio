@@ -16,7 +16,7 @@ class EraserShape : BaseShape() {
     private var path: Path? = null
 
     var width: Float
-        get() { return p.strokeWidth   }
+        get() { return p.strokeWidth }
         set(value) { p.strokeWidth = value }
 
     override fun onDraw(
@@ -24,7 +24,7 @@ class EraserShape : BaseShape() {
         startX: Int,
         startY: Int,
         endX: Int,
-        endY: Int
+        endY: Int,
     ): Boolean {
         if (!super.onDraw(pxerView, startX, startY, endX, endY)) {
             return true
@@ -66,6 +66,6 @@ class EraserShape : BaseShape() {
 
     init {
         p.style = Paint.Style.STROKE
-        p.strokeWidth = 1f;
+        p.strokeWidth = 1f
     }
 }

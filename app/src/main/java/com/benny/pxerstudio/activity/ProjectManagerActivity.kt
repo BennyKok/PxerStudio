@@ -47,7 +47,7 @@ class ProjectManagerActivity : AppCompatActivity() {
 
         projects.clear()
 
-        //Find all projects
+        // Find all projects
         val parent = File(ExportingUtils.getProjectPath(this))
         if (parent.exists()) {
             val temp = parent.listFiles(PxerFileFilter())
@@ -83,8 +83,9 @@ class ProjectManagerActivity : AppCompatActivity() {
                                     title = getString(R.string.rename)
                                     input(hint = projects[position].name) { _, text ->
                                         var mInput = "$text"
-                                        if (!mInput.endsWith(".pxer"))
+                                        if (!mInput.endsWith(".pxer")) {
                                             mInput += ".pxer"
+                                        }
 
                                         val fromFile = File(projects[position].path)
                                         val newFile = File(projects[position].parent, mInput)
@@ -93,7 +94,7 @@ class ProjectManagerActivity : AppCompatActivity() {
                                         val newPrev = File(newFile.parent, mInput.substring(0, mInput.lastIndexOf('.')) + ".png")
 
                                         if (fromFile.renameTo(newFile)) {
-                                            oldPrev.renameTo(newPrev);
+                                            oldPrev.renameTo(newPrev)
                                             projects[position] = newFile
                                             ia[position] = Item(newFile.name, newFile.path, parent.path + newFile.name + ".png")
                                             fa.notifyAdapterItemChanged(position)
@@ -117,9 +118,10 @@ class ProjectManagerActivity : AppCompatActivity() {
                                         ia.remove(position)
                                         projects.removeAt(position)
 
-                                        if (projects.size < 1)
+                                        if (projects.size < 1) {
                                             binding.projectManagerCM.cMNoProjectFound.isVisible =
                                                 true
+                                        }
 
                                         val newIntent = Intent()
                                         newIntent.putExtra("fileNameChanged", true)
@@ -127,8 +129,9 @@ class ProjectManagerActivity : AppCompatActivity() {
                                         setResult(RESULT_OK, newIntent)
 
                                         displayToast(R.string.project_deleted)
-                                    } else
+                                    } else {
                                         displayToast(R.string.error_deleting_project)
+                                    }
                                 }.show()
                         }
                         true
@@ -164,8 +167,9 @@ class ProjectManagerActivity : AppCompatActivity() {
             override fun bindView(item: Item, payloads: List<Any>) {
                 itemProjectBinding.itemProjectTitle.text = item.title
                 itemProjectBinding.itemProjectPath.text = item.path
-                if (File(item.img_path).exists())
+                if (File(item.img_path).exists()) {
                     itemProjectBinding.itemProjectImageView.setImageURI(Uri.parse(item.img_path))
+                }
             }
 
             override fun unbindView(item: Item) {
