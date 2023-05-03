@@ -33,7 +33,7 @@ class AboutActivity : AppCompatActivity() {
 
         binding.aboutMoreApps.startIntent(
             this,
-            "https://play.google.com/store/apps/dev?id=9219874075463759288"
+            "https://play.google.com/store/apps/dev?id=9219874075463759288",
         )
         binding.aboutMoreApps.movementMethod = LinkMovementMethod.getInstance()
 
@@ -75,17 +75,18 @@ class AboutActivity : AppCompatActivity() {
         binding.aboutLibinfo.text = "$sb".parseAsHtml()
 
         binding.aboutAppIcon.setOnClickListener { v ->
-            if (v.animation == null || v.animation != null && v.animation.hasEnded())
+            if (v.animation == null || v.animation != null && v.animation.hasEnded()) {
                 v.animate()
-                        .scaleX(1.1f)
-                        .scaleY(1.1f)
-                        .rotationBy(-20f)
-                        .withEndAction {
-                            v.animate()
-                                    .scaleX(1f)
-                                    .scaleY(1f)
-                                    .rotation(0f)
-                        }
+                    .scaleX(1.1f)
+                    .scaleY(1.1f)
+                    .rotationBy(-20f)
+                    .withEndAction {
+                        v.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .rotation(0f)
+                    }
+            }
         }
 
         setupLibDialog()
@@ -126,36 +127,36 @@ class AboutActivity : AppCompatActivity() {
     private fun setupLibDialog() {
         val notices = Notices()
         notices.addNotice(
-                Notice(
-                        "Material Dialogs",
-                        "https://github.com/afollestad/material-dialogs",
-                        "Copyright (c) 2014-2016 Aidan Michael Follestad",
-                        MITLicense()
-                )
+            Notice(
+                "Material Dialogs",
+                "https://github.com/afollestad/material-dialogs",
+                "Copyright (c) 2014-2016 Aidan Michael Follestad",
+                MITLicense(),
+            ),
         )
         notices.addNotice(
-                Notice(
-                        "FastAdapter",
-                        "https://github.com/mikepenz/FastAdapter",
-                        "Copyright 2021 Mike Penz",
-                        ApacheSoftwareLicense20()
-                )
+            Notice(
+                "FastAdapter",
+                "https://github.com/mikepenz/FastAdapter",
+                "Copyright 2021 Mike Penz",
+                ApacheSoftwareLicense20(),
+            ),
         )
         notices.addNotice(
-                Notice(
-                        "FloatingActionButton",
-                        "https://github.com/Clans/FloatingActionButton",
-                        "Copyright 2015 Dmytro Tarianyk",
-                        ApacheSoftwareLicense20()
-                )
+            Notice(
+                "FloatingActionButton",
+                "https://github.com/Clans/FloatingActionButton",
+                "Copyright 2015 Dmytro Tarianyk",
+                ApacheSoftwareLicense20(),
+            ),
         )
         notices.addNotice(
-                Notice(
-                        "Gson",
-                        "https://github.com/google/gson",
-                        "Copyright 2008 Google Inc.",
-                        ApacheSoftwareLicense20()
-                )
+            Notice(
+                "Gson",
+                "https://github.com/google/gson",
+                "Copyright 2008 Google Inc.",
+                ApacheSoftwareLicense20(),
+            ),
         )
 
         val builder = LicensesDialog.Builder(this@AboutActivity)

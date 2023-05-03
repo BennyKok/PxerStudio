@@ -8,10 +8,12 @@ import com.benny.pxerstudio.widget.PxerView
 open class DrawShape : BaseShape() {
     protected fun drawOnLayer(layerToDraw: Bitmap, pxerView: PxerView, x: Int, y: Int) {
         layerToDraw.setPixel(
-            x, y, ColorUtils.compositeColors(
+            x,
+            y,
+            ColorUtils.compositeColors(
                 pxerView.selectedColor,
-                layerToDraw.getPixel(x, y)
-            )
+                layerToDraw.getPixel(x, y),
+            ),
         )
     }
 
@@ -19,7 +21,7 @@ open class DrawShape : BaseShape() {
         layerToDraw: Bitmap,
         previousPxer: ArrayList<PxerView.Pxer>,
         x: Int,
-        y: Int
+        y: Int,
     ) {
         previousPxer.add(PxerView.Pxer(x, y, layerToDraw.getPixel(x, y)))
     }

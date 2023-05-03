@@ -15,7 +15,7 @@ class RectShape : DrawShape() {
         startX: Int,
         startY: Int,
         endX: Int,
-        endY: Int
+        endY: Int,
     ): Boolean {
         if (!super.onDraw(pxerView, startX, startY, endX, endY)) {
             return true

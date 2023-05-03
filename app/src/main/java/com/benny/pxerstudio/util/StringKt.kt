@@ -15,5 +15,7 @@ fun String?.stripExtension(): String? {
 fun String.trimLongString(): String {
     return if (this.length > 25) {
         "..." + this.substring(this.length - 21, this.length)
-    } else this
+    } else {
+        this
+    }
 }

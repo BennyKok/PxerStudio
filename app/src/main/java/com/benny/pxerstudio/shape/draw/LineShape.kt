@@ -14,7 +14,7 @@ class LineShape : DrawShape() {
     private var hasInit = false
 
     var width: Float
-        get() { return p.strokeWidth   }
+        get() { return p.strokeWidth }
         set(value) { p.strokeWidth = value }
 
     override fun onDraw(
@@ -22,7 +22,7 @@ class LineShape : DrawShape() {
         startX: Int,
         startY: Int,
         endX: Int,
-        endY: Int
+        endY: Int,
     ): Boolean {
         if (!super.onDraw(pxerView, startX, startY, endX, endY)) {
             return true
@@ -48,7 +48,7 @@ class LineShape : DrawShape() {
             startY.toFloat(),
             endX.toFloat(),
             endY.toFloat(),
-            p
+            p,
         )
 
 //        pxerView.preview!!.setPixel(startX, startY, pxerView.selectedColor)

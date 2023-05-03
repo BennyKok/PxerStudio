@@ -19,7 +19,7 @@ class BrushShape : BaseShape() {
     private var path: Path? = null
 
     var width: Float
-        get() { return p.strokeWidth   }
+        get() { return p.strokeWidth }
         set(value) { p.strokeWidth = value }
 
     override fun onDraw(
@@ -27,7 +27,7 @@ class BrushShape : BaseShape() {
         startX: Int,
         startY: Int,
         endX: Int,
-        endY: Int
+        endY: Int,
     ): Boolean {
         if (!super.onDraw(pxerView, startX, startY, endX, endY)) {
             return true
@@ -69,11 +69,11 @@ class BrushShape : BaseShape() {
 
     fun setWidth() {
         val pxerPref = DrawingActivity.mContext.getSharedPreferences("pxerPref", Context.MODE_PRIVATE)
-        p.strokeWidth = pxerPref.getFloat("eraser_width", 1f);
+        p.strokeWidth = pxerPref.getFloat("eraser_width", 1f)
     }
 
     init {
         p.style = Paint.Style.STROKE
-        p.strokeWidth = 3f;
+        p.strokeWidth = 3f
     }
 }
