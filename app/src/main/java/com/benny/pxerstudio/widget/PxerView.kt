@@ -1,3 +1,5 @@
+@file:Suppress("PrintStackTrace")
+
 package com.benny.pxerstudio.widget
 
 import android.content.Context
@@ -72,7 +74,8 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
     // Picture property
     var projectName: String? = UNTITLED
     private var borderPaint: Paint? = null
-    private val rects: Array<Array<Rect>>? = null
+
+    // private val rects: Array<Array<Rect>>? = null
     var picWidth = 0
         private set
     var picHeight = 0
@@ -382,7 +385,12 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
                 )
             }
             context.saveProject(projectName + PXER_EXTENSION_NAME, gson.toJson(out))
-            PreviewSaver.saveTo(File(context.getExternalFilesDir("/")!!.path + "/PxerStudio/Project", projectName + ".png"), picWidth, picHeight, this)
+            PreviewSaver.saveTo(
+                File(context.getExternalFilesDir("/")!!.path + "/PxerStudio/Project", projectName + ".png"),
+                picWidth,
+                picHeight,
+                this,
+            )
             true
         }
     }
@@ -698,6 +706,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
     }
 
     override fun onShowPress(motionEvent: MotionEvent) {}
+
     override fun onSingleTapUp(motionEvent: MotionEvent): Boolean {
         return false
     }
@@ -714,6 +723,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
     }
 
     override fun onLongPress(motionEvent: MotionEvent) {}
+
     override fun onFling(
         motionEvent: MotionEvent,
         motionEvent1: MotionEvent,
@@ -774,6 +784,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
     }
 
     override fun onScaleEnd(scaleGestureDetector: ScaleGestureDetector) {}
+
     fun setUnrecordedChanges(unrecordedChanges: Boolean) {
         isUnrecordedChanges = unrecordedChanges
         if (!(context as DrawingActivity).isEdited) {

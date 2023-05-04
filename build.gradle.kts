@@ -15,6 +15,7 @@ allprojects {
 
     detekt {
         buildUponDefaultConfig = true
+        autoCorrect = true
         config = files("$rootDir/gradle/detekt.yml")
     }
 

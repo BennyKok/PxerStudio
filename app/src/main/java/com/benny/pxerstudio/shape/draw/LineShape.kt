@@ -57,7 +57,7 @@ class LineShape : DrawShape() {
         for (i in 0 until pxerView.picWidth) {
             for (y in 0 until pxerView.picHeight) {
                 var c = pxerView.preview!!.getPixel(i, y)
-                if (i == startX && y == startY || i == endX && y == endY) c = Color.YELLOW
+                if ((i == startX && y == startY) || (i == endX && y == endY)) c = Color.YELLOW
                 if (c == Color.YELLOW) {
                     addPxerView(layerToDraw, previousPxer, i, y)
                     drawOnLayer(layerToDraw, pxerView, i, y)
