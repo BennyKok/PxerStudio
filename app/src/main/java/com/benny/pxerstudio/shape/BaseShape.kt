@@ -6,6 +6,7 @@ import com.benny.pxerstudio.widget.PxerView.Pxer
 /**
  * Created by BennyKok on 10/12/2016.
  */
+@Suppress("UnnecessaryAbstractClass")
 abstract class BaseShape {
     private var hasEnded = false
     private var startX = -1

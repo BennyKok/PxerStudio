@@ -1,4 +1,5 @@
 @file:JvmName("ContextKt")
+@file:Suppress("PrintStackTrace")
 
 package com.benny.pxerstudio.util
 

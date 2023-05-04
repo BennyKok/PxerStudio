@@ -90,13 +90,22 @@ class ProjectManagerActivity : AppCompatActivity() {
                                         val fromFile = File(projects[position].path)
                                         val newFile = File(projects[position].parent, mInput)
 
-                                        val oldPrev = File(fromFile.path.substring(0, fromFile.path.lastIndexOf('.')) + ".png")
-                                        val newPrev = File(newFile.parent, mInput.substring(0, mInput.lastIndexOf('.')) + ".png")
+                                        val oldPrev = File(
+                                            fromFile.path.substring(0, fromFile.path.lastIndexOf('.')) + ".png",
+                                        )
+                                        val newPrev = File(
+                                            newFile.parent,
+                                            mInput.substring(0, mInput.lastIndexOf('.')) + ".png",
+                                        )
 
                                         if (fromFile.renameTo(newFile)) {
                                             oldPrev.renameTo(newPrev)
                                             projects[position] = newFile
-                                            ia[position] = Item(newFile.name, newFile.path, parent.path + newFile.name + ".png")
+                                            ia[position] = Item(
+                                                newFile.name,
+                                                newFile.path,
+                                                parent.path + newFile.name + ".png",
+                                            )
                                             fa.notifyAdapterItemChanged(position)
 
                                             val newIntent = Intent()
@@ -114,7 +123,13 @@ class ProjectManagerActivity : AppCompatActivity() {
                                 .positiveButton(R.string.delete).positiveButton {
                                     var filePath = projects[position].absolutePath
                                     if (projects[position].delete()) {
-                                        File(filePath.substring(0, filePath.lastIndexOf('.')) + ".png").delete() // remove project preview
+                                        // remove project preview
+                                        File(
+                                            filePath.substring(
+                                                0,
+                                                filePath.lastIndexOf('.'),
+                                            ) + ".png",
+                                        ).delete()
                                         ia.remove(position)
                                         projects.removeAt(position)
 
@@ -149,7 +164,7 @@ class ProjectManagerActivity : AppCompatActivity() {
         }
     }
 
-    class Item(var title: String, var path: String, var img_path: String?) : AbstractItem<Item.ViewHolder>() {
+    class Item(var title: String, var path: String, var imgPath: String?) : AbstractItem<Item.ViewHolder>() {
 
         override val type: Int
             get() = 0
@@ -167,13 +182,12 @@ class ProjectManagerActivity : AppCompatActivity() {
             override fun bindView(item: Item, payloads: List<Any>) {
                 itemProjectBinding.itemProjectTitle.text = item.title
                 itemProjectBinding.itemProjectPath.text = item.path
-                if (File(item.img_path).exists()) {
-                    itemProjectBinding.itemProjectImageView.setImageURI(Uri.parse(item.img_path))
+                if (File(item.imgPath).exists()) {
+                    itemProjectBinding.itemProjectImageView.setImageURI(Uri.parse(item.imgPath))
                 }
             }
 
-            override fun unbindView(item: Item) {
-            }
+            override fun unbindView(item: Item) {}
         }
     }
 }

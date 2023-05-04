@@ -245,7 +245,11 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 R.drawable.ic_eraser -> {
                     MaterialDialog(this).show {
                         title(R.string.eraser_width)
-                        input(getString(R.string.width), prefill = eraserShapeFactory.width.toInt().toString(), inputType = InputType.TYPE_CLASS_NUMBER) { _, data ->
+                        input(
+                            getString(R.string.width),
+                            prefill = eraserShapeFactory.width.toInt().toString(),
+                            inputType = InputType.TYPE_CLASS_NUMBER,
+                        ) { _, data ->
                             eraserShapeFactory.width = data.toString().toFloat()
                             binding!!.drawingPxerView.shapeTool = eraserShapeFactory
                         }
@@ -254,7 +258,11 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 R.drawable.ic_brush -> {
                     MaterialDialog(this).show {
                         title(R.string.brush_width)
-                        input(getString(R.string.width), prefill = brushShapeFactory.width.toInt().toString(), inputType = InputType.TYPE_CLASS_NUMBER) { _, data ->
+                        input(
+                            getString(R.string.width),
+                            prefill = brushShapeFactory.width.toInt().toString(),
+                            inputType = InputType.TYPE_CLASS_NUMBER,
+                        ) { _, data ->
                             brushShapeFactory.width = data.toString().toFloat()
                             binding!!.drawingPxerView.shapeTool = brushShapeFactory
                         }
@@ -263,7 +271,11 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 R.drawable.ic_remove -> {
                     MaterialDialog(this).show {
                         title(R.string.line_width)
-                        input(getString(R.string.width), prefill = lineShapeFactory.width.toInt().toString(), inputType = InputType.TYPE_CLASS_NUMBER) { _, data ->
+                        input(
+                            getString(R.string.width),
+                            prefill = lineShapeFactory.width.toInt().toString(),
+                            inputType = InputType.TYPE_CLASS_NUMBER,
+                        ) { _, data ->
                             lineShapeFactory.width = data.toString().toFloat()
                             binding!!.drawingPxerView.shapeTool = lineShapeFactory
                         }
@@ -721,7 +733,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             putString("lastOpenedProject", currentProjectPath)
             putInt("lastUsedColor", binding!!.drawingPxerView.selectedColor)
         }
-        if (!binding!!.drawingPxerView.projectName.isNullOrEmpty() || binding!!.drawingPxerView.projectName != UNTITLED) {
+        if (
+            !binding!!.drawingPxerView.projectName.isNullOrEmpty() ||
+            binding!!.drawingPxerView.projectName != UNTITLED
+        ) {
             binding!!.drawingPxerView.save(false)
         } else {
             binding!!.drawingPxerView.save(true)
@@ -771,8 +786,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 iv.bitmap = layer.bitmap
             }
 
-            override fun unbindView(item: LayerThumbItem) {
-            }
+            override fun unbindView(item: LayerThumbItem) {}
         }
     }
 
@@ -805,8 +819,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 iv.setImageResource(item.icon)
             }
 
-            override fun unbindView(item: ToolItem) {
-            }
+            override fun unbindView(item: ToolItem) {}
         }
     }
 }
