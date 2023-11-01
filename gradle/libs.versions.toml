@@ -1,7 +1,7 @@
 [versions]
 # plugins
 android-gradle                      = "8.0.0"
-detekt                              = "1.22.0"
+detekt                              = "1.23.3"
 detekt-compose-rules                = "0.1.5"
 ktlint                              = "3.14.0"
 kotlin                              = "1.8.20"
